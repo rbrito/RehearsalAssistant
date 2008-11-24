@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">Welcome to Rehearsal Assistant.  Please note that this application is in early stages of development, and may lose your data.  &lt;b&gt;Please use with care&lt;/b&gt;.</string>
+    <string name="app_name">RehearsalAssistant</string>
+</resources>
