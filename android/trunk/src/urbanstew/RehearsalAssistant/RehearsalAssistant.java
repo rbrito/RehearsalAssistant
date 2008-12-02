@@ -28,6 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -61,6 +63,23 @@ public class RehearsalAssistant extends Activity
         // Add record and playback items to the list
         listAdapter.add("Record");
         listAdapter.add("Playback");
+        
+        if(android.os.Environment.getExternalStorageState()
+        		!= android.os.Environment.MEDIA_MOUNTED)
+        {
+        	//android.widget.Toast.makeText(getApplication(), "No media mounted.", 1000).show();
+        	new AlertDialog.Builder(this)
+        	.setTitle("Media Missing")
+        	.setMessage("Your external media (e.g., sdcard) is not mounted.  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files.")
+        	.setPositiveButton("OK", new
+        			DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }) 
+        	.show();
+        }
+        	
+        	
     }
 
     
