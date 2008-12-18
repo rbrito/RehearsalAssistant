@@ -24,23 +24,39 @@
 
 package urbanstew.RehearsalAssistant;
 
-import java.util.LinkedList;
-import java.util.List;
+import urbanstew.RehearsalAssistant.Rehearsal.Runs;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
-public class RehearsalAssistant extends Activity
+public class RehearsalAssistant extends Activity implements View.OnClickListener
 {
+    public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
+    public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
+    public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
+
+    private static final String[] PROJECTION = new String[]
+    {
+        "_id", // 0
+        "title" // 1
+    };
+    
     /** Called when the activity is first created.
      *  
      *  For now, provides access to the recording and playback activities.
@@ -52,57 +68,90 @@ public class RehearsalAssistant extends Activity
         
         setContentView(R.layout.main);
 
-        // Setup list and the click listener
-        ListView list = (ListView)findViewById(R.id.project_list);
-        listAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings);
-        list.setAdapter(listAdapter);
-        list.setTextFilterEnabled(true);
-        list.setOnItemClickListener(mSelectedListener);
-         
-        // Add record and playback items to the list
-        listAdapter.add("Record");
-        listAdapter.add("Playback");
-        
-        if(android.os.Environment.getExternalStorageState()
-        		!= android.os.Environment.MEDIA_MOUNTED)
-        {
-        	//android.widget.Toast.makeText(getApplication(), "No media mounted.", 1000).show();
-        	new AlertDialog.Builder(this)
-        	.setTitle("Media Missing")
-        	.setMessage("Your external media (e.g., sdcard) is not mounted.  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files.")
-        	.setPositiveButton("OK", new
-        			DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        }) 
-        	.show();
+        Intent intent = getIntent();
+        if (intent.getData() == null) {
+            intent.setData(Runs.CONTENT_URI);
         }
-        	
-        	
+        
+        Cursor cursor = managedQuery(getIntent().getData(), PROJECTION, null, null,
+                Runs.DEFAULT_SORT_ORDER);
+        
+        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + "runs.");
+        
+        // Used to map notes entries from the database to views
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
+                new String[] { "title" }, new int[] { android.R.id.text1 });
+        ListView list = (ListView)findViewById(R.id.run_list);
+        list.setAdapter(adapter);
+        
+        // Setup list and the click listener
+        ((Button)findViewById(R.id.new_run)).setOnClickListener(this);
+        ((Button)findViewById(R.id.help)).setOnClickListener(this);
+        list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
+        list.setOnItemClickListener(mSelectedListener);
     }
 
-    
     /** Called when the user selects an item in the list.
      *  
-     *  Currently, starts RehearsalRecord or RehearsalPlayback activities.
+     *  Currently, starts the RehearsalPlayback activity.
      *  
      */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3)
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
         {
-			if(arg2==0)
-			{
-				startActivity(new Intent(getApplication(), RehearsalRecord.class));
-			}
-			if(arg2==1)
-			{
-				startActivity(new Intent(getApplication(), RehearsalPlayback.class));
-			}
+	    	Uri runUri = ContentUris.withAppendedId(getIntent().getData(), id);
+	    	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
         }
     };
-        
-    private List<String> mStrings = new LinkedList<String>();
-    private ArrayAdapter<String> listAdapter;    
+    
+    View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
+    {
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo)
+		{
+			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
+			menu.add(0, MENU_ITEM_RECORD, 1, "record");
+			menu.add(0, MENU_ITEM_DELETE, 1, "delete");
+		}
+    	
+    };
+    
+	public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        } catch (ClassCastException e) {
+            Log.e("Rehearsal Assistant", "bad menuInfo", e);
+            return false;
+        }
+
+    	Uri runUri = ContentUris.withAppendedId(getIntent().getData(), info.id);
+
+    	switch (item.getItemId()) {
+
+            case MENU_ITEM_PLAYBACK: {
+                // Delete the note that the context menu is for
+            	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
+                return true;
+            }
+            case MENU_ITEM_RECORD: {
+        		startActivity(new Intent(Intent.ACTION_EDIT, runUri));
+                return true;
+            }
+            case MENU_ITEM_DELETE: {
+                // Delete the note that the context menu is for
+                getContentResolver().delete(runUri, null, null);
+                return true;
+            }
+        }
+        return false;
+	}
+
+	public void onClick(View v)
+	{
+		if(v == findViewById(R.id.new_run))
+			startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
+		else if(v == findViewById(R.id.help))
+			Request.notification(this, "Instructions", getResources().getString(R.string.instructions));
+	}    
 }

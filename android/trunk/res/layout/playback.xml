@@ -4,7 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<ListView android:id="@+id/list"
+<TextView
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Click on an annotation below to listen."
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    />
+<ListView android:id="@+id/annotation_list"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
 />

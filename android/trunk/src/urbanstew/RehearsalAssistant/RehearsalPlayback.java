@@ -24,18 +24,26 @@
 
 package urbanstew.RehearsalAssistant;
 
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
+import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.SimpleCursorAdapter.CursorToStringConverter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.media.MediaPlayer;
 
 /** The RehearsalPlayback Activity provides playback access for
@@ -48,28 +56,54 @@ public class RehearsalPlayback extends Activity
     {
         super.onCreate(savedInstanceState);
         
-        // setup the playback list
         setContentView(R.layout.playback);
-        ListView list = (ListView)findViewById(R.id.list);
-        listAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStrings);
-        list.setAdapter(listAdapter);
-        list.setTextFilterEnabled(true);
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        
+        String[] projection =
+        {
+        	Annotations._ID,
+        	Annotations.START_TIME,
+        	Annotations.FILE_NAME        	
+        };
+        String run_id = getIntent().getData().getPathSegments().get(1);
+
+        cursor = managedQuery(Annotations.CONTENT_URI, projection, Annotations.RUN_ID + "=" + run_id, null,
+                Annotations.DEFAULT_SORT_ORDER);
+        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " annotations.");
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getApplication(), R.layout.annotationslist_item, cursor,
+                new String[] { Annotations.START_TIME }, new int[] { android.R.id.text1 });
+        adapter.setCursorToStringConverter(new CursorToStringConverter()
+        {
+			public CharSequence convertToString(Cursor cursor)
+			{
+				return formatter.format(cursor.getString(0));
+			}	
+        });
+        adapter.setViewBinder(new ViewBinder()
+        {
+			public boolean setViewValue(View view, Cursor cursor,
+					int columnIndex)
+			{
+				TextView v = (TextView)view;
+				v.setText(formatter.format(new Date(cursor.getInt(columnIndex))));
+				return true;
+			}
+        	
+        });
+        ListView list = (ListView)findViewById(R.id.annotation_list);
+        list.setAdapter(adapter);
         list.setOnItemClickListener(mSelectedListener);
         
-        // read in the data and display a list of times
-        RehearsalData data = new RehearsalData(getApplication());
-        Cursor c = data.getAnnotations(data.getProjectID());
-        if (c.getCount()>0)
-	        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
-	        	listAdapter.add(formatter.format(c.getLong(2)));
+        
     }
     
     /** Called when the user selects a list item. */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3)
-        {   
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
+        {
+			cursor.moveToPosition(position);
+
         	if(player != null)
         	{
         		player.stop();
@@ -78,7 +112,7 @@ public class RehearsalPlayback extends Activity
             try
             {
             	player = new MediaPlayer();
-            	player.setDataSource("/sdcard/test" + (arg2 + 1) + ".3gpp");
+            	player.setDataSource(cursor.getString(2));
             	player.prepare();
             	player.start();
             }
@@ -88,10 +122,11 @@ public class RehearsalPlayback extends Activity
         }
     };
 
+    Cursor cursor;
     MediaPlayer player = null;
     List<String> mStrings = new LinkedList<String>();
     ArrayAdapter<String> listAdapter;
     
-    SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 
 }

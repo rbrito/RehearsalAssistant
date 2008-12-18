@@ -24,8 +24,14 @@
 
 package urbanstew.RehearsalAssistant;
 
+import java.io.File;
+
+import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.media.MediaRecorder;
 import android.os.SystemClock;
@@ -43,11 +49,7 @@ public class RehearsalRecord extends Activity
         
         setContentView(R.layout.record);
         findViewById(R.id.button).setOnClickListener(mClickListener);
-        
-        // clear the annotations
-        data = new RehearsalData(getApplication());
-        project_id = data.getProjectID();
-        data.clearAnnotations(project_id);
+        run_id = getIntent().getData().getPathSegments().get(1);
     }
     
     /** Called when the button is pushed */
@@ -56,6 +58,9 @@ public class RehearsalRecord extends Activity
         {
         	if(!going)
         	{
+        		// clear the annotations
+        		getContentResolver().delete(Annotations.CONTENT_URI, "run_id =" + run_id, null);
+
         		mTimeAtStart = SystemClock.elapsedRealtime();
         		going = true;
         		((android.widget.Button)findViewById(R.id.button)).setText("Record");
@@ -63,23 +68,49 @@ public class RehearsalRecord extends Activity
         	}
             if(!recording)
             {
-            	recorder = new MediaRecorder();
-            	recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-	            recorder.setOutputFile("/sdcard/test" + cnt + ".3gpp");
-	            recorder.prepare();
-	            recorder.start();   // Recording is now started
+            	if(android.os.Environment.getExternalStorageState()
+                		!= android.os.Environment.MEDIA_MOUNTED)
+            	{
+            		File external = Environment.getExternalStorageDirectory();
+            		File audio = new File(external.getAbsolutePath() + "/rehearsal/" + run_id); 
+            		audio.mkdirs();
+            		Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
+            		output_file = audio.getAbsolutePath() + "/audio" + cnt + ".3gpp";
+	            	recorder = new MediaRecorder();
+	            	recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+	                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+	                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		            recorder.setOutputFile(output_file);
+		            recorder.prepare();
+		            recorder.start();   // Recording is now started*/
+            	}
+            	else
+            	{
+                	Request.notification(getApplication(),
+                    		"Media Missing",
+                    		"Your external media (e.g., sdcard) is not mounted.  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
+                    	);
+            		output_file = null;
+            	}
 	            recording = true;
 	            ((android.widget.Button)findViewById(R.id.button)).setText("Recording...");
             }
             else
             {
-	            recorder.stop();
+            	if(recorder != null)
+            	{
+            		recorder.stop();
+    	            recorder.release();
+            	}
 	            long time = SystemClock.elapsedRealtime() - mTimeAtStart;
-	            data.insertAnnotation(project_id, time, "/sdcard/test" + cnt + ".3gpp");
-	            recorder.release();
-	            ((android.widget.Button)findViewById(R.id.button)).setText("Record");
+	            
+	            ContentValues values = new ContentValues();
+	        	values.put(Annotations.RUN_ID, run_id);
+	        	values.put(Annotations.START_TIME, time);
+	        	values.put(Annotations.FILE_NAME, output_file);
+	        	getContentResolver().insert(Annotations.CONTENT_URI, values);
+
+	        	((android.widget.Button)findViewById(R.id.button)).setText("Record");
 	            recording = false;
 	            cnt++;
             }
@@ -88,7 +119,7 @@ public class RehearsalRecord extends Activity
     
     RehearsalData data;
     
-    MediaRecorder recorder;
+    MediaRecorder recorder = null;
     boolean recording = false;
     boolean going = false;
     
@@ -96,4 +127,7 @@ public class RehearsalRecord extends Activity
     
     long mTimeAtStart;
     long project_id;
+    
+    String run_id;
+    String output_file;
 }

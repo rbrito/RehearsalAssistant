@@ -8,9 +8,18 @@
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/about"
+    android:textAppearance="?android:attr/textAppearanceLarge"
     />
-<ListView android:id="@+id/project_list"
+<ListView android:id="@+id/run_list"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
 />
+<Button android:id="@+id/new_run"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:text="Create New Run" />
+<Button android:id="@+id/help"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:text="Help" />
 </LinearLayout>

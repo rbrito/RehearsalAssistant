@@ -4,6 +4,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+<TextView
+android:layout_width="fill_parent" 
+android:layout_height="wrap_content" 
+android:text="Click 'Go' to start the run.  You can then click the button again to start and stop recording each annotation."
+android:textAppearance="?android:attr/textAppearanceLarge"
+/>
 <Button android:id="@+id/button"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
