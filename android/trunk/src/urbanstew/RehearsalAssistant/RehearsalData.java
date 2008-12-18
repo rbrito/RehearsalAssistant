@@ -99,46 +99,6 @@ public class RehearsalData extends ContentProvider {
         }
 	}
 
-	public void clearAnnotations(long project_id) {
-		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		db.execSQL("DELETE FROM annotations WHERE project_id = " + project_id
-				+ ";");
-	}
-
-	public void insertAnnotation(long project_id, long start_time,
-			String file_name) {
-		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put("project_id", project_id);
-		values.put("start_time", start_time);
-		values.put("file_name", file_name);
-		db.insert("annotations", "project_id", values);
-		db.close();
-	}
-	
-	// Returns a view of all runs for a project_id
-	Cursor getRuns(long project_id)
-	{
-		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-		Cursor c = db.query("runs", null, "project_id = " + project_id, null, null, null, null);
-
-		Log.w("RehearsalAssistant", "Read " + c.getCount()
-				+ " run entries.");
-		return c;
-
-	}
-
-	// Returns a view of all annotations for a run_id
-	Cursor getAnnotations(long run_id) {
-		SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-		Cursor c = db.query("annotations", null, "run_id = " + run_id, null, null, null, null);
-
-		Log.w("RehearsalAssistant", "Read " + c.getCount()
-				+ " annotation entries.");
-		return c;
-
-	}
-
     private static final int RUNS = 1;
     private static final int RUN_ID = 2;
     private static final int ANNOTATIONS = 3;
