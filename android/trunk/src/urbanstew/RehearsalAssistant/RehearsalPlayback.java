@@ -102,6 +102,17 @@ public class RehearsalPlayback extends Activity
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
         {
+			String state = android.os.Environment.getExternalStorageState();
+	    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
+	    			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
+	    	{
+	        	Request.notification(RehearsalPlayback.this,
+	            		"Media Missing",
+	            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant cannot access the saved file."
+	            	);
+	        	return;
+	    	}
+	    	
 			cursor.moveToPosition(position);
 
         	if(player != null)

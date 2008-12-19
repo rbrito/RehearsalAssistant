@@ -50,6 +50,15 @@ public class RehearsalRecord extends Activity
         setContentView(R.layout.record);
         findViewById(R.id.button).setOnClickListener(mClickListener);
         run_id = getIntent().getData().getPathSegments().get(1);
+        
+        String state = android.os.Environment.getExternalStorageState();
+    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
+    	{
+        	Request.notification(this,
+            		"Media Missing",
+            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
+            	);
+    	}
     }
     
     /** Called when the button is pushed */
@@ -68,8 +77,7 @@ public class RehearsalRecord extends Activity
         	}
             if(!recording)
             {
-            	if(android.os.Environment.getExternalStorageState()
-                		!= android.os.Environment.MEDIA_MOUNTED)
+            	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
             	{
             		File external = Environment.getExternalStorageDirectory();
             		File audio = new File(external.getAbsolutePath() + "/rehearsal/" + run_id); 
@@ -86,10 +94,6 @@ public class RehearsalRecord extends Activity
             	}
             	else
             	{
-                	Request.notification(getApplication(),
-                    		"Media Missing",
-                    		"Your external media (e.g., sdcard) is not mounted.  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
-                    	);
             		output_file = null;
             	}
 	            recording = true;
