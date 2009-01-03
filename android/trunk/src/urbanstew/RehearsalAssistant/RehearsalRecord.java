@@ -25,6 +25,10 @@
 package urbanstew.RehearsalAssistant;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import android.app.Activity;
@@ -33,6 +37,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.media.MediaRecorder;
 import android.os.SystemClock;
 
@@ -51,6 +56,9 @@ public class RehearsalRecord extends Activity
         findViewById(R.id.button).setOnClickListener(mClickListener);
         run_id = getIntent().getData().getPathSegments().get(1);
         
+        mCurrentTime = (TextView) findViewById(R.id.current_time);
+        mFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        
         String state = android.os.Environment.getExternalStorageState();
     	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
     	{
@@ -59,6 +67,12 @@ public class RehearsalRecord extends Activity
             		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
             	);
     	}
+    }
+    
+    public void onPause()
+    {
+    	super.onPause();
+    	mCurrentTimeTask.cancel();
     }
     
     /** Called when the button is pushed */
@@ -70,9 +84,16 @@ public class RehearsalRecord extends Activity
         		// clear the annotations
         		getContentResolver().delete(Annotations.CONTENT_URI, "run_id =" + run_id, null);
 
+        		// grab start time, change UI
         		mTimeAtStart = SystemClock.elapsedRealtime();
-        		going = true;
         		((android.widget.Button)findViewById(R.id.button)).setText("Record");
+        		
+        		mTimer.scheduleAtFixedRate(
+        				mCurrentTimeTask,
+        				1000,
+        				1000);
+
+        		going = true;
         		return;
         	}
             if(!recording)
@@ -121,6 +142,22 @@ public class RehearsalRecord extends Activity
         }
     };
     
+    TextView mCurrentTime;
+    SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
+    TimerTask mCurrentTimeTask = new TimerTask()
+	{
+		public void run()
+		{
+			RehearsalRecord.this.runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					mCurrentTime.setText(mFormatter.format(SystemClock.elapsedRealtime() - mTimeAtStart));
+				}
+			});                                
+		}
+	};
+	
     RehearsalData data;
     
     MediaRecorder recorder = null;
@@ -134,4 +171,5 @@ public class RehearsalRecord extends Activity
     
     String run_id;
     String output_file;
+    Timer mTimer = new Timer();
 }

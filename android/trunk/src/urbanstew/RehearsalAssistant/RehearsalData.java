@@ -1,5 +1,6 @@
 package urbanstew.RehearsalAssistant;
 
+import java.io.File;
 import java.util.HashMap;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
@@ -145,15 +146,17 @@ public class RehearsalData extends ContentProvider {
             String runId = uri.getPathSegments().get(1);
             count = db.delete("runs", "_id" + "=" + runId
                     + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+            if(count>0)
+            	deleteAnnotations(db, Annotations.RUN_ID + "=" + runId, null);
             break;
 
         case ANNOTATIONS:
-            count = db.delete("annotations", selection, selectionArgs);
+            count = deleteAnnotations(db, selection, selectionArgs);
             break;
 
         case ANNOTATION_ID:
             String annotationId = uri.getPathSegments().get(1);
-            count = db.delete("annotations", "_id" + "=" + annotationId
+            count = deleteAnnotations(db, "_id" + "=" + annotationId
                     + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
             break;
 
@@ -163,6 +166,32 @@ public class RehearsalData extends ContentProvider {
 
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
+	}
+	
+	int deleteAnnotations(SQLiteDatabase db, String selection, String[] selectionArgs)
+	{
+		// query and erase files
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		
+        qb.setTables("annotations");
+        qb.setProjectionMap(sAnnotationsProjectionMap);
+
+        String[] projection =
+        {
+        	Annotations.FILE_NAME        	
+        };
+        Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, null);
+
+        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
+        {
+        	if(c.getString(0)!=null)
+        	{
+        		Log.w("Rehearsal Assistant erasing", c.getString(0));
+        		(new File(c.getString(0))).delete();
+        	}
+        }
+		// delete
+		return db.delete("annotations", selection, selectionArgs);
 	}
 
 	@Override

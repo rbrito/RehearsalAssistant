@@ -10,9 +10,18 @@ android:layout_height="wrap_content"
 android:text="Click 'Go' to start the run.  You can then click the button again to start and stop recording each annotation."
 android:textAppearance="?android:attr/textAppearanceLarge"
 />
+<TextView
+    android:id="@+id/current_time"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:singleLine="true"
+    android:text="00:00:00"
+    android:gravity="center"
+/>
 <Button android:id="@+id/button"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
     android:layout_margin="10px"
     android:text="Go" />
+    android:layout_above="@id/current_time"
 </LinearLayout>

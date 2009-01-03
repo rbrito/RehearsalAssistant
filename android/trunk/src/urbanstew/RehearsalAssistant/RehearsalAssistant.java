@@ -130,7 +130,7 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
     	switch (item.getItemId()) {
 
             case MENU_ITEM_PLAYBACK: {
-                // Delete the note that the context menu is for
+                // Delete the run that the context menu is for
             	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
                 return true;
             }
@@ -139,7 +139,7 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
                 return true;
             }
             case MENU_ITEM_DELETE: {
-                // Delete the note that the context menu is for
+                // Delete the run that the context menu is for
                 getContentResolver().delete(runUri, null, null);
                 return true;
             }

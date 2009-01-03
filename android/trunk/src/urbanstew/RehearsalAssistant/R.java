@@ -15,8 +15,9 @@ public final class R {
     }
     public static final class id {
         public static final int annotation_list=0x7f050005;
-        public static final int button=0x7f050006;
+        public static final int button=0x7f050007;
         public static final int create=0x7f050004;
+        public static final int current_time=0x7f050006;
         public static final int help=0x7f050002;
         public static final int name=0x7f050003;
         public static final int new_run=0x7f050001;
