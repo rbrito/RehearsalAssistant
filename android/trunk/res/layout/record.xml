@@ -1,27 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView
-android:layout_width="fill_parent" 
-android:layout_height="wrap_content" 
-android:text="Click 'Go' to start the run.  You can then click the button again to start and stop recording each annotation."
-android:textAppearance="?android:attr/textAppearanceLarge"
-/>
-<TextView
+	<TextView
+	android:id="@+id/record_instructions"
+	android:layout_alignParentTop="true"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:paddingLeft="7dip"
+	android:paddingRight="7dip"
+	android:text="Click the button to start the session.  Click again to start/stop recording each annotation."
+	/>
+	<TextView
     android:id="@+id/current_time"
+	android:background="@android:drawable/btn_default"
+	android:layout_alignParentBottom="true"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:singleLine="true"
     android:text="00:00:00"
     android:gravity="center"
-/>
-<Button android:id="@+id/button"
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"
-    android:layout_margin="10px"
-    android:text="Go" />
+	android:textAppearance="?android:attr/textAppearanceButton"
+	    android:textSize="40dip"
+	android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+	/>
+	<FrameLayout
     android:layout_above="@id/current_time"
-</LinearLayout>
+    android:layout_below="@id/record_instructions"
+    android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
+		<Button android:id="@+id/button"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:text="Start Session"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:textSize="40dip"/>
+	    <RelativeLayout
+  		    android:layout_width="fill_parent" 
+		    android:layout_height="fill_parent"
+		    android:paddingLeft="5px"
+		    android:paddingRight="5px"
+		    android:paddingBottom="5px"
+		    android:paddingTop="3px"
+		    android:layout_margin="0px"
+		   >
+					<ImageView android:id="@+id/record_button_image"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentLeft="true"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/masks_transparent"
+					android:padding="0px"
+			    	android:layout_margin="0px"
+			    	android:scaleType="centerCrop"/>
+					<FrameLayout
+					android:layout_toRightOf="@id/record_button_image"
+					android:layout_alignParentTop="true"
+					android:layout_alignParentRight="true"
+					android:layout_alignBottom="@id/record_button_image"
+					android:layout_width="fill_parent" 
+					android:layout_height="fill_parent"
+					android:background="#7F7da7d9"
+					android:padding="0px"
+			    	android:layout_margin="0px"
+			    	/>
+				<FrameLayout
+					android:layout_alignParentBottom="true"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@id/record_button_image"
+			    android:padding="0px"
+			    android:layout_margin="0px"
+			    android:layout_width="fill_parent" 
+				android:layout_height="fill_parent"
+				android:background="#7F7da7d9"
+				/>
+				
+			
+		</RelativeLayout>>
+	</FrameLayout>
+</RelativeLayout>

@@ -42,6 +42,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.media.MediaPlayer;
@@ -129,6 +130,10 @@ public class RehearsalPlayback extends Activity
             }
             catch(java.io.IOException e)
             {
+            	if(e.getMessage()!=null)
+            		Toast.makeText(RehearsalPlayback.this, e.getMessage(),
+            				Toast.LENGTH_SHORT).show();
+
             }
         }
     };

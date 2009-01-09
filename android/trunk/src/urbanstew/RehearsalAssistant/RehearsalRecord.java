@@ -87,6 +87,7 @@ public class RehearsalRecord extends Activity
         		// grab start time, change UI
         		mTimeAtStart = SystemClock.elapsedRealtime();
         		((android.widget.Button)findViewById(R.id.button)).setText("Record");
+        		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
         		
         		mTimer.scheduleAtFixedRate(
         				mCurrentTimeTask,
@@ -118,7 +119,7 @@ public class RehearsalRecord extends Activity
             		output_file = null;
             	}
 	            recording = true;
-	            ((android.widget.Button)findViewById(R.id.button)).setText("Recording...");
+	            ((android.widget.Button)findViewById(R.id.button)).setText("Stop Recording");
             }
             else
             {

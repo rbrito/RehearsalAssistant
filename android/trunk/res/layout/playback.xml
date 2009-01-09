@@ -6,12 +6,27 @@
     >
 <TextView
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
+    android:paddingLeft="7dip"
+	android:paddingRight="7dip"
     android:text="Click on an annotation below to listen."
     android:textAppearance="?android:attr/textAppearanceLarge"
     />
-<ListView android:id="@+id/annotation_list"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-/>
+<FrameLayout
+	android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:layout_below="@id/about"
+    android:layout_above="@id/main_buttons"
+	android:background="#7da7d9" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/masks"
+		android:gravity="center"/>
+	<ListView android:id="@+id/annotation_list"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:background="#7F000000"
+	/>
+</FrameLayout>
 </LinearLayout>
