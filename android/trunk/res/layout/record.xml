@@ -34,7 +34,7 @@
 		<Button android:id="@+id/button"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent"
-	    android:text="Start Session"
+	    android:text="@string/start_session"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 	    android:textSize="40dip"/>
 	    <RelativeLayout

@@ -2,6 +2,12 @@
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
     <string name="about">Welcome to Rehearsal Assistant - beta 0.1.2.</string>
+
     <string name="new_session_title">Enter a title for the session and click \'Create\'.</string>
-<string name="instructions">Rehearsal Assistant allows you to record voice/audio annotations during an event.  Such an event is called a \'run\' as in \'rehearsal run\'. Click \'Create New Run\' to create a new run and record annotations.  You may also click on an existing run to review its annotations, or long-click for more options.</string>
+
+	<string name="start_session">Start Session</string>
+	<string name="record">Record</string>
+	<string name="stop_recording">Stop Recording</string>
+	
+<string name="instructions">Rehearsal Assistant allows you to record voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-click for more options.</string>
 </resources>

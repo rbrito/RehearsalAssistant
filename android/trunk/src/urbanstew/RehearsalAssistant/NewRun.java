@@ -24,6 +24,9 @@
 
 package urbanstew.RehearsalAssistant;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -46,6 +49,10 @@ public class NewRun extends Activity implements View.OnClickListener
         // setup the display and callbacks
         setContentView(R.layout.new_run);
         findViewById(R.id.create).setOnClickListener(this);
+        
+        EditText title = (EditText) findViewById(R.id.name);
+    	title.setText(DateFormat.getDateTimeInstance().format(new Date()));
+    	title.selectAll();
     }
 
     /** Called when the create button is pushed */

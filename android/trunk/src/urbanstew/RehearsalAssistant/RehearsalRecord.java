@@ -72,9 +72,24 @@ public class RehearsalRecord extends Activity
     public void onPause()
     {
     	super.onPause();
-    	mCurrentTimeTask.cancel();
+    	if(going)
+    		mCurrentTimeTask.cancel();
     }
     
+    public void onResume()
+    {
+    	super.onResume();
+    	if(going)
+    		scheduleCurrentTimeTask();
+    }
+    
+    void scheduleCurrentTimeTask()
+    {
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				1000,
+				1000);
+    }
     /** Called when the button is pushed */
     View.OnClickListener mClickListener = new View.OnClickListener() {
         public void onClick(View v)
@@ -86,13 +101,10 @@ public class RehearsalRecord extends Activity
 
         		// grab start time, change UI
         		mTimeAtStart = SystemClock.elapsedRealtime();
-        		((android.widget.Button)findViewById(R.id.button)).setText("Record");
+        		((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
         		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
         		
-        		mTimer.scheduleAtFixedRate(
-        				mCurrentTimeTask,
-        				1000,
-        				1000);
+        		scheduleCurrentTimeTask();
 
         		going = true;
         		return;
@@ -119,7 +131,7 @@ public class RehearsalRecord extends Activity
             		output_file = null;
             	}
 	            recording = true;
-	            ((android.widget.Button)findViewById(R.id.button)).setText("Stop Recording");
+	            ((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
             }
             else
             {
