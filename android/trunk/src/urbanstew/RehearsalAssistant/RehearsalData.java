@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
-import urbanstew.RehearsalAssistant.Rehearsal.Runs;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -53,15 +53,15 @@ public class RehearsalData extends ContentProvider {
 
 	enum Project { _ID, TITLE, IDENTIFIER }
 
-	enum Run { _ID, PROJECT_ID, TITLE, IDENTIFIER, RECORDING_TIME }
+	enum Session { _ID, PROJECT_ID, TITLE, IDENTIFIER, START_TIME, END_TIME }
 	
-	enum Annotation { _ID, RUN_ID, START_TIME, FILE_NAME }
+	enum Annotation { _ID, RUN_ID, START_TIME, END_TIME, FILE_NAME }
 
 	private static class DatabaseHelper extends SQLiteOpenHelper
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 3);
+			super(context, "rehearsal_assistant.db", null, 4);
 		}
 
 		public void onCreate(SQLiteDatabase db)
@@ -72,19 +72,21 @@ public class RehearsalData extends ContentProvider {
 					+ "identifier TEXT"
 					+ ");");
 
-			db.execSQL("CREATE TABLE runs ("
-					+ "_id INTEGER PRIMARY KEY,"
-					+ "project_id INTEGER,"
-					+ "title TEXT,"
-					+ "identifier TEXT,"
-					+ "recording_time INTEGER"
+			db.execSQL("CREATE TABLE " + Sessions.TABLE_NAME + "("
+					+ Sessions._ID + " INTEGER PRIMARY KEY,"
+					+ Sessions.PROJECT_ID + " INTEGER,"
+					+ Sessions.TITLE + " TEXT,"
+					+ Sessions.IDENTIFIER + " TEXT,"
+					+ Sessions.START_TIME + " INTEGER,"
+					+ Sessions.END_TIME + " INTEGER"
 					+ ");");
 
 			db.execSQL("CREATE TABLE annotations ("
-					+ "_id INTEGER PRIMARY KEY,"
-					+ "run_id INTEGER,"
-					+ "start_time INTEGER,"
-					+ "file_name TEXT"
+					+ Annotations._ID + " INTEGER PRIMARY KEY,"
+					+ Annotations.SESSION_ID + " INTEGER,"
+					+ Annotations.START_TIME + " INTEGER,"
+					+ Annotations.END_TIME + " INTEGER,"
+					+ Annotations.FILE_NAME + " TEXT"
 					+ ");");
 		}
 
@@ -100,34 +102,36 @@ public class RehearsalData extends ContentProvider {
         }
 	}
 
-    private static final int RUNS = 1;
-    private static final int RUN_ID = 2;
+    private static final int SESSIONS = 1;
+    private static final int SESSION_ID = 2;
     private static final int ANNOTATIONS = 3;
     private static final int ANNOTATION_ID = 4;
 
     private static final UriMatcher sUriMatcher;
-    private static HashMap<String, String> sRunsProjectionMap;
+    private static HashMap<String, String> sSessionsProjectionMap;
     private static HashMap<String, String> sAnnotationsProjectionMap;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(Rehearsal.AUTHORITY, "runs", RUNS);
-        sUriMatcher.addURI(Rehearsal.AUTHORITY, "runs/#", RUN_ID);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions", SESSIONS);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions/#", SESSION_ID);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations", ANNOTATIONS);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations/#", ANNOTATION_ID);
 
-        sRunsProjectionMap = new HashMap<String, String>();
-        sRunsProjectionMap.put("_id", "_id");
-        sRunsProjectionMap.put("project_id", "project_id");
-        sRunsProjectionMap.put("title", "title");
-        sRunsProjectionMap.put("identifier", "identifier");
-        sRunsProjectionMap.put("recording_time", "recording_time");
+        sSessionsProjectionMap = new HashMap<String, String>();
+        sSessionsProjectionMap.put(Sessions._ID, Sessions._ID);
+        sSessionsProjectionMap.put(Sessions.PROJECT_ID, Sessions.PROJECT_ID);
+        sSessionsProjectionMap.put(Sessions.TITLE, Sessions.TITLE);
+        sSessionsProjectionMap.put(Sessions.IDENTIFIER, Sessions.IDENTIFIER);
+        sSessionsProjectionMap.put(Sessions.START_TIME, Sessions.START_TIME);
+        sSessionsProjectionMap.put(Sessions.END_TIME, Sessions.END_TIME);
 
         sAnnotationsProjectionMap = new HashMap<String, String>();
-        sAnnotationsProjectionMap.put("_id", "_id");
-        sAnnotationsProjectionMap.put("run_id", "run_id");
-        sAnnotationsProjectionMap.put("start_time", "start_time");
-        sAnnotationsProjectionMap.put("file_name", "file_name");
+        sAnnotationsProjectionMap.put(Annotations._ID, Annotations._ID);
+        sAnnotationsProjectionMap.put(Annotations.SESSION_ID, Annotations.SESSION_ID);
+        sAnnotationsProjectionMap.put(Annotations.START_TIME, Annotations.START_TIME);
+        sAnnotationsProjectionMap.put(Annotations.END_TIME, Annotations.END_TIME);
+        sAnnotationsProjectionMap.put(Annotations.FILE_NAME, Annotations.FILE_NAME);
     }
 
 	private DatabaseHelper mOpenHelper;
@@ -138,16 +142,16 @@ public class RehearsalData extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
         switch (sUriMatcher.match(uri)) {
-        case RUNS:
-            count = db.delete("runs", selection, selectionArgs);
+        case SESSIONS:
+            count = db.delete(Sessions.TABLE_NAME, selection, selectionArgs);
             break;
 
-        case RUN_ID:
-            String runId = uri.getPathSegments().get(1);
-            count = db.delete("runs", "_id" + "=" + runId
+        case SESSION_ID:
+            String sessionId = uri.getPathSegments().get(1);
+            count = db.delete(Sessions.TABLE_NAME, Sessions._ID + "=" + sessionId
                     + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
             if(count>0)
-            	deleteAnnotations(db, Annotations.RUN_ID + "=" + runId, null);
+            	deleteAnnotations(db, Annotations.SESSION_ID + "=" + sessionId, null);
             break;
 
         case ANNOTATIONS:
@@ -156,7 +160,7 @@ public class RehearsalData extends ContentProvider {
 
         case ANNOTATION_ID:
             String annotationId = uri.getPathSegments().get(1);
-            count = deleteAnnotations(db, "_id" + "=" + annotationId
+            count = deleteAnnotations(db, Annotations._ID + "=" + annotationId
                     + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
             break;
 
@@ -173,7 +177,7 @@ public class RehearsalData extends ContentProvider {
 		// query and erase files
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
-        qb.setTables("annotations");
+        qb.setTables(Annotations.TABLE_NAME);
         qb.setProjectionMap(sAnnotationsProjectionMap);
 
         String[] projection =
@@ -191,18 +195,18 @@ public class RehearsalData extends ContentProvider {
         	}
         }
 		// delete
-		return db.delete("annotations", selection, selectionArgs);
+		return db.delete(Annotations.TABLE_NAME, selection, selectionArgs);
 	}
 
 	@Override
 	public String getType(Uri uri)
 	{
         switch (sUriMatcher.match(uri)) {
-        case RUNS:
-            return Runs.CONTENT_TYPE;
+        case SESSIONS:
+            return Sessions.CONTENT_TYPE;
 
-        case RUN_ID:
-            return Runs.CONTENT_ITEM_TYPE;
+        case SESSION_ID:
+            return Sessions.CONTENT_ITEM_TYPE;
 
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
@@ -222,15 +226,15 @@ public class RehearsalData extends ContentProvider {
         
 		switch(sUriMatcher.match(uri))
 		{
-		case RUNS:
+		case SESSIONS:
 		{
-	    	values.put("project_id", getProjectID());
-	    	if(!values.containsKey("identifier"))
-	    		values.put("identifier", values.getAsString("title").toLowerCase().replace(" ", "_"));
+	    	values.put(Sessions.PROJECT_ID, getProjectID());
+	    	if(!values.containsKey(Sessions.IDENTIFIER))
+	    		values.put(Sessions.IDENTIFIER, values.getAsString(Sessions.TITLE).toLowerCase().replace(" ", "_"));
 	 
-	        long rowId = db.insert("runs", "title", values);
+	        long rowId = db.insert(Sessions.TABLE_NAME, Sessions.TITLE, values);
 	        if (rowId > 0) {
-	            Uri noteUri = ContentUris.withAppendedId(Rehearsal.Runs.CONTENT_URI, rowId);
+	            Uri noteUri = ContentUris.withAppendedId(Rehearsal.Sessions.CONTENT_URI, rowId);
 	            getContext().getContentResolver().notifyChange(noteUri, null);
 	            return noteUri;
 	        }
@@ -238,7 +242,7 @@ public class RehearsalData extends ContentProvider {
 		}
 		case ANNOTATIONS:
 		{
-			long rowId = db.insert("annotations", "file_name", values);
+			long rowId = db.insert(Annotations.TABLE_NAME, Annotations.FILE_NAME, values);
 	        if (rowId > 0) {
 	            Uri noteUri = ContentUris.withAppendedId(Rehearsal.Annotations.CONTENT_URI, rowId);
 	            getContext().getContentResolver().notifyChange(noteUri, null);
@@ -259,24 +263,24 @@ public class RehearsalData extends ContentProvider {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         switch (sUriMatcher.match(uri)) {
-        case RUNS:
-            qb.setTables("runs");
-            qb.setProjectionMap(sRunsProjectionMap);
+        case SESSIONS:
+            qb.setTables(Sessions.TABLE_NAME);
+            qb.setProjectionMap(sSessionsProjectionMap);
             break;
 
-        case RUN_ID:
-            qb.setTables("runs");
-            qb.setProjectionMap(sRunsProjectionMap);
-            qb.appendWhere(Runs._ID + "=" + uri.getPathSegments().get(1));
+        case SESSION_ID:
+            qb.setTables(Sessions.TABLE_NAME);
+            qb.setProjectionMap(sSessionsProjectionMap);
+            qb.appendWhere(Sessions._ID + "=" + uri.getPathSegments().get(1));
             break;
             
         case ANNOTATIONS:
-            qb.setTables("annotations");
+            qb.setTables(Annotations.TABLE_NAME);
             qb.setProjectionMap(sAnnotationsProjectionMap);
             break;
 
         case ANNOTATION_ID:
-            qb.setTables("annotations");
+            qb.setTables(Annotations.TABLE_NAME);
             qb.setProjectionMap(sAnnotationsProjectionMap);
             qb.appendWhere(Annotations._ID + "=" + uri.getPathSegments().get(1));
             break;
@@ -287,7 +291,7 @@ public class RehearsalData extends ContentProvider {
         // If no sort order is specified use the default
         String orderBy;
         if (TextUtils.isEmpty(sortOrder)) {
-            orderBy = Rehearsal.Runs.DEFAULT_SORT_ORDER;
+            orderBy = Rehearsal.Sessions.DEFAULT_SORT_ORDER;
         } else {
             orderBy = sortOrder;
         }

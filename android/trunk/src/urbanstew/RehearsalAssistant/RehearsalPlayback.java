@@ -68,7 +68,7 @@ public class RehearsalPlayback extends Activity
         };
         String run_id = getIntent().getData().getPathSegments().get(1);
 
-        cursor = managedQuery(Annotations.CONTENT_URI, projection, Annotations.RUN_ID + "=" + run_id, null,
+        cursor = managedQuery(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + run_id, null,
                 Annotations.DEFAULT_SORT_ORDER);
         Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " annotations.");
 

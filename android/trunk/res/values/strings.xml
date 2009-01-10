@@ -10,4 +10,5 @@
 	<string name="stop_recording">Stop Recording</string>
 	
 <string name="instructions">Rehearsal Assistant allows you to record voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-click for more options.</string>
+
 </resources>

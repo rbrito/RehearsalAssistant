@@ -54,7 +54,7 @@ public class RehearsalRecord extends Activity
         
         setContentView(R.layout.record);
         findViewById(R.id.button).setOnClickListener(mClickListener);
-        run_id = getIntent().getData().getPathSegments().get(1);
+        session_id = getIntent().getData().getPathSegments().get(1);
         
         mCurrentTime = (TextView) findViewById(R.id.current_time);
         mFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -97,7 +97,7 @@ public class RehearsalRecord extends Activity
         	if(!going)
         	{
         		// clear the annotations
-        		getContentResolver().delete(Annotations.CONTENT_URI, "run_id =" + run_id, null);
+        		getContentResolver().delete(Annotations.CONTENT_URI, Annotations.SESSION_ID + "=" + session_id, null);
 
         		// grab start time, change UI
         		mTimeAtStart = SystemClock.elapsedRealtime();
@@ -114,7 +114,7 @@ public class RehearsalRecord extends Activity
             	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
             	{
             		File external = Environment.getExternalStorageDirectory();
-            		File audio = new File(external.getAbsolutePath() + "/rehearsal/" + run_id); 
+            		File audio = new File(external.getAbsolutePath() + "/rehearsal/" + session_id); 
             		audio.mkdirs();
             		Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
             		output_file = audio.getAbsolutePath() + "/audio" + cnt + ".3gpp";
@@ -143,7 +143,7 @@ public class RehearsalRecord extends Activity
 	            long time = SystemClock.elapsedRealtime() - mTimeAtStart;
 	            
 	            ContentValues values = new ContentValues();
-	        	values.put(Annotations.RUN_ID, run_id);
+	        	values.put(Annotations.SESSION_ID, session_id);
 	        	values.put(Annotations.START_TIME, time);
 	        	values.put(Annotations.FILE_NAME, output_file);
 	        	getContentResolver().insert(Annotations.CONTENT_URI, values);
@@ -182,7 +182,7 @@ public class RehearsalRecord extends Activity
     long mTimeAtStart;
     long project_id;
     
-    String run_id;
+    String session_id;
     String output_file;
     Timer mTimer = new Timer();
 }

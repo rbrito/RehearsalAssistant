@@ -24,7 +24,7 @@
 
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Runs;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.app.Activity;
 import android.content.ContentUris;
@@ -70,13 +70,13 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
 
         Intent intent = getIntent();
         if (intent.getData() == null) {
-            intent.setData(Runs.CONTENT_URI);
+            intent.setData(Sessions.CONTENT_URI);
         }
         
         Cursor cursor = managedQuery(getIntent().getData(), PROJECTION, null, null,
-                Runs.DEFAULT_SORT_ORDER);
+                Sessions.DEFAULT_SORT_ORDER);
         
-        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + "runs.");
+        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + Sessions.TABLE_NAME);
         
         // Used to map notes entries from the database to views
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
