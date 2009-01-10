@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="urbanstew.RehearsalAssistant" android:versionName="0.1.2" android:versionCode="4">
+      package="urbanstew.RehearsalAssistant" android:versionCode="5" android:versionName="0.2.0">
 <application android:icon="@drawable/icon" android:debuggable="true" android:label="Rehearsal Assistant">
     <activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">
             <intent-filter>
@@ -11,16 +11,16 @@
         
     <activity android:name="RehearsalPlayback"><intent-filter><action android:name="android.intent.action.VIEW"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
-<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.run"></data>
+<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
 </intent-filter>
 	</activity>
 	<activity android:name="RehearsalRecord"><intent-filter><action android:name="android.intent.action.EDIT"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
-<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.run"></data>
+<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
 </intent-filter>
 	</activity>
 	<activity android:name="NewRun"><intent-filter>
-<data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.run"></data>
+<data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.session"></data>
 <action android:name="android.intent.action.INSERT"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter>
