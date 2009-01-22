@@ -305,11 +305,21 @@ public class RehearsalData extends ContentProvider {
         return c;
 	}
 
-	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        int count;
+        switch (sUriMatcher.match(uri)) {
+        case SESSION_ID:
+            count = db.update(Sessions.TABLE_NAME, values, selection, selectionArgs);
+            break;
+
+        default:
+            throw new IllegalArgumentException("Unknown URI " + uri);
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
 	}
 }

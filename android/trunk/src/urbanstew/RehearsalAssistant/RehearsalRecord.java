@@ -31,11 +31,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.media.MediaRecorder;
@@ -67,6 +71,24 @@ public class RehearsalRecord extends Activity
             		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
             	);
     	}
+    	
+    	// Find out whether the session is already going
+        String session_id = getIntent().getData().getPathSegments().get(1);
+        String[] projection =
+        {
+        	Sessions._ID,
+        	Sessions.START_TIME,
+        	Sessions.END_TIME        	
+        };
+        Cursor cursor = getContentResolver().query(Sessions.CONTENT_URI, projection, Sessions._ID + "=" + session_id, null,
+                Annotations.DEFAULT_SORT_ORDER);
+    	cursor.moveToFirst();
+        if(!cursor.isNull(1) && cursor.isNull(2))
+        {
+    		mTimeAtStart = cursor.getLong(1);
+        	startSession();
+        }
+        cursor.close();
     }
     
     public void onPause()
@@ -87,8 +109,35 @@ public class RehearsalRecord extends Activity
     {
 		mTimer.scheduleAtFixedRate(
 				mCurrentTimeTask,
-				1000,
-				1000);
+				0,
+				100);
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        
+        if(going)
+        	menu.add("Stop Session");
+        return true;
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {
+		ContentValues values = new ContentValues();
+    	values.put(Annotations.END_TIME, SystemClock.elapsedRealtime());
+		getContentResolver().update(getIntent().getData(), values, null, null);
+		
+		finish();
+		
+		return true;		
+    }
+
+    void startSession()
+    {
+		((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
+		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
+		
+		going = true;
     }
     /** Called when the button is pushed */
     View.OnClickListener mClickListener = new View.OnClickListener() {
@@ -101,12 +150,13 @@ public class RehearsalRecord extends Activity
 
         		// grab start time, change UI
         		mTimeAtStart = SystemClock.elapsedRealtime();
-        		((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
-        		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
-        		
+        		startSession();
         		scheduleCurrentTimeTask();
-
-        		going = true;
+		
+        		ContentValues values = new ContentValues();
+	        	values.put(Annotations.START_TIME, mTimeAtStart);
+        		getContentResolver().update(getIntent().getData(), values, null, null);
+        		
         		return;
         	}
             if(!recording)
