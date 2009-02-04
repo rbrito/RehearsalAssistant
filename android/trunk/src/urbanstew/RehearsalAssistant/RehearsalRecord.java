@@ -89,22 +89,25 @@ public class RehearsalRecord extends Activity
         	startSession();
         }
         cursor.close();
+    	if(going)
+    		scheduleCurrentTimeTask();
+
     }
     
     public void onPause()
     {
     	super.onPause();
-    	if(going)
-    		mCurrentTimeTask.cancel();
+//    	if(going)
+//    		mCurrentTimeTask.cancel();
     }
     
     public void onResume()
     {
     	super.onResume();
-    	if(going)
-    		scheduleCurrentTimeTask();
+//    	if(going)
+//    		scheduleCurrentTimeTask();
     }
-    
+
     void scheduleCurrentTimeTask()
     {
 		mTimer.scheduleAtFixedRate(
@@ -117,19 +120,23 @@ public class RehearsalRecord extends Activity
         super.onCreateOptionsMenu(menu);
         
         if(going)
-        	menu.add("Stop Session");
+        	menu.add("Stop Session").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
         return true;
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
+    {
+		stopSession();
+		return true;		
+    }
+    
+    private void stopSession()
     {
 		ContentValues values = new ContentValues();
     	values.put(Annotations.END_TIME, SystemClock.elapsedRealtime());
 		getContentResolver().update(getIntent().getData(), values, null, null);
 		
 		finish();
-		
-		return true;		
     }
 
     void startSession()
@@ -155,6 +162,7 @@ public class RehearsalRecord extends Activity
 		
         		ContentValues values = new ContentValues();
 	        	values.put(Annotations.START_TIME, mTimeAtStart);
+	        	values.putNull(Annotations.END_TIME);
         		getContentResolver().update(getIntent().getData(), values, null, null);
         		
         		return;

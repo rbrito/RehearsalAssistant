@@ -10,6 +10,17 @@ public class Rehearsal
     // This class cannot be instantiated
     private Rehearsal() {}
     
+
+    /**
+     * Projects table
+     */
+    public static final class Projects implements BaseColumns {
+        // This class cannot be instantiated
+        private Projects() {}
+
+        public static final String TABLE_NAME = "projects";
+    }
+        
     /**
      * Runs table
      */
@@ -84,6 +95,7 @@ public class Rehearsal
         public static final String START_TIME = "start_time";
         public static final String END_TIME = "end_time";
         public static final String FILE_NAME = "file_name";
+        public static final String VIEWED = "viewed";
     }
 
 }

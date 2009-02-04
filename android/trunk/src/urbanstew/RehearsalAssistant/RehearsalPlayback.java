@@ -33,8 +33,12 @@ import java.util.TimeZone;
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,7 +68,8 @@ public class RehearsalPlayback extends Activity
         {
         	Annotations._ID,
         	Annotations.START_TIME,
-        	Annotations.FILE_NAME        	
+        	Annotations.FILE_NAME,
+        	Annotations.VIEWED
         };
         String session_id = getIntent().getData().getPathSegments().get(1);
 
@@ -73,7 +78,7 @@ public class RehearsalPlayback extends Activity
         Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " annotations.");
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getApplication(), R.layout.annotationslist_item, cursor,
-                new String[] { Annotations.START_TIME }, new int[] { android.R.id.text1 });
+                new String[] { Annotations.START_TIME}, new int[] { android.R.id.text1 });
         adapter.setCursorToStringConverter(new CursorToStringConverter()
         {
 			public CharSequence convertToString(Cursor cursor)
@@ -87,23 +92,39 @@ public class RehearsalPlayback extends Activity
 					int columnIndex)
 			{
 				TextView v = (TextView)view;
-				v.setText(formatter.format(new Date(cursor.getInt(columnIndex))));
+				v.setText(formatter.format(new Date(cursor.getInt(columnIndex))), TextView.BufferType.SPANNABLE);
+				if(cursor.getInt(3) == 0)
+				{
+					v.setTextAppearance(getApplicationContext(), android.R.attr.textAppearanceLarge);
+					Spannable str = (Spannable) v.getText();
+					str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				}
 				return true;
 			}
-        	
         });
         ListView list = (ListView)findViewById(R.id.annotation_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(mSelectedListener);
+        //list.setOnClickListener()
         
         
     }
-    
+
+/*    AdapterView.OnClickListener mClickListener = new AdapterView.OnClickListener() {
+    	
+    }*/
+
     /** Called when the user selects a list item. */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
         {
-			String state = android.os.Environment.getExternalStorageState();
+			cursor.moveToPosition(position);
+			
+			ContentValues values = new ContentValues();
+        	values.put(Annotations.VIEWED, true);
+    		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,cursor.getLong(0)), values, null, null);
+
+    		String state = android.os.Environment.getExternalStorageState();
 	    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
 	    			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
 	    	{
@@ -114,8 +135,7 @@ public class RehearsalPlayback extends Activity
 	        	return;
 	    	}
 	    	
-			cursor.moveToPosition(position);
-
+    		
         	if(player != null)
         	{
         		player.stop();

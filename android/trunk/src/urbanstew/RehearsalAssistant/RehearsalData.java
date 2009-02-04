@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.content.ContentProvider;
@@ -17,6 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -61,12 +63,12 @@ public class RehearsalData extends ContentProvider {
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 4);
+			super(context, "rehearsal_assistant.db", null, 5);
 		}
 
 		public void onCreate(SQLiteDatabase db)
 		{
-			db.execSQL("CREATE TABLE projects ("
+			db.execSQL("CREATE TABLE " + Projects.TABLE_NAME + "("
 					+ "_id INTEGER PRIMARY KEY,"
 					+ "title TEXT,"
 					+ "identifier TEXT"
@@ -81,12 +83,13 @@ public class RehearsalData extends ContentProvider {
 					+ Sessions.END_TIME + " INTEGER"
 					+ ");");
 
-			db.execSQL("CREATE TABLE annotations ("
+			db.execSQL("CREATE TABLE " + Annotations.TABLE_NAME + "("
 					+ Annotations._ID + " INTEGER PRIMARY KEY,"
 					+ Annotations.SESSION_ID + " INTEGER,"
 					+ Annotations.START_TIME + " INTEGER,"
 					+ Annotations.END_TIME + " INTEGER,"
-					+ Annotations.FILE_NAME + " TEXT"
+					+ Annotations.FILE_NAME + " TEXT,"
+					+ Annotations.VIEWED + " BOOLEAN DEFAULT FALSE"
 					+ ");");
 		}
 
@@ -95,9 +98,10 @@ public class RehearsalData extends ContentProvider {
             Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old Rehearsal Assistant data");
 
-            db.execSQL("DROP TABLE IF EXISTS projects");
+            db.execSQL("DROP TABLE IF EXISTS " + Projects.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + Sessions.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + Annotations.TABLE_NAME);
             db.execSQL("DROP TABLE IF EXISTS runs");
-            db.execSQL("DROP TABLE IF EXISTS annotations");
             onCreate(db);
         }
 	}
@@ -132,6 +136,7 @@ public class RehearsalData extends ContentProvider {
         sAnnotationsProjectionMap.put(Annotations.START_TIME, Annotations.START_TIME);
         sAnnotationsProjectionMap.put(Annotations.END_TIME, Annotations.END_TIME);
         sAnnotationsProjectionMap.put(Annotations.FILE_NAME, Annotations.FILE_NAME);
+        sAnnotationsProjectionMap.put(Annotations.VIEWED, Annotations.VIEWED);
     }
 
 	private DatabaseHelper mOpenHelper;
@@ -207,6 +212,12 @@ public class RehearsalData extends ContentProvider {
 
         case SESSION_ID:
             return Sessions.CONTENT_ITEM_TYPE;
+            
+        case ANNOTATIONS:
+        	return Annotations.CONTENT_TYPE;
+        
+        case ANNOTATION_ID:
+        	return Annotations.CONTENT_ITEM_TYPE;
 
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
@@ -310,11 +321,17 @@ public class RehearsalData extends ContentProvider {
 	{
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
+        selection = BaseColumns._ID + "=" + uri.getPathSegments().get(1)
+        	+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
+        
         switch (sUriMatcher.match(uri)) {
         case SESSION_ID:
             count = db.update(Sessions.TABLE_NAME, values, selection, selectionArgs);
             break;
-
+        case ANNOTATION_ID:
+        	count = db.update(Annotations.TABLE_NAME, values, selection, selectionArgs);
+        	break;
+        	
         default:
             throw new IllegalArgumentException("Unknown URI " + uri);
         }
