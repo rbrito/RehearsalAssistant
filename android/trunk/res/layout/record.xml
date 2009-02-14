@@ -10,7 +10,7 @@
 	android:layout_height="wrap_content" 
 	android:paddingLeft="7dip"
 	android:paddingRight="7dip"
-	android:text="Click the button to start the session.  Click again to start/stop recording each annotation."
+	android:text="@string/recording_instructions"
 	/>
 	<TextView
     android:id="@+id/current_time"
