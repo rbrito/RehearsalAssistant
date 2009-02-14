@@ -50,6 +50,8 @@ import android.os.SystemClock;
  */
 public class RehearsalRecord extends Activity
 {
+	enum State { INITIALIZING, READY, STARTED, RECORDING };
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -81,33 +83,37 @@ public class RehearsalRecord extends Activity
         	Sessions.END_TIME        	
         };
         Cursor cursor = getContentResolver().query(Sessions.CONTENT_URI, projection, Sessions._ID + "=" + session_id, null,
-                Annotations.DEFAULT_SORT_ORDER);
+                Sessions.DEFAULT_SORT_ORDER);
     	cursor.moveToFirst();
         if(!cursor.isNull(1) && cursor.isNull(2))
         {
     		mTimeAtStart = cursor.getLong(1);
         	startSession();
+        	
+            String[] annotation_projection =
+            {
+            	Annotations._ID        	
+            };
+        	Cursor annotationCursor = getContentResolver().query(Annotations.CONTENT_URI, annotation_projection, Annotations.SESSION_ID + "=" + session_id, null,
+                    Annotations.DEFAULT_SORT_ORDER);
+        	cnt = annotationCursor.getCount() + 1;
         }
+        else
+        	mState = State.READY;
         cursor.close();
-    	if(going)
+        
+    	if(mState == State.STARTED)
     		scheduleCurrentTimeTask();
 
     }
-    
-    public void onPause()
-    {
-    	super.onPause();
-//    	if(going)
-//    		mCurrentTimeTask.cancel();
-    }
-    
-    public void onResume()
-    {
-    	super.onResume();
-//    	if(going)
-//    		scheduleCurrentTimeTask();
-    }
 
+    public void onDestroy()
+    {
+    	super.onDestroy();
+    	if(mState == State.RECORDING)
+    		stopRecording();
+    }
+    
     void scheduleCurrentTimeTask()
     {
 		mTimer.scheduleAtFixedRate(
@@ -119,14 +125,16 @@ public class RehearsalRecord extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         
-        if(going)
-        	menu.add("Stop Session").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+      	menu.add("Stop Session").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
         return true;
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-		stopSession();
+    	if(mState == State.RECORDING)
+    		stopRecording();
+    	if(mState == State.STARTED)
+    		stopSession();
 		return true;		
     }
     
@@ -144,13 +152,34 @@ public class RehearsalRecord extends Activity
 		((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
 		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
 		
-		going = true;
+		mState = State.STARTED;
     }
+    
+    void stopRecording()
+    {
+    	if(recorder != null)
+    	{
+    		recorder.stop();
+            recorder.release();
+    	}
+        long time = SystemClock.elapsedRealtime() - mTimeAtStart;
+        
+        ContentValues values = new ContentValues();
+    	values.put(Annotations.SESSION_ID, session_id);
+    	values.put(Annotations.START_TIME, time);
+    	values.put(Annotations.FILE_NAME, output_file);
+    	getContentResolver().insert(Annotations.CONTENT_URI, values);
+
+    	((android.widget.Button)findViewById(R.id.button)).setText("Record");
+        mState = State.STARTED;
+        cnt++;
+    }
+    
     /** Called when the button is pushed */
     View.OnClickListener mClickListener = new View.OnClickListener() {
         public void onClick(View v)
         {
-        	if(!going)
+        	if(mState == State.READY)
         	{
         		// clear the annotations
         		getContentResolver().delete(Annotations.CONTENT_URI, Annotations.SESSION_ID + "=" + session_id, null);
@@ -167,7 +196,7 @@ public class RehearsalRecord extends Activity
         		
         		return;
         	}
-            if(!recording)
+            if(mState == State.STARTED)
             {
             	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
             	{
@@ -188,28 +217,11 @@ public class RehearsalRecord extends Activity
             	{
             		output_file = null;
             	}
-	            recording = true;
+	            mState = State.RECORDING;
 	            ((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
             }
             else
-            {
-            	if(recorder != null)
-            	{
-            		recorder.stop();
-    	            recorder.release();
-            	}
-	            long time = SystemClock.elapsedRealtime() - mTimeAtStart;
-	            
-	            ContentValues values = new ContentValues();
-	        	values.put(Annotations.SESSION_ID, session_id);
-	        	values.put(Annotations.START_TIME, time);
-	        	values.put(Annotations.FILE_NAME, output_file);
-	        	getContentResolver().insert(Annotations.CONTENT_URI, values);
-
-	        	((android.widget.Button)findViewById(R.id.button)).setText("Record");
-	            recording = false;
-	            cnt++;
-            }
+            	stopRecording();
         }
     };
     
@@ -232,9 +244,8 @@ public class RehearsalRecord extends Activity
     RehearsalData data;
     
     MediaRecorder recorder = null;
-    boolean recording = false;
-    boolean going = false;
-    
+    State mState = State.INITIALIZING;
+
     int cnt = 1;
     
     long mTimeAtStart;
@@ -243,4 +254,5 @@ public class RehearsalRecord extends Activity
     String session_id;
     String output_file;
     Timer mTimer = new Timer();
+    
 }
