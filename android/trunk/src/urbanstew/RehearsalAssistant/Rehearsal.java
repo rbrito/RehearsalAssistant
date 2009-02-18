@@ -10,7 +10,35 @@ public class Rehearsal
     // This class cannot be instantiated
     private Rehearsal() {}
     
+    public static final class AppData implements BaseColumns
+    {
+        // This class cannot be instantiated
+        private AppData() {}
 
+        public static final String TABLE_NAME = "appdata";
+    	
+        /**
+         * The content:// style URL for this table
+         */
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/appdata");
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of app data entries.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.urbanstew.rehearsalappdata";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} sub-directory of a single app data entry.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.urbanstew.rehearsalappdata";
+
+        public static final String VERSION_ID = "session_id";
+        public static final String APP_VISITED = "app_visited";
+        public static final String NEW_SESSION_VISITED = "new_session_visited";
+        public static final String RECORDING_VISITED = "recording_visited";
+        public static final String PLAYBACK_VISITED = "playback_visited";
+    }
+    
     /**
      * Projects table
      */

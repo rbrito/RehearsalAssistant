@@ -28,5 +28,14 @@
 	    android:layout_height="wrap_content" 
 	    android:background="#7F000000"
 	/>
+	<TextView android:id="@+id/no_annotations"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:gravity="center_vertical"
+	    android:paddingLeft="7dip"
+		android:paddingRight="7dip"
+		android:textStyle="bold"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	/>
 </FrameLayout>
 </LinearLayout>

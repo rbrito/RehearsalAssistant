@@ -43,7 +43,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.media.MediaRecorder;
-import android.os.SystemClock;
 
 /** The RehearsalRecord Activity handles recording annotations
  * 	for a particular project.
@@ -107,6 +106,10 @@ public class RehearsalRecord extends Activity
 
     }
 
+    long getCurrentTime()
+    {
+    	return System.currentTimeMillis();
+    }
     public void onDestroy()
     {
     	super.onDestroy();
@@ -141,7 +144,7 @@ public class RehearsalRecord extends Activity
     private void stopSession()
     {
 		ContentValues values = new ContentValues();
-    	values.put(Annotations.END_TIME, SystemClock.elapsedRealtime());
+    	values.put(Annotations.END_TIME, System.currentTimeMillis());
 		getContentResolver().update(getIntent().getData(), values, null, null);
 		
 		finish();
@@ -162,7 +165,7 @@ public class RehearsalRecord extends Activity
     		recorder.stop();
             recorder.release();
     	}
-        long time = SystemClock.elapsedRealtime() - mTimeAtStart;
+        long time = getCurrentTime() - mTimeAtStart;
         
         ContentValues values = new ContentValues();
     	values.put(Annotations.SESSION_ID, session_id);
@@ -185,7 +188,7 @@ public class RehearsalRecord extends Activity
         		getContentResolver().delete(Annotations.CONTENT_URI, Annotations.SESSION_ID + "=" + session_id, null);
 
         		// grab start time, change UI
-        		mTimeAtStart = SystemClock.elapsedRealtime();
+        		mTimeAtStart = getCurrentTime();
         		startSession();
         		scheduleCurrentTimeTask();
 		
@@ -193,7 +196,7 @@ public class RehearsalRecord extends Activity
 	        	values.put(Annotations.START_TIME, mTimeAtStart);
 	        	values.putNull(Annotations.END_TIME);
         		getContentResolver().update(getIntent().getData(), values, null, null);
-        		
+        		        		
         		return;
         	}
             if(mState == State.STARTED)
@@ -235,7 +238,7 @@ public class RehearsalRecord extends Activity
 			{
 				public void run()
 				{
-					mCurrentTime.setText(mFormatter.format(SystemClock.elapsedRealtime() - mTimeAtStart));
+					mCurrentTime.setText(mFormatter.format(getCurrentTime() - mTimeAtStart));
 				}
 			});                                
 		}

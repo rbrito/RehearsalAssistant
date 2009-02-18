@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.2.0.</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.3.0</string>
 
     <string name="new_session_title">Enter a title for the session and click \'Create\'.</string>
 
@@ -10,6 +10,8 @@
 	<string name="stop_recording">Stop Recording</string>
 	
 	<string name="recording_instructions">Click the button to start the session. Click again to start/stop recording each annotation. Use the MENU to stop the session.</string>
-<string name="instructions">Rehearsal Assistant allows you to record voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-click for more options.</string>
+	<string name="instructions">Rehearsal Assistant allows you to record voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-click for more options.</string>
+
+	<string name="no_annotations">No annotations were recorded for this session.</string>
 
 </resources>

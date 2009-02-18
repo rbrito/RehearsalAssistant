@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.AppData;
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
@@ -63,17 +64,37 @@ public class RehearsalData extends ContentProvider {
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 5);
+			super(context, "rehearsal_assistant.db", null, 6);
 		}
 
 		public void onCreate(SQLiteDatabase db)
 		{
+			createAppDataTable(db);
+
 			db.execSQL("CREATE TABLE " + Projects.TABLE_NAME + "("
 					+ "_id INTEGER PRIMARY KEY,"
 					+ "title TEXT,"
 					+ "identifier TEXT"
 					+ ");");
 
+			createSessionsTable(db);
+			createAnnotationsTable(db);
+		}
+		
+		void createAppDataTable(SQLiteDatabase db)
+		{
+			db.execSQL("CREATE TABLE " + AppData.TABLE_NAME + "("
+					+ AppData._ID + " INTEGER PRIMARY KEY,"
+					+ AppData.VERSION_ID + "INTEGER,"
+					+ AppData.APP_VISITED + " BOOLEAN DEFAULT FALSE,"
+					+ AppData.NEW_SESSION_VISITED + " BOOLEAN DEFAULT FALSE,"
+					+ AppData.RECORDING_VISITED + " BOOLEAN DEFAULT FALSE,"
+					+ AppData.PLAYBACK_VISITED + " BOOLEAN DEFAULT FALSE"
+					+ ");");
+		}
+		
+		void createSessionsTable(SQLiteDatabase db)
+		{
 			db.execSQL("CREATE TABLE " + Sessions.TABLE_NAME + "("
 					+ Sessions._ID + " INTEGER PRIMARY KEY,"
 					+ Sessions.PROJECT_ID + " INTEGER,"
@@ -82,7 +103,10 @@ public class RehearsalData extends ContentProvider {
 					+ Sessions.START_TIME + " INTEGER,"
 					+ Sessions.END_TIME + " INTEGER"
 					+ ");");
-
+		}
+		
+		void createAnnotationsTable(SQLiteDatabase db)
+		{
 			db.execSQL("CREATE TABLE " + Annotations.TABLE_NAME + "("
 					+ Annotations._ID + " INTEGER PRIMARY KEY,"
 					+ Annotations.SESSION_ID + " INTEGER,"
@@ -93,16 +117,42 @@ public class RehearsalData extends ContentProvider {
 					+ ");");
 		}
 
+		void migrateTable(SQLiteDatabase db, String name)
+		{
+			String backupName = name + "_backup";
+			db.execSQL("DROP TABLE IF EXISTS " + backupName + ";");
+			db.execSQL("ALTER TABLE " + name + " RENAME TO " + backupName + ";");
+			if(name.equals(Sessions.TABLE_NAME))
+				createSessionsTable(db);
+			else
+				createAnnotationsTable(db);
+			db.execSQL("INSERT INTO " + name + " SELECT * FROM " + backupName + ";");
+			db.execSQL("DROP TABLE IF EXISTS " + backupName + ";");
+			
+		}
+		void upgrade5to6(SQLiteDatabase db)
+		{
+			createAppDataTable(db);
+		}
+
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old Rehearsal Assistant data");
-
-            db.execSQL("DROP TABLE IF EXISTS " + Projects.TABLE_NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + Sessions.TABLE_NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + Annotations.TABLE_NAME);
-            db.execSQL("DROP TABLE IF EXISTS runs");
-            onCreate(db);
+            Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to " + newVersion);
+			if(oldVersion==5)
+			{
+	            Log.w("RehearsalAssistant", "Upgrading from database version 5.");
+				upgrade5to6(db);
+			}
+			else
+			{
+	            Log.w("RehearsalAssistant", "Reinitializing database tables");
+	
+	            db.execSQL("DROP TABLE IF EXISTS " + Projects.TABLE_NAME);
+	            db.execSQL("DROP TABLE IF EXISTS " + Sessions.TABLE_NAME);
+	            db.execSQL("DROP TABLE IF EXISTS " + Annotations.TABLE_NAME);
+	            db.execSQL("DROP TABLE IF EXISTS runs");
+	            onCreate(db);
+			}
         }
 	}
 
