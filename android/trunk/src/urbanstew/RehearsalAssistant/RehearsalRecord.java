@@ -3,7 +3,7 @@
  *      Stjepan Rajko
  *      urbanSTEW
  *
- *  Copyright 2008 Stjepan Rajko.
+ *  Copyright 2008,2009 Stjepan Rajko.
  *
  *  This file is part of the Android version of Rehearsal Assistant.
  *
@@ -34,6 +34,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
@@ -87,6 +88,7 @@ public class RehearsalRecord extends Activity
         if(!cursor.isNull(1) && cursor.isNull(2))
         {
     		mTimeAtStart = cursor.getLong(1);
+    		((TextView)findViewById(R.id.record_instructions)).setText(R.string.recording_instructions_started);
         	startSession();
         	
             String[] annotation_projection =
@@ -146,7 +148,9 @@ public class RehearsalRecord extends Activity
 		ContentValues values = new ContentValues();
     	values.put(Annotations.END_TIME, System.currentTimeMillis());
 		getContentResolver().update(getIntent().getData(), values, null, null);
-		
+
+       	startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData()));
+            	
 		finish();
     }
 
@@ -169,11 +173,12 @@ public class RehearsalRecord extends Activity
         
         ContentValues values = new ContentValues();
     	values.put(Annotations.SESSION_ID, session_id);
-    	values.put(Annotations.START_TIME, time);
+    	values.put(Annotations.START_TIME, mTimeAtAnnotationStart);
+    	values.put(Annotations.END_TIME, time);
     	values.put(Annotations.FILE_NAME, output_file);
     	getContentResolver().insert(Annotations.CONTENT_URI, values);
 
-    	((android.widget.Button)findViewById(R.id.button)).setText("Record");
+    	((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
         mState = State.STARTED;
         cnt++;
     }
@@ -215,6 +220,7 @@ public class RehearsalRecord extends Activity
 		            recorder.setOutputFile(output_file);
 		            recorder.prepare();
 		            recorder.start();   // Recording is now started*/
+		            mTimeAtAnnotationStart = getCurrentTime() - mTimeAtStart;
             	}
             	else
             	{
@@ -230,6 +236,8 @@ public class RehearsalRecord extends Activity
     
     TextView mCurrentTime;
     SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
+    
+    Timer mTimer = new Timer();
     TimerTask mCurrentTimeTask = new TimerTask()
 	{
 		public void run()
@@ -252,10 +260,9 @@ public class RehearsalRecord extends Activity
     int cnt = 1;
     
     long mTimeAtStart;
+    long mTimeAtAnnotationStart;
     long project_id;
     
     String session_id;
-    String output_file;
-    Timer mTimer = new Timer();
-    
+    String output_file;    
 }

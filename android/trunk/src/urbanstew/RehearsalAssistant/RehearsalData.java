@@ -1,3 +1,27 @@
+/*
+ *  Author:
+ *      Stjepan Rajko
+ *      urbanSTEW
+ *
+ *  Copyright 2008,2009 Stjepan Rajko.
+ *
+ *  This file is part of the Android version of Rehearsal Assistant.
+ *
+ *  Rehearsal Assistant is free software: you can redistribute it
+ *  and/or modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation, either version 3 of the License,
+ *  or (at your option) any later version.
+ *
+ *  Rehearsal Assistant is distributed in the hope that it will be
+ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Rehearsal Assistant.
+ *  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package urbanstew.RehearsalAssistant;
 
 import java.io.File;
@@ -85,11 +109,8 @@ public class RehearsalData extends ContentProvider {
 		{
 			db.execSQL("CREATE TABLE " + AppData.TABLE_NAME + "("
 					+ AppData._ID + " INTEGER PRIMARY KEY,"
-					+ AppData.VERSION_ID + "INTEGER,"
-					+ AppData.APP_VISITED + " BOOLEAN DEFAULT FALSE,"
-					+ AppData.NEW_SESSION_VISITED + " BOOLEAN DEFAULT FALSE,"
-					+ AppData.RECORDING_VISITED + " BOOLEAN DEFAULT FALSE,"
-					+ AppData.PLAYBACK_VISITED + " BOOLEAN DEFAULT FALSE"
+					+ AppData.KEY + " STRING,"
+					+ AppData.VALUE + " STRING"
 					+ ");");
 		}
 		
@@ -156,21 +177,31 @@ public class RehearsalData extends ContentProvider {
         }
 	}
 
-    private static final int SESSIONS = 1;
-    private static final int SESSION_ID = 2;
-    private static final int ANNOTATIONS = 3;
-    private static final int ANNOTATION_ID = 4;
+    private static final int APPDATA = 1;
+    private static final int APPDATA_ID = 2;
+    private static final int SESSIONS = 3;
+    private static final int SESSION_ID = 4;
+    private static final int ANNOTATIONS = 5;
+    private static final int ANNOTATION_ID = 6;
 
     private static final UriMatcher sUriMatcher;
+    private static HashMap<String, String> sAppDataProjectionMap;
     private static HashMap<String, String> sSessionsProjectionMap;
     private static HashMap<String, String> sAnnotationsProjectionMap;
-
+    
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "appdata", APPDATA);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "appdata/#", APPDATA_ID);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions", SESSIONS);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions/#", SESSION_ID);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations", ANNOTATIONS);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations/#", ANNOTATION_ID);
+
+        sAppDataProjectionMap = new HashMap<String, String>();
+        sAppDataProjectionMap.put(AppData._ID, AppData._ID);
+        sAppDataProjectionMap.put(AppData.KEY, AppData.KEY);
+        sAppDataProjectionMap.put(AppData.VALUE, AppData.VALUE);
 
         sSessionsProjectionMap = new HashMap<String, String>();
         sSessionsProjectionMap.put(Sessions._ID, Sessions._ID);
@@ -257,6 +288,12 @@ public class RehearsalData extends ContentProvider {
 	public String getType(Uri uri)
 	{
         switch (sUriMatcher.match(uri)) {
+        case APPDATA:
+            return AppData.CONTENT_TYPE;
+
+        case APPDATA_ID:
+            return AppData.CONTENT_ITEM_TYPE;
+
         case SESSIONS:
             return Sessions.CONTENT_TYPE;
 
@@ -285,35 +322,41 @@ public class RehearsalData extends ContentProvider {
         
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         
+        long rowId=0;
+        Uri contentURI;
+        
 		switch(sUriMatcher.match(uri))
 		{
-		case SESSIONS:
-		{
-	    	values.put(Sessions.PROJECT_ID, getProjectID());
-	    	if(!values.containsKey(Sessions.IDENTIFIER))
-	    		values.put(Sessions.IDENTIFIER, values.getAsString(Sessions.TITLE).toLowerCase().replace(" ", "_"));
-	 
-	        long rowId = db.insert(Sessions.TABLE_NAME, Sessions.TITLE, values);
-	        if (rowId > 0) {
-	            Uri noteUri = ContentUris.withAppendedId(Rehearsal.Sessions.CONTENT_URI, rowId);
-	            getContext().getContentResolver().notifyChange(noteUri, null);
-	            return noteUri;
-	        }
-	        break;
+			case APPDATA:
+			{
+		        rowId = db.insert(AppData.TABLE_NAME, AppData.KEY, values);
+		        contentURI = AppData.CONTENT_URI;
+		        break;
+			}
+			case SESSIONS:
+			{
+		    	values.put(Sessions.PROJECT_ID, getProjectID());
+		    	if(!values.containsKey(Sessions.IDENTIFIER))
+		    		values.put(Sessions.IDENTIFIER, values.getAsString(Sessions.TITLE).toLowerCase().replace(" ", "_"));
+		 
+		        rowId = db.insert(Sessions.TABLE_NAME, Sessions.TITLE, values);
+		        contentURI = Sessions.CONTENT_URI;
+		        break;
+			}
+			case ANNOTATIONS:
+			{
+				rowId = db.insert(Annotations.TABLE_NAME, Annotations.FILE_NAME, values);
+				contentURI = Annotations.CONTENT_URI;
+		        break;
+			}
+			default:
+		        throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		case ANNOTATIONS:
-		{
-			long rowId = db.insert(Annotations.TABLE_NAME, Annotations.FILE_NAME, values);
-	        if (rowId > 0) {
-	            Uri noteUri = ContentUris.withAppendedId(Rehearsal.Annotations.CONTENT_URI, rowId);
-	            getContext().getContentResolver().notifyChange(noteUri, null);
-	            return noteUri;
-	        }
-	        break;
-		}
-		default:
-	        throw new IllegalArgumentException("Unknown URI " + uri);
-		}
+        if (rowId >= 0) {
+            Uri noteUri = ContentUris.withAppendedId(contentURI, rowId);
+            getContext().getContentResolver().notifyChange(noteUri, null);
+            return noteUri;
+        }
         throw new SQLException("Failed to insert row into " + uri);
 	}
 
@@ -324,6 +367,17 @@ public class RehearsalData extends ContentProvider {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
         switch (sUriMatcher.match(uri)) {
+        case APPDATA:
+            qb.setTables(AppData.TABLE_NAME);
+            qb.setProjectionMap(sAppDataProjectionMap);
+            break;
+
+        case APPDATA_ID:
+            qb.setTables(AppData.TABLE_NAME);
+            qb.setProjectionMap(sAppDataProjectionMap);
+            qb.appendWhere(AppData._ID + "=" + uri.getPathSegments().get(1));
+            break;
+
         case SESSIONS:
             qb.setTables(Sessions.TABLE_NAME);
             qb.setProjectionMap(sSessionsProjectionMap);

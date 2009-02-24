@@ -28,10 +28,14 @@
 		    android:layout_marginLeft="5dip"
 		    android:layout_marginRight="5dip"
 	    />
+	   	<Button android:id="@+id/create_and_start"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:text="Create and Start Session" />
 	   	<Button android:id="@+id/create"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:text="Create" />
+		    android:text="Create Session" />
 	</LinearLayout>
 	<LinearLayout
 	    android:layout_alignParentTop="true"

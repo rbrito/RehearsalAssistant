@@ -1,3 +1,27 @@
+/*
+ *  Author:
+ *      Stjepan Rajko
+ *      urbanSTEW
+ *
+ *  Copyright 2008,2009 Stjepan Rajko.
+ *
+ *  This file is part of the Android version of Rehearsal Assistant.
+ *
+ *  Rehearsal Assistant is free software: you can redistribute it
+ *  and/or modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation, either version 3 of the License,
+ *  or (at your option) any later version.
+ *
+ *  Rehearsal Assistant is distributed in the hope that it will be
+ *  useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Rehearsal Assistant.
+ *  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package urbanstew.RehearsalAssistant;
 
 import android.net.Uri;
@@ -32,11 +56,10 @@ public class Rehearsal
          */
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.urbanstew.rehearsalappdata";
 
-        public static final String VERSION_ID = "session_id";
-        public static final String APP_VISITED = "app_visited";
-        public static final String NEW_SESSION_VISITED = "new_session_visited";
-        public static final String RECORDING_VISITED = "recording_visited";
-        public static final String PLAYBACK_VISITED = "playback_visited";
+        public static final String KEY = "key";
+        public static final String VALUE = "value";
+        
+        public static final String DEFAULT_SORT_ORDER = KEY + " ASC";
     }
     
     /**

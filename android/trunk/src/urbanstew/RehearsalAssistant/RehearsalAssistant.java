@@ -3,7 +3,7 @@
  *      Stjepan Rajko
  *      urbanSTEW
  *
- *  Copyright 2008 Stjepan Rajko.
+ *  Copyright 2008,2009 Stjepan Rajko.
  *
  *  This file is part of the Android version of Rehearsal Assistant.
  *
@@ -24,10 +24,12 @@
 
 package urbanstew.RehearsalAssistant;
 
+import urbanstew.RehearsalAssistant.Rehearsal.AppData;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -68,17 +70,19 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
         
         setContentView(R.layout.main);
 
+        // Set intent to sessions
         Intent intent = getIntent();
         if (intent.getData() == null) {
             intent.setData(Sessions.CONTENT_URI);
         }
         
+        // Read sessions
         Cursor cursor = managedQuery(getIntent().getData(), PROJECTION, null, null,
                 Sessions.DEFAULT_SORT_ORDER);
         
         Log.w("RehearsalAssistant", "Read " + cursor.getCount() + Sessions.TABLE_NAME);
         
-        // Used to map notes entries from the database to views
+        // Map Sessions to ListView
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
                 new String[] { "title" }, new int[] { android.R.id.text1 });
         ListView list = (ListView)findViewById(R.id.run_list);
@@ -89,6 +93,33 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
         ((Button)findViewById(R.id.help)).setOnClickListener(this);
         list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
         list.setOnItemClickListener(mSelectedListener);
+        
+        // Display license if this is the first time running this version.
+        String[] appDataProjection =
+        {
+        	AppData._ID,
+            AppData.KEY,
+        	AppData.VALUE
+        };
+        Cursor appDataCursor = managedQuery(AppData.CONTENT_URI, appDataProjection, AppData.KEY + "=" + "'app_visited_version'", null, AppData.DEFAULT_SORT_ORDER);
+        if(appDataCursor.getCount()>0)
+        	appDataCursor.moveToFirst();
+        if(appDataCursor.getCount()==0 || !appDataCursor.getString(2).equals("0.3"))
+        {
+    		Request.notification(this,
+    				"Warning",
+    				getString(R.string.beta_warning));
+    		Request.notification(this,
+    				"License",
+    				getString(R.string.license));
+        }
+    	if(appDataCursor.getCount()==0)
+    	{
+    		ContentValues values = new ContentValues();
+        	values.put(AppData.KEY, "app_visited_version");
+        	values.put(AppData.VALUE, "0.3");
+        	getContentResolver().insert(AppData.CONTENT_URI, values);
+    	}
     }
 
     /** Called when the user selects an item in the list.

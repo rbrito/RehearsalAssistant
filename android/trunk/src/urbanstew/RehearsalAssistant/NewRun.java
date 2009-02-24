@@ -3,7 +3,7 @@
  *      Stjepan Rajko
  *      urbanSTEW
  *
- *  Copyright 2008 Stjepan Rajko.
+ *  Copyright 2008,2009 Stjepan Rajko.
  *
  *  This file is part of the Android version of Rehearsal Assistant.
  *
@@ -27,6 +27,8 @@ package urbanstew.RehearsalAssistant;
 import java.text.DateFormat;
 import java.util.Date;
 
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -49,6 +51,7 @@ public class NewRun extends Activity implements View.OnClickListener
         // setup the display and callbacks
         setContentView(R.layout.new_run);
         findViewById(R.id.create).setOnClickListener(this);
+        findViewById(R.id.create_and_start).setOnClickListener(this);
         
         EditText title = (EditText) findViewById(R.id.name);
     	title.setText(DateFormat.getDateTimeInstance().format(new Date()));
@@ -61,7 +64,9 @@ public class NewRun extends Activity implements View.OnClickListener
     	// prepare the insert request - get title from the widget
     	EditText title = (EditText) findViewById(R.id.name);
     	ContentValues values = new ContentValues();
-    	values.put("title", title.getText().toString());
+    	values.put(Sessions.TITLE, title.getText().toString());
+    	if(v == findViewById(R.id.create_and_start))
+    		values.put(Sessions.START_TIME, System.currentTimeMillis());
     	
     	// insert the result and go to the record activity
     	Uri result = getContentResolver().insert(getIntent().getData(), values);

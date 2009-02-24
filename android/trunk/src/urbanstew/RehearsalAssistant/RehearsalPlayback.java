@@ -3,7 +3,7 @@
  *      Stjepan Rajko
  *      urbanSTEW
  *
- *  Copyright 2008 Stjepan Rajko.
+ *  Copyright 2008,2009 Stjepan Rajko.
  *
  *  This file is part of the Android version of Rehearsal Assistant.
  *
@@ -33,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -43,6 +45,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -51,9 +54,11 @@ import android.os.Environment;
 import android.text.Spannable;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -62,6 +67,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 
 /** The RehearsalPlayback Activity provides playback access for
@@ -69,16 +75,16 @@ import android.media.MediaPlayer;
  */
 public class RehearsalPlayback extends Activity
 {
-	static int ANNOTATIONS_ID = 0;
-	static int ANNOTATIONS_START_TIME = 1;
-	static int ANNOTATIONS_END_TIME = 2;
-	static int ANNOTATIONS_FILE_NAME = 3;
-	static int ANNOTATIONS_VIEWED = 4;
+	private static final int ANNOTATIONS_ID = 0;
+	private static final int ANNOTATIONS_START_TIME = 1;
+	private static final int ANNOTATIONS_END_TIME = 2;
+	private static final int ANNOTATIONS_FILE_NAME = 3;
+	private static final int ANNOTATIONS_VIEWED = 4;
 	
-	static int SESSIONS_ID = 0;
-	static int SESSIONS_TITLE = 1;
-	static int SESSIONS_START_TIME = 2;
-	static int SESSIONS_END_TIME = 3;
+	private static final int SESSIONS_ID = 0;
+	private static final int SESSIONS_TITLE = 1;
+	private static final int SESSIONS_START_TIME = 2;
+	private static final int SESSIONS_END_TIME = 3;
 	
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)
@@ -107,6 +113,7 @@ public class RehearsalPlayback extends Activity
 
         mSessionCursor = managedQuery(Sessions.CONTENT_URI, sessionProjection, Sessions._ID + "=" + session_id, null, Sessions.DEFAULT_SORT_ORDER);
         mSessionCursor.moveToFirst();
+        
         mAnnotationsCursor = managedQuery(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + session_id, null,
                 Annotations.DEFAULT_SORT_ORDER);
         Log.w("RehearsalAssistant", "Read " + mAnnotationsCursor.getCount() + " annotations.");
@@ -147,9 +154,17 @@ public class RehearsalPlayback extends Activity
         ListView list = (ListView)findViewById(R.id.annotation_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(mSelectedListener);
-        //list.setOnClickListener()
+        list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
+                
+        AudioManager audioManager = (AudioManager) this.getApplication().getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0)
+      		Toast.makeText(this, "Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.", Toast.LENGTH_LONG).show();
         
-        
+        mCurrentTime = (TextView) findViewById(R.id.playback_time);
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				0,
+				100);
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -219,7 +234,7 @@ public class RehearsalPlayback extends Activity
             {
             	messageText += "Annotation " + (mAnnotationsCursor.getPosition() + 1) + "\n";
             	messageText += " start time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
-//            	messageText += " ending at " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
+            	messageText += " end time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
             	messageText += " filename: " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
             }
             emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
@@ -236,50 +251,99 @@ public class RehearsalPlayback extends Activity
         }
 		return true;
     }
+    
+    public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
 
+    View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
+    {
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo)
+		{
+			menu.add(0, MENU_ITEM_PLAYBACK, 0, "play");
+		}
+    	
+    };
+    
+	public boolean onContextItemSelected(MenuItem item)
+	{
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        } catch (ClassCastException e) {
+            Log.e("Rehearsal Assistant", "bad menuInfo", e);
+            return false;
+        }
+
+        playItem(info.position);
+ 
+        return true;
+	}
+
+	void playItem(int position)
+	{
+		mAnnotationsCursor.moveToPosition(position);
+		mActiveAnnotationStartTime = mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME);
+		
+		ContentValues values = new ContentValues();
+    	values.put(Annotations.VIEWED, true);
+		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(0)), values, null, null);
+
+		String state = android.os.Environment.getExternalStorageState();
+    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
+    			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
+    	{
+        	Request.notification(RehearsalPlayback.this,
+            		"Media Missing",
+            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant cannot access the saved file."
+            	);
+        	return;
+    	}
+    	
+    	if(player != null)
+    	{
+    		player.stop();
+    		player.release();
+    	}
+        try
+        {
+        	player = new MediaPlayer();
+        	player.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
+        	player.prepare();
+        	player.start();
+        }
+        catch(java.io.IOException e)
+        {
+        	if(e.getMessage()!=null)
+        		Toast.makeText(RehearsalPlayback.this, e.getMessage(),
+        				Toast.LENGTH_SHORT).show();
+
+        }
+	}
     /** Called when the user selects a list item. */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
         {
-			mAnnotationsCursor.moveToPosition(position);
-			
-			ContentValues values = new ContentValues();
-        	values.put(Annotations.VIEWED, true);
-    		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(0)), values, null, null);
-
-    		String state = android.os.Environment.getExternalStorageState();
-	    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
-	    			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
-	    	{
-	        	Request.notification(RehearsalPlayback.this,
-	            		"Media Missing",
-	            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant cannot access the saved file."
-	            	);
-	        	return;
-	    	}
-	    	
-    		
-        	if(player != null)
-        	{
-        		player.stop();
-        		player.release();
-        	}
-            try
-            {
-            	player = new MediaPlayer();
-            	player.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
-            	player.prepare();
-            	player.start();
-            }
-            catch(java.io.IOException e)
-            {
-            	if(e.getMessage()!=null)
-            		Toast.makeText(RehearsalPlayback.this, e.getMessage(),
-            				Toast.LENGTH_SHORT).show();
-
-            }
+			playItem(position);
         }
     };
+    
+    Timer mTimer = new Timer();
+    TimerTask mCurrentTimeTask = new TimerTask()
+	{
+		public void run()
+		{
+			RehearsalPlayback.this.runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					if(player != null)
+						mCurrentTime.setText(formatter.format(player.getCurrentPosition() + mActiveAnnotationStartTime));
+				}
+			});                                
+		}
+	};
+
+    TextView mCurrentTime;
 
     Cursor mAnnotationsCursor;
     Cursor mSessionCursor;
@@ -287,6 +351,8 @@ public class RehearsalPlayback extends Activity
     List<String> mStrings = new LinkedList<String>();
     ArrayAdapter<String> listAdapter;
     
+    SimpleDateFormat playTimeFormatter = new SimpleDateFormat("mm:ss");
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-
+    
+    long mActiveAnnotationStartTime = 0;
 }

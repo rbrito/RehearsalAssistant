@@ -17,18 +17,21 @@ public final class R {
     }
     public static final class id {
         public static final int about=0x7f050000;
-        public static final int annotation_list=0x7f050008;
-        public static final int button=0x7f05000c;
-        public static final int create=0x7f050007;
-        public static final int current_time=0x7f05000b;
+        public static final int annotation_list=0x7f05000b;
+        public static final int button=0x7f05000f;
+        public static final int create=0x7f050008;
+        public static final int create_and_start=0x7f050007;
+        public static final int current_time=0x7f05000e;
         public static final int help=0x7f050003;
         public static final int main_buttons=0x7f050001;
         public static final int name=0x7f050006;
         public static final int new_run=0x7f050002;
         public static final int new_run_content=0x7f050005;
-        public static final int no_annotations=0x7f050009;
-        public static final int record_button_image=0x7f05000d;
-        public static final int record_instructions=0x7f05000a;
+        public static final int no_annotations=0x7f05000c;
+        public static final int playback_instructions=0x7f050009;
+        public static final int playback_time=0x7f05000a;
+        public static final int record_button_image=0x7f050010;
+        public static final int record_instructions=0x7f05000d;
         public static final int run_list=0x7f050004;
     }
     public static final class layout {
@@ -42,11 +45,15 @@ public final class R {
     public static final class string {
         public static final int about=0x7f040001;
         public static final int app_name=0x7f040000;
-        public static final int instructions=0x7f040007;
+        public static final int beta_warning=0x7f04000c;
+        public static final int instructions=0x7f040008;
+        public static final int license=0x7f04000b;
         public static final int new_session_title=0x7f040002;
-        public static final int no_annotations=0x7f040008;
+        public static final int no_annotations=0x7f04000a;
+        public static final int playback_instructions=0x7f040009;
         public static final int record=0x7f040004;
         public static final int recording_instructions=0x7f040006;
+        public static final int recording_instructions_started=0x7f040007;
         public static final int start_session=0x7f040003;
         public static final int stop_recording=0x7f040005;
     }
