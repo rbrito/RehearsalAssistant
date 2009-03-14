@@ -212,7 +212,7 @@ public class RehearsalRecord extends Activity
             		File audio = new File(external.getAbsolutePath() + "/rehearsal/" + session_id); 
             		audio.mkdirs();
             		Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
-            		output_file = audio.getAbsolutePath() + "/audio" + cnt + ".3gpp";
+            		output_file = audio.getAbsolutePath() + "/audio" + cnt + ".3gp";
 	            	recorder = new MediaRecorder();
 	            	recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 	                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

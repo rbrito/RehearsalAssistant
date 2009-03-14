@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.3.0</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.3.1</string>
 
     <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 
@@ -33,7 +33,7 @@ http://urbanstew.org/rehearsalassistant/ for links to source code
 and documentation.\n\n</string>
 
 <string name="beta_warning">This software is in BETA status, which means
-you are likely to encounter problems during use (e.g., inability to playback recordings).\n\nIf you experience
+you are likely to encounter problems during use.\n\nIf you experience
 problems, please e-mail a detailed description of the problem to comments@urbanstew.org
 to help us resolve it.\n\nThank you!\n\n</string>
 </resources>
