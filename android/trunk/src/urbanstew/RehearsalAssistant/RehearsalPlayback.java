@@ -42,10 +42,12 @@ import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -55,12 +57,14 @@ import android.text.Spannable;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -79,7 +83,8 @@ public class RehearsalPlayback extends Activity
 	private static final int ANNOTATIONS_START_TIME = 1;
 	private static final int ANNOTATIONS_END_TIME = 2;
 	private static final int ANNOTATIONS_FILE_NAME = 3;
-	private static final int ANNOTATIONS_VIEWED = 4;
+	private static final int ANNOTATIONS_LABEL = 4;
+	private static final int ANNOTATIONS_VIEWED = 5;
 	
 	private static final int SESSIONS_ID = 0;
 	private static final int SESSIONS_TITLE = 1;
@@ -100,6 +105,7 @@ public class RehearsalPlayback extends Activity
         	Annotations.START_TIME,
         	Annotations.END_TIME,
         	Annotations.FILE_NAME,
+        	Annotations.LABEL,
         	Annotations.VIEWED
         };
         String[] sessionProjection =
@@ -141,7 +147,7 @@ public class RehearsalPlayback extends Activity
 					int columnIndex)
 			{
 				TextView v = (TextView)view;
-				v.setText(formatter.format(new Date(cursor.getInt(columnIndex))), TextView.BufferType.SPANNABLE);
+				v.setText(formatter.format(new Date(cursor.getInt(columnIndex))) + " " + cursor.getString(ANNOTATIONS_LABEL), TextView.BufferType.SPANNABLE);
 				if(cursor.getInt(ANNOTATIONS_VIEWED) == 0)
 				{
 					v.setTextAppearance(getApplicationContext(), android.R.attr.textAppearanceLarge);
@@ -233,6 +239,7 @@ public class RehearsalPlayback extends Activity
             for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
             {
             	messageText += "Annotation " + (mAnnotationsCursor.getPosition() + 1) + "\n";
+            	messageText += " label: " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
             	messageText += " start time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
             	messageText += " end time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
             	messageText += " filename: " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
@@ -253,13 +260,15 @@ public class RehearsalPlayback extends Activity
     }
     
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
+    public static final int MENU_ITEM_LABEL = Menu.FIRST+1;
 
     View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
     {
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo)
 		{
-			menu.add(0, MENU_ITEM_PLAYBACK, 0, "play");
+			menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, "play");
+			menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, "edit label");
 		}
     	
     };
@@ -274,7 +283,38 @@ public class RehearsalPlayback extends Activity
             return false;
         }
 
-        playItem(info.position);
+        if(item.getItemId() == MENU_ITEM_PLAYBACK)
+        	playItem(info.position);
+        else
+        {
+        	Log.d("Label edit", "Playing");
+        	mAnnotationsCursor.moveToPosition(info.position);
+
+        	// This example shows how to add a custom layout to an AlertDialog
+            LayoutInflater factory = LayoutInflater.from(this);
+            final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
+            mAnnotationLabelDialog = new AlertDialog.Builder(this)
+//                .setIcon(R.drawable.alert_dialog_icon)
+//                .setTitle(R.string.alert_dialog_text_entry)
+                .setView(textEntryView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
+
+                    	ContentValues values = new ContentValues();
+                    	values.put(Annotations.LABEL, label.getText().toString());
+                		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);                   	
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .create();
+            mAnnotationLabelDialog.show();
+        	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
+        	label.setText(mAnnotationsCursor.getString(ANNOTATIONS_LABEL));
+        }
  
         return true;
 	}
@@ -286,7 +326,7 @@ public class RehearsalPlayback extends Activity
 		
 		ContentValues values = new ContentValues();
     	values.put(Annotations.VIEWED, true);
-		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(0)), values, null, null);
+		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);
 
 		String state = android.os.Environment.getExternalStorageState();
     	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
@@ -355,4 +395,5 @@ public class RehearsalPlayback extends Activity
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     
     long mActiveAnnotationStartTime = 0;
+    AlertDialog mAnnotationLabelDialog;
 }

@@ -88,7 +88,7 @@ public class RehearsalData extends ContentProvider {
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 6);
+			super(context, "rehearsal_assistant.db", null, 7);
 		}
 
 		public void onCreate(SQLiteDatabase db)
@@ -135,6 +135,7 @@ public class RehearsalData extends ContentProvider {
 					+ Annotations.END_TIME + " INTEGER,"
 					+ Annotations.FILE_NAME + " TEXT,"
 					+ Annotations.VIEWED + " BOOLEAN DEFAULT FALSE"
+					+ Annotations.LABEL + " TEXT DEFAULT '',"
 					+ ");");
 		}
 
@@ -149,13 +150,15 @@ public class RehearsalData extends ContentProvider {
 				createAnnotationsTable(db);
 			db.execSQL("INSERT INTO " + name + " SELECT * FROM " + backupName + ";");
 			db.execSQL("DROP TABLE IF EXISTS " + backupName + ";");
-			
 		}
 		void upgrade5to6(SQLiteDatabase db)
 		{
 			createAppDataTable(db);
 		}
-
+		void upgrade6to7(SQLiteDatabase db)
+		{
+			db.execSQL("ALTER TABLE " + Annotations.TABLE_NAME + " ADD COLUMN " + Annotations.LABEL + " TEXT DEFAULT ''");
+		}
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to " + newVersion);
@@ -163,7 +166,10 @@ public class RehearsalData extends ContentProvider {
 			{
 	            Log.w("RehearsalAssistant", "Upgrading from database version 5.");
 				upgrade5to6(db);
+				upgrade6to7(db);
 			}
+			else if(oldVersion==6)
+				upgrade6to7(db);
 			else
 			{
 	            Log.w("RehearsalAssistant", "Reinitializing database tables");
@@ -217,6 +223,7 @@ public class RehearsalData extends ContentProvider {
         sAnnotationsProjectionMap.put(Annotations.START_TIME, Annotations.START_TIME);
         sAnnotationsProjectionMap.put(Annotations.END_TIME, Annotations.END_TIME);
         sAnnotationsProjectionMap.put(Annotations.FILE_NAME, Annotations.FILE_NAME);
+        sAnnotationsProjectionMap.put(Annotations.LABEL, Annotations.LABEL);
         sAnnotationsProjectionMap.put(Annotations.VIEWED, Annotations.VIEWED);
     }
 

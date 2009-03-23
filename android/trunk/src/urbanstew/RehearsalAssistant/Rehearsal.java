@@ -146,6 +146,7 @@ public class Rehearsal
         public static final String START_TIME = "start_time";
         public static final String END_TIME = "end_time";
         public static final String FILE_NAME = "file_name";
+        public static final String LABEL = "label";
         public static final String VIEWED = "viewed";
     }
 
