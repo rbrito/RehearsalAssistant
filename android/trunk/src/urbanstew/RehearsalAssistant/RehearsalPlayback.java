@@ -172,6 +172,31 @@ public class RehearsalPlayback extends Activity
 				0,
 				100);
     }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+    	super.onRestoreInstanceState(savedInstanceState);
+		// restore label edit dialog if needed
+		if(savedInstanceState.getBoolean("annotationLabelDialogShown"))
+		{
+			mAnnotationsCursor.moveToPosition(savedInstanceState.getInt("annotationLabelDialogShownPosition"));
+			displayAnnotationLabelDialog(savedInstanceState.getString("annotationLabelDialogText"));
+		}
+    }
+
+    protected void onSaveInstanceState(Bundle outState)
+    {
+    	if(mAnnotationLabelDialog != null && mAnnotationLabelDialog.isShowing())
+    	{
+    		outState.putBoolean("annotationLabelDialogShown", true);
+    		outState.putString
+    			(
+    				"annotationLabelDialogText",
+    				((EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text)).getText().toString()
+    			);
+    		outState.putInt("annotationLabelDialogShownPosition", mAnnotationsCursor.getPosition());
+    	}
+    }
     
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -273,6 +298,33 @@ public class RehearsalPlayback extends Activity
     	
     };
     
+    void displayAnnotationLabelDialog(String content)
+    {
+        LayoutInflater factory = LayoutInflater.from(this);
+        final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
+        mAnnotationLabelDialog = new AlertDialog.Builder(this)
+            .setView(textEntryView)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
+
+                	ContentValues values = new ContentValues();
+                	values.put(Annotations.LABEL, label.getText().toString());
+            		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);
+            		mAnnotationLabelDialog = null;
+                }
+            })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+            		mAnnotationLabelDialog = null;
+                }
+            })
+            .create();
+        mAnnotationLabelDialog.show();
+    	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
+    	label.setText(content);
+    }
+
 	public boolean onContextItemSelected(MenuItem item)
 	{
         AdapterView.AdapterContextMenuInfo info;
@@ -289,33 +341,8 @@ public class RehearsalPlayback extends Activity
         {
         	Log.d("Label edit", "Playing");
         	mAnnotationsCursor.moveToPosition(info.position);
-
-        	// This example shows how to add a custom layout to an AlertDialog
-            LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
-            mAnnotationLabelDialog = new AlertDialog.Builder(this)
-//                .setIcon(R.drawable.alert_dialog_icon)
-//                .setTitle(R.string.alert_dialog_text_entry)
-                .setView(textEntryView)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
-
-                    	ContentValues values = new ContentValues();
-                    	values.put(Annotations.LABEL, label.getText().toString());
-                		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);                   	
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                })
-                .create();
-            mAnnotationLabelDialog.show();
-        	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
-        	label.setText(mAnnotationsCursor.getString(ANNOTATIONS_LABEL));
+        	displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL));
         }
- 
         return true;
 	}
 
@@ -395,5 +422,5 @@ public class RehearsalPlayback extends Activity
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
     
     long mActiveAnnotationStartTime = 0;
-    AlertDialog mAnnotationLabelDialog;
+    AlertDialog mAnnotationLabelDialog = null;
 }
