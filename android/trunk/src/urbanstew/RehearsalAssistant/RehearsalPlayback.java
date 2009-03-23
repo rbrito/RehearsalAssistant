@@ -129,7 +129,7 @@ public class RehearsalPlayback extends Activity
         	TextView instructions = (TextView)findViewById(R.id.no_annotations);
         	instructions.setText(R.string.no_annotations);
         }
-        	
+
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
                 new String[] { Annotations.START_TIME}, new int[] { android.R.id.text1 });
         
@@ -179,8 +179,11 @@ public class RehearsalPlayback extends Activity
 		// restore label edit dialog if needed
 		if(savedInstanceState.getBoolean("annotationLabelDialogShown"))
 		{
-			mAnnotationsCursor.moveToPosition(savedInstanceState.getInt("annotationLabelDialogShownPosition"));
-			displayAnnotationLabelDialog(savedInstanceState.getString("annotationLabelDialogText"));
+			displayAnnotationLabelDialog
+				(
+					savedInstanceState.getString("annotationLabelDialogText"),
+					savedInstanceState.getLong("annotationLabelDialogShownId")
+				);
 		}
     }
 
@@ -194,7 +197,7 @@ public class RehearsalPlayback extends Activity
     				"annotationLabelDialogText",
     				((EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text)).getText().toString()
     			);
-    		outState.putInt("annotationLabelDialogShownPosition", mAnnotationsCursor.getPosition());
+    		outState.putLong("annotationLabelDialogShownId", mAnnotationLabelId);
     	}
     }
     
@@ -298,8 +301,9 @@ public class RehearsalPlayback extends Activity
     	
     };
     
-    void displayAnnotationLabelDialog(String content)
+    void displayAnnotationLabelDialog(String content, long id)
     {
+    	mAnnotationLabelId = id;
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
         mAnnotationLabelDialog = new AlertDialog.Builder(this)
@@ -310,7 +314,7 @@ public class RehearsalPlayback extends Activity
 
                 	ContentValues values = new ContentValues();
                 	values.put(Annotations.LABEL, label.getText().toString());
-            		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);
+            		getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationLabelId), values, null, null);
             		mAnnotationLabelDialog = null;
                 }
             })
@@ -341,7 +345,7 @@ public class RehearsalPlayback extends Activity
         {
         	Log.d("Label edit", "Playing");
         	mAnnotationsCursor.moveToPosition(info.position);
-        	displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL));
+        	displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL), mAnnotationsCursor.getLong(ANNOTATIONS_ID));
         }
         return true;
 	}
@@ -423,4 +427,5 @@ public class RehearsalPlayback extends Activity
     
     long mActiveAnnotationStartTime = 0;
     AlertDialog mAnnotationLabelDialog = null;
+    long mAnnotationLabelId;
 }

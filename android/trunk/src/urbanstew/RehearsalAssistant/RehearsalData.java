@@ -134,8 +134,8 @@ public class RehearsalData extends ContentProvider {
 					+ Annotations.START_TIME + " INTEGER,"
 					+ Annotations.END_TIME + " INTEGER,"
 					+ Annotations.FILE_NAME + " TEXT,"
-					+ Annotations.VIEWED + " BOOLEAN DEFAULT FALSE"
-					+ Annotations.LABEL + " TEXT DEFAULT '',"
+					+ Annotations.VIEWED + " BOOLEAN DEFAULT FALSE,"
+					+ Annotations.LABEL + " TEXT DEFAULT ''"
 					+ ");");
 		}
 
