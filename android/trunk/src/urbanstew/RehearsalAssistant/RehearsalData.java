@@ -75,7 +75,9 @@ public class RehearsalData extends ContentProvider {
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		Cursor c = db.query("projects", null, null, null, null, null, null);
 		c.moveToFirst();
-		return c.getLong(0);
+		long result = c.getLong(0);
+		c.close();
+		return result;
 	}
 
 	enum Project { _ID, TITLE, IDENTIFIER }
@@ -288,7 +290,9 @@ public class RehearsalData extends ContentProvider {
         	}
         }
 		// delete
-		return db.delete(Annotations.TABLE_NAME, selection, selectionArgs);
+		int result = db.delete(Annotations.TABLE_NAME, selection, selectionArgs);
+		c.close();
+		return result;
 	}
 
 	@Override

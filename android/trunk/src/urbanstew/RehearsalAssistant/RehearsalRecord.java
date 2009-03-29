@@ -117,6 +117,7 @@ public class RehearsalRecord extends Activity
     	super.onDestroy();
     	if(mState == State.RECORDING)
     		stopRecording();
+    	mTimer.cancel();
     }
     
     void scheduleCurrentTimeTask()

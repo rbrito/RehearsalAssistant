@@ -173,6 +173,13 @@ public class RehearsalPlayback extends Activity
 				100);
     }
 
+    public void onDestroy()
+    {
+    	super.onDestroy();
+    	mTimer.cancel();
+    	mSessionCursor.close();
+    	mAnnotationsCursor.close();
+    }
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
     	super.onRestoreInstanceState(savedInstanceState);
@@ -343,7 +350,6 @@ public class RehearsalPlayback extends Activity
         	playItem(info.position);
         else
         {
-        	Log.d("Label edit", "Playing");
         	mAnnotationsCursor.moveToPosition(info.position);
         	displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL), mAnnotationsCursor.getLong(ANNOTATIONS_ID));
         }
