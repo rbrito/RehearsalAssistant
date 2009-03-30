@@ -63,6 +63,9 @@ public class RehearsalRecord extends Activity
         session_id = getIntent().getData().getPathSegments().get(1);
         
         mCurrentTime = (TextView) findViewById(R.id.current_time);
+        mLeftRecordIndicator = ((android.widget.ImageView)findViewById(R.id.left_record_indicator));
+        mRightRecordIndicator = ((android.widget.ImageView)findViewById(R.id.right_record_indicator));
+
         mFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         
         String state = android.os.Environment.getExternalStorageState();
@@ -180,6 +183,9 @@ public class RehearsalRecord extends Activity
     	getContentResolver().insert(Annotations.CONTENT_URI, values);
 
     	((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
+    	mLeftRecordIndicator.setVisibility(View.INVISIBLE);
+    	mRightRecordIndicator.setVisibility(View.INVISIBLE);
+
         mState = State.STARTED;
         cnt++;
     }
@@ -229,12 +235,33 @@ public class RehearsalRecord extends Activity
             	}
 	            mState = State.RECORDING;
 	            ((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
+	            mLeftRecordIndicator.setVisibility(View.VISIBLE);
+	            mRightRecordIndicator.setVisibility(View.VISIBLE);
+	            mAlpha = 0xD0;
+	            updateAlpha();
             }
             else
             	stopRecording();
         }
     };
     
+    private void updateAlpha()
+    {
+    	if(mAlpha % 2 == 0)
+    	{
+    		mAlpha += 8;
+    		if(mAlpha > 0xFF)
+    			mAlpha = 0xFF;
+    	}
+    	else
+    	{
+    		mAlpha -= 8;
+    		if(mAlpha < 0xD0)
+    			mAlpha = 0xD0;
+    	}
+    	mLeftRecordIndicator.setAlpha(mAlpha);
+    	mRightRecordIndicator.setAlpha(mAlpha);
+    }
     TextView mCurrentTime;
     SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
     
@@ -248,10 +275,15 @@ public class RehearsalRecord extends Activity
 				public void run()
 				{
 					mCurrentTime.setText(mFormatter.format(getCurrentTime() - mTimeAtStart));
+					if(mState == State.RECORDING)
+						updateAlpha();
 				}
 			});                                
 		}
 	};
+	
+	android.widget.ImageView mLeftRecordIndicator, mRightRecordIndicator;
+    int mAlpha;
 	
     RehearsalData data;
     
@@ -265,5 +297,5 @@ public class RehearsalRecord extends Activity
     long project_id;
     
     String session_id;
-    String output_file;    
+    String output_file;  
 }

@@ -177,8 +177,10 @@ public class RehearsalPlayback extends Activity
     {
     	super.onDestroy();
     	mTimer.cancel();
-    	mSessionCursor.close();
     	mAnnotationsCursor.close();
+    	mSessionCursor.close();
+    	if(mAnnotationLabelDialog != null && mAnnotationLabelDialog.isShowing())
+    		mAnnotationLabelDialog.dismiss();
     }
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {

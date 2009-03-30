@@ -12,21 +12,60 @@
 	android:paddingRight="7dip"
 	android:text="@string/recording_instructions"
 	/>
-	<TextView
-    android:id="@+id/current_time"
-	android:background="@android:drawable/btn_default"
+	<RelativeLayout
+	android:id="@+id/current_time_frame"
 	android:layout_alignParentBottom="true"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:singleLine="true"
-    android:text="00:00:00"
-    android:gravity="center"
-	android:textAppearance="?android:attr/textAppearanceButton"
-	    android:textSize="40dip"
-	android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
-	/>
+	android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
+		<TextView
+	    android:id="@+id/current_time"
+		android:background="@android:drawable/btn_default"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:singleLine="true"
+	    android:text="00:00:00"
+	    android:gravity="center"
+		android:textAppearance="?android:attr/textAppearanceButton"
+		    android:textSize="40dip"
+		/>
+		<ImageView
+		android:id="@+id/left_record_indicator"
+		android:layout_alignBottom="@id/current_time"
+		android:layout_alignTop="@id/current_time"
+		android:layout_alignLeft="@id/current_time"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/recording_disc"
+    	android:scaleType="fitCenter" android:visibility="invisible"/>
+		<ImageView
+		android:id="@+id/right_record_indicator"
+		android:layout_alignBottom="@id/current_time"
+		android:layout_alignTop="@id/current_time"
+		android:layout_alignRight="@id/current_time"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/recording_disc"
+    	android:scaleType="fitCenter" android:visibility="invisible"/>
+		<ImageView
+		android:layout_alignBottom="@id/current_time"
+		android:layout_alignTop="@id/current_time"
+		android:layout_alignRight="@id/current_time"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/recording_circle"
+    	android:scaleType="fitCenter"/>
+		<ImageView
+		android:layout_alignBottom="@id/current_time"
+		android:layout_alignTop="@id/current_time"
+		android:layout_alignLeft="@id/current_time"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:src="@drawable/recording_circle"
+    	android:scaleType="fitCenter"/>
+		</RelativeLayout>
 	<FrameLayout
-    android:layout_above="@id/current_time"
+    android:layout_above="@+id/current_time_frame"
     android:layout_below="@id/record_instructions"
     android:layout_width="fill_parent" 
 	android:layout_height="fill_parent"
