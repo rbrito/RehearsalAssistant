@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rehearsal Assistant</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.4.1</string>
+
+    <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
+
+	<string name="start_session">Click to Start Session</string>
+	<string name="record">Click to Record</string>
+	<string name="stop_recording">Click to Stop Recording</string>
+	
+	<string name="recording_instructions">Click the button to start the session. Click again to start/stop each recording. Use the MENU to stop the session.</string>
+	<string name="recording_instructions_started">Click the button to start/stop each recording. Use the MENU to stop the session.</string>
+	<string name="instructions">Rehearsal Assistant allows you to record multiple voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-press for more options.</string>
+
+	<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label. Use the MENU to e-mail the session.</string>
+	<string name="annotation_label_text">Enter a new label for the annotation</string>
+	<string name="no_annotations">No annotations were recorded for this session.</string>
+
+<string name="license">Welcome to Rehearsal Assistant!\n\nBy
+using this application, you agree to the following license:\n\nAndroid
+Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW\n\nThis
+program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.\n\nThis
+program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.\n\nSee
+http://www.gnu.org/licenses/ for a full text of the license.\n\nSee
+http://urbanstew.org/rehearsalassistant/ for links to source code
+and documentation.\n\n</string>
+
+<string name="beta_warning">This software is in BETA status, which means
+you are likely to encounter problems during use.\n\nIf you experience
+problems, please e-mail a detailed description of the problem to comments@urbanstew.org
+to help us resolve it.\n\nThank you!\n\n</string>
+</resources>

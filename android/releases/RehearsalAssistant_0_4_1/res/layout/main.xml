@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView android:id="@+id/about"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:paddingLeft="7dip"
+    android:text="@string/about"
+    android:layout_alignParentTop="true" />
+<LinearLayout android:id="@+id/main_buttons"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true" 
+	android:paddingTop="7dip"
+    >
+	<Button android:id="@+id/new_run"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="Document New Session" />
+	<Button android:id="@+id/help"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="Help and Info" />
+</LinearLayout>
+<FrameLayout
+	android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:layout_below="@id/about"
+    android:layout_above="@id/main_buttons"
+	android:background="#7da7d9" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/masks"
+		android:gravity="center"/>
+	<ListView android:id="@+id/run_list"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:background="#7F000000"
+	/>
+</FrameLayout>
+</RelativeLayout>
