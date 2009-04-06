@@ -26,6 +26,8 @@ package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.AppData;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
+import urbanstew.RehearsalAssistant.RehearsalRecord.State;
 
 import android.app.Activity;
 import android.content.ContentUris;
@@ -47,7 +49,7 @@ import android.widget.SimpleCursorAdapter;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
-public class RehearsalAssistant extends Activity implements View.OnClickListener
+public class RehearsalAssistant extends Activity
 {
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
@@ -68,43 +70,21 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.main);
+        AppDataAccess appData = new AppDataAccess(getContentResolver());
 
-        // Set intent to sessions
-        Intent intent = getIntent();
-        if (intent.getData() == null) {
-            intent.setData(Sessions.CONTENT_URI);
-        }
-        
-        // Read sessions
-        Cursor cursor = managedQuery(getIntent().getData(), PROJECTION, null, null,
-                Sessions.DEFAULT_SORT_ORDER);
-        
-        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + Sessions.TABLE_NAME);
-        
-        // Map Sessions to ListView
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
-                new String[] { "title" }, new int[] { android.R.id.text1 });
-        ListView list = (ListView)findViewById(R.id.run_list);
-        list.setAdapter(adapter);
-        
-        // Setup list and the click listener
-        ((Button)findViewById(R.id.new_run)).setOnClickListener(this);
-        ((Button)findViewById(R.id.help)).setOnClickListener(this);
-        list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
-        list.setOnItemClickListener(mSelectedListener);
-        
+        // View the current project
+        startActivity
+        (
+        	new Intent
+        	(
+        		Intent.ACTION_VIEW,
+        		ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
+        	)
+        );
+
         // Display license if this is the first time running this version.
-        String[] appDataProjection =
-        {
-        	AppData._ID,
-            AppData.KEY,
-        	AppData.VALUE
-        };
-        Cursor appDataCursor = managedQuery(AppData.CONTENT_URI, appDataProjection, AppData.KEY + "=" + "'app_visited_version'", null, AppData.DEFAULT_SORT_ORDER);
-        if(appDataCursor.getCount()>0)
-        	appDataCursor.moveToFirst();
-        if(appDataCursor.getCount()==0 || !appDataCursor.getString(2).equals("0.3"))
+        String visitedVersion = appData.getVisitedVersion();
+        if (visitedVersion == null || !visitedVersion.equals("0.3"))
         {
     		Request.notification(this,
     				"Warning",
@@ -113,76 +93,10 @@ public class RehearsalAssistant extends Activity implements View.OnClickListener
     				"License",
     				getString(R.string.license));
         }
-    	if(appDataCursor.getCount()==0)
-    	{
-    		ContentValues values = new ContentValues();
-        	values.put(AppData.KEY, "app_visited_version");
-        	values.put(AppData.VALUE, "0.3");
-        	getContentResolver().insert(AppData.CONTENT_URI, values);
-    	}
-    }
-
-    /** Called when the user selects an item in the list.
-     *  
-     *  Currently, starts the RehearsalPlayback activity.
-     *  
-     */
-    AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id)
-        {
-	    	Uri runUri = ContentUris.withAppendedId(getIntent().getData(), id);
-	    	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
-        }
-    };
-    
-    View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
-    {
-		public void onCreateContextMenu(ContextMenu menu, View v,
-				ContextMenuInfo menuInfo)
-		{
-			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
-			menu.add(0, MENU_ITEM_RECORD, 1, "record");
-			menu.add(0, MENU_ITEM_DELETE, 1, "delete");
-		}
+    	if(visitedVersion == null)
+    		appData.addVisitedVersion("0.3");
     	
-    };
-    
-	public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info;
-        try {
-             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        } catch (ClassCastException e) {
-            Log.e("Rehearsal Assistant", "bad menuInfo", e);
-            return false;
-        }
-
-    	Uri runUri = ContentUris.withAppendedId(getIntent().getData(), info.id);
-
-    	switch (item.getItemId()) {
-
-            case MENU_ITEM_PLAYBACK: {
-                // Delete the run that the context menu is for
-            	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
-                return true;
-            }
-            case MENU_ITEM_RECORD: {
-        		startActivity(new Intent(Intent.ACTION_EDIT, runUri));
-                return true;
-            }
-            case MENU_ITEM_DELETE: {
-                // Delete the run that the context menu is for
-                getContentResolver().delete(runUri, null, null);
-                return true;
-            }
-        }
-        return false;
-	}
-
-	public void onClick(View v)
-	{
-		if(v == findViewById(R.id.new_run))
-			startActivity(new Intent(Intent.ACTION_INSERT, getIntent().getData()));
-		else if(v == findViewById(R.id.help))
-			Request.notification(this, "Instructions", getResources().getString(R.string.instructions));
-	}    
+    	// finish
+    	finish();
+    }
 }

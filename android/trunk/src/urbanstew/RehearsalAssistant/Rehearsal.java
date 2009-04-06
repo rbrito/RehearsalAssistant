@@ -40,7 +40,7 @@ public class Rehearsal
         private AppData() {}
 
         public static final String TABLE_NAME = "appdata";
-    	
+
         /**
          * The content:// style URL for this table
          */
@@ -70,10 +70,34 @@ public class Rehearsal
         private Projects() {}
 
         public static final String TABLE_NAME = "projects";
-    }
+
+        /**
+         * The content:// style URL for this table
+         */
+        public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/projects");
+
+        /**
+         * The MIME type of {@link #CONTENT_URI} providing a directory of app data entries.
+         */
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.urbanstew.project";
+
+        /**
+         * The MIME type of a {@link #CONTENT_URI} sub-directory of a single app data entry.
+         */
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.urbanstew.project";
+
+        public static final String TITLE = "title";
+        public static final String IDENTIFIER = "identifier";
+        public static final String TYPE = "type";
         
+        public static final String DEFAULT_SORT_ORDER = _ID + " ASC";
+        
+        public static final int TYPE_SESSION = 0;
+        public static final int TYPE_SIMPLE = 1;
+    }
+
     /**
-     * Runs table
+     * Sessions table
      */
     public static final class Sessions implements BaseColumns {
         // This class cannot be instantiated

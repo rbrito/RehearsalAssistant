@@ -64,6 +64,10 @@ public class NewRun extends Activity implements View.OnClickListener
     	// prepare the insert request - get title from the widget
     	EditText title = (EditText) findViewById(R.id.name);
     	ContentValues values = new ContentValues();
+
+    	AppDataAccess appData = new AppDataAccess(getContentResolver());
+    	values.put(Sessions.PROJECT_ID, appData.getCurrentProjectId());
+    	
     	values.put(Sessions.TITLE, title.getText().toString());
     	if(v == findViewById(R.id.create_and_start))
     		values.put(Sessions.START_TIME, System.currentTimeMillis());

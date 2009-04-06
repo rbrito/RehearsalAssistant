@@ -55,32 +55,32 @@ public class RehearsalData extends ContentProvider {
 		// Access the database.
 		mOpenHelper = new DatabaseHelper(getContext());
 		
-		// Insert the hardcoded project if it is missing.
+		// Insert the hard-coded projects if they are missing.
 		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 		Cursor c = db.query("projects", null, null, null, null, null, null);
 		Log.w("RehearsalAssistant", "Read " + c.getCount() + " projects");
-		if (c.getCount() == 0) {
+		if (c.getCount() == 0)
+		{
 			ContentValues values = new ContentValues();
-			values.put("title", "Only Project");
-			values.put("identifier", "only_project");
+			values.put(Projects.TITLE, "Session Project");
+			values.put(Projects.IDENTIFIER, "session_project");
+			values.put(Projects.TYPE, Projects.TYPE_SESSION);
 			db.insert("projects", "identifier", values);
+		}
+		if(c.getCount() == 1)
+		{
+			ContentValues values = new ContentValues();
+			values.put(Projects.TITLE, "Simple Project");
+			values.put(Projects.IDENTIFIER, "simple_project");
+			values.put(Projects.TYPE, Projects.TYPE_SIMPLE);
+			db.insert("projects", "identifier", values);			
 		}
 		c.close();
 		
 		return true;
 	}
 
-	// returns the currently active project id
-	public long getProjectID() {
-		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		Cursor c = db.query("projects", null, null, null, null, null, null);
-		c.moveToFirst();
-		long result = c.getLong(0);
-		c.close();
-		return result;
-	}
-
-	enum Project { _ID, TITLE, IDENTIFIER }
+	enum Project { _ID, TITLE, IDENTIFIER, TYPE }
 
 	enum Session { _ID, PROJECT_ID, TITLE, IDENTIFIER, START_TIME, END_TIME }
 	
@@ -90,19 +90,13 @@ public class RehearsalData extends ContentProvider {
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 7);
+			super(context, "rehearsal_assistant.db", null, 8);
 		}
 
 		public void onCreate(SQLiteDatabase db)
 		{
 			createAppDataTable(db);
-
-			db.execSQL("CREATE TABLE " + Projects.TABLE_NAME + "("
-					+ "_id INTEGER PRIMARY KEY,"
-					+ "title TEXT,"
-					+ "identifier TEXT"
-					+ ");");
-
+			createProjectsTable(db);
 			createSessionsTable(db);
 			createAnnotationsTable(db);
 		}
@@ -113,6 +107,16 @@ public class RehearsalData extends ContentProvider {
 					+ AppData._ID + " INTEGER PRIMARY KEY,"
 					+ AppData.KEY + " STRING,"
 					+ AppData.VALUE + " STRING"
+					+ ");");
+		}
+		
+		void createProjectsTable(SQLiteDatabase db)
+		{
+			db.execSQL("CREATE TABLE " + Projects.TABLE_NAME + "("
+					+ Projects._ID + " INTEGER PRIMARY KEY,"
+					+ Projects.TITLE + " TEXT,"
+					+ Projects.IDENTIFIER + " TEXT,"
+					+ Projects.TYPE + " INTEGER DEFAULT " + Projects.TYPE_SESSION 
 					+ ");");
 		}
 		
@@ -161,6 +165,10 @@ public class RehearsalData extends ContentProvider {
 		{
 			db.execSQL("ALTER TABLE " + Annotations.TABLE_NAME + " ADD COLUMN " + Annotations.LABEL + " TEXT DEFAULT ''");
 		}
+		void upgrade7to8(SQLiteDatabase db)
+		{
+			db.execSQL("ALTER TABLE " + Projects.TABLE_NAME + " ADD COLUMN " + Projects.TYPE + " INTEGER DEFAULT " + Projects.TYPE_SESSION);
+		}
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to " + newVersion);
@@ -169,9 +177,15 @@ public class RehearsalData extends ContentProvider {
 	            Log.w("RehearsalAssistant", "Upgrading from database version 5.");
 				upgrade5to6(db);
 				upgrade6to7(db);
+				upgrade7to8(db);				
 			}
 			else if(oldVersion==6)
+			{
 				upgrade6to7(db);
+				upgrade7to8(db);
+			}
+			else if(oldVersion==7)
+				upgrade7to8(db);				
 			else
 			{
 	            Log.w("RehearsalAssistant", "Reinitializing database tables");
@@ -187,20 +201,25 @@ public class RehearsalData extends ContentProvider {
 
     private static final int APPDATA = 1;
     private static final int APPDATA_ID = 2;
-    private static final int SESSIONS = 3;
-    private static final int SESSION_ID = 4;
-    private static final int ANNOTATIONS = 5;
-    private static final int ANNOTATION_ID = 6;
+    private static final int PROJECTS = 3;
+    private static final int PROJECT_ID = 4;
+    private static final int SESSIONS = 5;
+    private static final int SESSION_ID = 6;
+    private static final int ANNOTATIONS = 7;
+    private static final int ANNOTATION_ID = 8;
 
     private static final UriMatcher sUriMatcher;
     private static HashMap<String, String> sAppDataProjectionMap;
+    private static HashMap<String, String> sProjectsProjectionMap;
     private static HashMap<String, String> sSessionsProjectionMap;
     private static HashMap<String, String> sAnnotationsProjectionMap;
-    
+
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "appdata", APPDATA);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "appdata/#", APPDATA_ID);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "projects", PROJECTS);
+        sUriMatcher.addURI(Rehearsal.AUTHORITY, "projects/#", PROJECT_ID);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions", SESSIONS);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "sessions/#", SESSION_ID);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations", ANNOTATIONS);
@@ -210,6 +229,12 @@ public class RehearsalData extends ContentProvider {
         sAppDataProjectionMap.put(AppData._ID, AppData._ID);
         sAppDataProjectionMap.put(AppData.KEY, AppData.KEY);
         sAppDataProjectionMap.put(AppData.VALUE, AppData.VALUE);
+
+        sProjectsProjectionMap = new HashMap<String, String>();
+        sProjectsProjectionMap.put(Projects._ID, Projects._ID);
+        sProjectsProjectionMap.put(Projects.TITLE, Projects.TITLE);
+        sProjectsProjectionMap.put(Projects.IDENTIFIER, Projects.IDENTIFIER);
+        sProjectsProjectionMap.put(Projects.TYPE, Projects.TYPE);
 
         sSessionsProjectionMap = new HashMap<String, String>();
         sSessionsProjectionMap.put(Sessions._ID, Sessions._ID);
@@ -305,6 +330,12 @@ public class RehearsalData extends ContentProvider {
         case APPDATA_ID:
             return AppData.CONTENT_ITEM_TYPE;
 
+        case PROJECTS:
+            return Projects.CONTENT_TYPE;
+
+        case PROJECT_ID:
+            return Projects.CONTENT_ITEM_TYPE;
+
         case SESSIONS:
             return Sessions.CONTENT_TYPE;
 
@@ -335,7 +366,7 @@ public class RehearsalData extends ContentProvider {
         
         long rowId=0;
         Uri contentURI;
-        
+
 		switch(sUriMatcher.match(uri))
 		{
 			case APPDATA:
@@ -346,7 +377,6 @@ public class RehearsalData extends ContentProvider {
 			}
 			case SESSIONS:
 			{
-		    	values.put(Sessions.PROJECT_ID, getProjectID());
 		    	if(!values.containsKey(Sessions.IDENTIFIER))
 		    		values.put(Sessions.IDENTIFIER, values.getAsString(Sessions.TITLE).toLowerCase().replace(" ", "_"));
 		 
@@ -387,6 +417,17 @@ public class RehearsalData extends ContentProvider {
             qb.setTables(AppData.TABLE_NAME);
             qb.setProjectionMap(sAppDataProjectionMap);
             qb.appendWhere(AppData._ID + "=" + uri.getPathSegments().get(1));
+            break;
+
+        case PROJECTS:
+            qb.setTables(Projects.TABLE_NAME);
+            qb.setProjectionMap(sProjectsProjectionMap);
+            break;
+
+        case PROJECT_ID:
+            qb.setTables(Projects.TABLE_NAME);
+            qb.setProjectionMap(sProjectsProjectionMap);
+            qb.appendWhere(Projects._ID + "=" + uri.getPathSegments().get(1));
             break;
 
         case SESSIONS:
@@ -436,10 +477,17 @@ public class RehearsalData extends ContentProvider {
 	{
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count;
-        selection = BaseColumns._ID + "=" + uri.getPathSegments().get(1)
-        	+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
+        if(uri.getPathSegments().size()>1)
+        	selection = BaseColumns._ID + "=" + uri.getPathSegments().get(1)
+        		+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
         
         switch (sUriMatcher.match(uri)) {
+        case APPDATA:
+        	count = db.update(AppData.TABLE_NAME, values, selection, selectionArgs);
+        	break;
+        case PROJECT_ID:
+        	count = db.update(Projects.TABLE_NAME, values, selection, selectionArgs);
+        	break;
         case SESSION_ID:
             count = db.update(Sessions.TABLE_NAME, values, selection, selectionArgs);
             break;

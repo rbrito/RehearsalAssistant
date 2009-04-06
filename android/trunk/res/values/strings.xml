@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.4.1</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.5.0</string>
+    <string name="help">Help</string>
+    <string name="switch_to_simple">Switch to Simple Mode</string>
+    <string name="switch_to_session">Switch to Session Mode</string>
 
     <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 
