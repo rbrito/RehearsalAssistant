@@ -1,6 +1,7 @@
 package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -15,7 +16,11 @@ public class ProjectBase extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-      	((Button)findViewById(R.id.switch_mode)).setOnClickListener(switchClickListener);
+      	
+        ((Button)findViewById(R.id.switch_mode)).setOnClickListener(switchClickListener);
+      	
+        String projectId = getIntent().getData().getPathSegments().get(1);
+        mProjectId = Long.valueOf(projectId);
     }
     
     public boolean onCreateOptionsMenu(Menu menu)
@@ -47,4 +52,20 @@ public class ProjectBase extends Activity
 			}
 		}
     };
+    
+    protected long projectId()
+    {
+    	return mProjectId;
+    }
+    
+    long mProjectId;
+    
+    protected static final int SESSIONS_ID = 0;
+    protected static final int SESSIONS_TITLE = 1;
+    
+    protected static final String[] sessionsProjection = new String[]
+	{
+	      Sessions._ID, // 0
+	      Sessions.TITLE // 1
+	};
 }

@@ -24,11 +24,9 @@
 
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.AppData;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -51,12 +49,6 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
     public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
-
-    private static final String[] PROJECTION = new String[]
-    {
-        "_id", // 0
-        "title" // 1
-    };
     
     /** Called when the activity is first created.
      *  
@@ -68,18 +60,16 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         setContentView(R.layout.main);
 
         super.onCreate(savedInstanceState);
-
-        String projectId = getIntent().getData().getPathSegments().get(1);
         
         // Read sessions
-        Cursor cursor = managedQuery(Sessions.CONTENT_URI, PROJECTION, Sessions.PROJECT_ID + "=" + projectId, null,
+        cursor = managedQuery(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
                 Sessions.DEFAULT_SORT_ORDER);
         
         Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " " + Sessions.TABLE_NAME);
         
         // Map Sessions to ListView
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
-                new String[] { "title" }, new int[] { android.R.id.text1 });
+                new String[] { Sessions.TITLE }, new int[] { android.R.id.text1 });
         ListView list = (ListView)findViewById(R.id.run_list);
         list.setAdapter(adapter);
         
@@ -87,33 +77,11 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         ((Button)findViewById(R.id.new_run)).setOnClickListener(this);
         list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
         list.setOnItemClickListener(mSelectedListener);
-        
-        // Display license if this is the first time running this version.
-        String[] appDataProjection =
-        {
-        	AppData._ID,
-            AppData.KEY,
-        	AppData.VALUE
-        };
-        Cursor appDataCursor = managedQuery(AppData.CONTENT_URI, appDataProjection, AppData.KEY + "=" + "'app_visited_version'", null, AppData.DEFAULT_SORT_ORDER);
-        if(appDataCursor.getCount()>0)
-        	appDataCursor.moveToFirst();
-        if(appDataCursor.getCount()==0 || !appDataCursor.getString(2).equals("0.3"))
-        {
-    		Request.notification(this,
-    				"Warning",
-    				getString(R.string.beta_warning));
-    		Request.notification(this,
-    				"License",
-    				getString(R.string.license));
-        }
-    	if(appDataCursor.getCount()==0)
-    	{
-    		ContentValues values = new ContentValues();
-        	values.put(AppData.KEY, "app_visited_version");
-        	values.put(AppData.VALUE, "0.3");
-        	getContentResolver().insert(AppData.CONTENT_URI, values);
-    	}
+    }
+    
+    public void onDestroy()
+    {
+    	cursor.close();
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
@@ -142,9 +110,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 		{
 			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
 			menu.add(0, MENU_ITEM_RECORD, 1, "record");
-			menu.add(0, MENU_ITEM_DELETE, 1, "delete");
+			menu.add(0, MENU_ITEM_DELETE, 2, "delete");
 		}
-    	
     };
     
 	public boolean onContextItemSelected(MenuItem item) {
@@ -182,5 +149,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 	{
 		if(v == findViewById(R.id.new_run))
 			startActivity(new Intent(Intent.ACTION_INSERT, Sessions.CONTENT_URI));
-	}    
+	}
+	
+	Cursor cursor;
 }

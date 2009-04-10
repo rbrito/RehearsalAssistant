@@ -24,28 +24,14 @@
 
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.AppData;
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-import urbanstew.RehearsalAssistant.RehearsalRecord.State;
 
 import android.app.Activity;
 import android.content.ContentUris;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
@@ -98,5 +84,17 @@ public class RehearsalAssistant extends Activity
     	
     	// finish
     	finish();
+    }
+    
+    public static void checkSdCard(Context context)
+    {
+        String state = android.os.Environment.getExternalStorageState();
+    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
+    	{
+        	Request.notification(context,
+            		"Media Missing",
+            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
+            	);
+    	}
     }
 }
