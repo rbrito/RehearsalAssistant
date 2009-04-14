@@ -26,21 +26,50 @@
 	    android:layout_height="wrap_content"
 	    android:text="@string/switch_to_session" />
 </LinearLayout>
+
+
+<TextView
+    android:id="@+id/playback_instructions"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+	android:layout_below="@id/about"
+    android:paddingLeft="7dip"
+	android:paddingRight="7dip"
+    android:text="@string/playback_instructions"
+    />
+<TextView
+    android:id="@+id/playback_time"
+	android:layout_above="@id/main_buttons"
+    android:layout_width="fill_parent"
+   	android:layout_height="wrap_content"
+    android:singleLine="true"
+    android:gravity="center"
+	android:textAppearance="?android:attr/textAppearanceButton"
+    android:text="00:00:00"
+    />
 <FrameLayout
+	android:layout_height="fill_parent" 
 	android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"
-    android:layout_below="@id/about"
-    android:layout_above="@id/main_buttons"
+    android:layout_below="@+id/playback_instructions"
+    android:layout_above="@id/playback_time"
 	android:background="#7da7d9" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
 	<ImageView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:src="@drawable/masks"
 		android:gravity="center"/>
-	<ListView android:id="@+id/run_list"
+	<ListView android:id="@+id/annotation_list"
 	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
+	    android:layout_height="wrap_content" 
 	    android:background="#7F000000"
 	/>
-</FrameLayout>
-</RelativeLayout>
+	<TextView android:id="@+id/no_annotations"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+	    android:gravity="center_vertical"
+	    android:paddingLeft="7dip"
+		android:paddingRight="7dip"
+		android:textStyle="bold"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	/>
+</FrameLayout></RelativeLayout>

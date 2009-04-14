@@ -4,6 +4,8 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 public class SimpleProject extends ProjectBase
@@ -33,9 +35,45 @@ public class SimpleProject extends ProjectBase
         
         mSessionRecord = new SessionRecord(getIntent().getData(), getContentResolver());
         
-        sessionId = cursor.getLong(SESSIONS_ID);        
+        sessionId = cursor.getLong(SESSIONS_ID);
+        
+        cursor.close();
+        
+        mSessionPlayback = new SessionPlayback(savedInstanceState, this);
     }
     
+    public void onDestroy()
+    {
+    	super.onDestroy();
+    	mSessionPlayback.onDestroy();
+    }
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+    	super.onRestoreInstanceState(savedInstanceState);
+    	mSessionPlayback.onRestoreInstanceState(savedInstanceState);
+    }
+
+    protected void onSaveInstanceState(Bundle outState)
+    {
+    	super.onSaveInstanceState(outState);
+    	mSessionPlayback.onSaveInstanceState(outState);
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        return mSessionPlayback.onCreateOptionsMenu(menu);
+    }
+    
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {
+    	return mSessionPlayback.onOptionsItemSelected(item);
+    }
+    
+	public boolean onContextItemSelected(MenuItem item)
+	{
+		return mSessionPlayback.onContextItemSelected(item);
+	}
+
     void startRecording()
     {
 		mSessionRecord.startRecording();
@@ -67,5 +105,6 @@ public class SimpleProject extends ProjectBase
     long sessionId;
     
     SessionRecord mSessionRecord;
+    SessionPlayback mSessionPlayback;
 
 }

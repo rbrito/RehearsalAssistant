@@ -82,6 +82,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     public void onDestroy()
     {
     	cursor.close();
+    	super.onDestroy();
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
