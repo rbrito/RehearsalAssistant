@@ -66,6 +66,7 @@ public class RehearsalData extends ContentProvider {
 			values.put(Projects.IDENTIFIER, "session_project");
 			values.put(Projects.TYPE, Projects.TYPE_SESSION);
 			db.insert("projects", "identifier", values);
+			c.requery();
 		}
 		if(c.getCount() == 1)
 		{

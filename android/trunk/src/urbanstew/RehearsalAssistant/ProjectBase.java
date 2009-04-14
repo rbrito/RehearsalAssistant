@@ -7,6 +7,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,7 +28,7 @@ public class ProjectBase extends Activity
     {
         super.onCreateOptionsMenu(menu);
         
-      	menu.add(R.string.help).setIcon(android.R.drawable.ic_dialog_info);
+        mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_dialog_info);
         return true;
     }
     
@@ -59,6 +60,8 @@ public class ProjectBase extends Activity
     }
     
     long mProjectId;
+    
+    protected MenuItem mHelpMenuItem; 
     
     protected static final int SESSIONS_ID = 0;
     protected static final int SESSIONS_TITLE = 1;

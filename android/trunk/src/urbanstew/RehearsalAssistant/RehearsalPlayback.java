@@ -43,7 +43,7 @@ public class RehearsalPlayback extends Activity
         
         setContentView(R.layout.playback);
         
-        mSessionPlayback = new SessionPlayback(savedInstanceState, this);
+        mSessionPlayback = new SessionPlayback(savedInstanceState, this, getIntent().getData());
 
         if(mSessionPlayback.annotationsCursor().getCount() == 0)
         {

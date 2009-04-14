@@ -93,7 +93,7 @@ public class SessionPlayback
 	private static final int SESSIONS_END_TIME = 3;
 	
     /** Called when the activity is first created. */
-    public SessionPlayback(Bundle savedInstanceState, Activity activity)
+    public SessionPlayback(Bundle savedInstanceState, Activity activity, Uri uri)
     {
     	mActivity = activity;
     	        
@@ -114,7 +114,7 @@ public class SessionPlayback
         	Sessions.END_TIME
         };
 
-        String session_id = activity.getIntent().getData().getPathSegments().get(1);
+        String session_id = uri.getPathSegments().get(1);
 
         ContentResolver resolver = activity.getContentResolver();
         mSessionCursor = resolver.query(Sessions.CONTENT_URI, sessionProjection, Sessions._ID + "=" + session_id, null, Sessions.DEFAULT_SORT_ORDER);
@@ -124,10 +124,12 @@ public class SessionPlayback
         {
         	formatter = new SimpleDateFormat("HH:mm:ss");
         	formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        	mSessionTiming = true;
         }
         else
         {
         	formatter = DateFormat.getDateTimeInstance();
+        	mSessionTiming = false;
         }
         
         mAnnotationsCursor = resolver.query(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + session_id, null,
@@ -163,6 +165,7 @@ public class SessionPlayback
       		Toast.makeText(mActivity, "Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.", Toast.LENGTH_LONG).show();
         
         mCurrentTime = (TextView) mActivity.findViewById(R.id.playback_time);
+        mPlayTimeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		mTimer.scheduleAtFixedRate(
 				mCurrentTimeTask,
 				0,
@@ -408,8 +411,11 @@ public class SessionPlayback
 			{
 				public void run()
 				{
-					if(player != null)
-						mCurrentTime.setText(formatter.format(player.getCurrentPosition() + mActiveAnnotationStartTime));
+					if(player != null && player.isPlaying())
+						if(mSessionTiming)
+							mCurrentTime.setText(formatter.format(player.getCurrentPosition() + mActiveAnnotationStartTime));
+						else
+							mCurrentTime.setText(mPlayTimeFormatter.format(player.getCurrentPosition()));
 				}
 			});                                
 		}
@@ -418,6 +424,9 @@ public class SessionPlayback
 	public Cursor annotationsCursor()
 	{	return mAnnotationsCursor; }
 
+	DateFormat playTimeFormatter()
+	{	return mPlayTimeFormatter; }
+	
 	Activity mActivity;
 	
     TextView mCurrentTime;
@@ -428,10 +437,12 @@ public class SessionPlayback
     List<String> mStrings = new LinkedList<String>();
     ArrayAdapter<String> listAdapter;
     
-    SimpleDateFormat playTimeFormatter = new SimpleDateFormat("mm:ss");
+    SimpleDateFormat mPlayTimeFormatter = new SimpleDateFormat("HH:mm:ss");
     DateFormat formatter;
     
     long mActiveAnnotationStartTime = 0;
     AlertDialog mAnnotationLabelDialog = null;
     long mAnnotationLabelId;
+    
+    boolean mSessionTiming;
 }

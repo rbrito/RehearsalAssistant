@@ -1,12 +1,19 @@
 package urbanstew.RehearsalAssistant;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class SimpleProject extends ProjectBase
 {
@@ -18,34 +25,50 @@ public class SimpleProject extends ProjectBase
         super.onCreate(savedInstanceState);
         
         findViewById(R.id.button).setOnClickListener(mClickListener);
-        
+        mCurrentTime = (TextView) findViewById(R.id.playback_time);
+
         // a simple project must have exactly one session
-        Cursor cursor = managedQuery(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
+        Cursor cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
                 Sessions.DEFAULT_SORT_ORDER);
         // add the session if it is not there
         if(cursor.getCount() < 1)
         {
+        	Log.w("Rehearsal Assistant", "Inserting Session for Simple Project ID: " + projectId());
         	ContentValues values = new ContentValues();
         	values.put(Sessions.PROJECT_ID, projectId());
         	values.put(Sessions.TITLE, "Simple Session");
       		values.put(Sessions.START_TIME, 0);
         	getContentResolver().insert(Sessions.CONTENT_URI, values);
+        	cursor.requery();
+        }
+        if(cursor.getCount() < 1)
+        {
+        	Log.w("Rehearsal Assistant", "Can't create session for simple project ID: " + projectId());
+    		Toast.makeText(this, "There was a problem switching to simple mode.", Toast.LENGTH_LONG).show();
+        	finish();
         }
         cursor.moveToFirst();
         
-        mSessionRecord = new SessionRecord(getIntent().getData(), getContentResolver());
-        
         sessionId = cursor.getLong(SESSIONS_ID);
+
+        mSessionRecord = new SessionRecord(ContentUris.withAppendedId(Sessions.CONTENT_URI, sessionId), getContentResolver());
         
         cursor.close();
         
-        mSessionPlayback = new SessionPlayback(savedInstanceState, this);
+        mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, sessionId));
+        
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				0,
+				100);
     }
     
     public void onDestroy()
     {
-    	super.onDestroy();
+    	mTimer.cancel();
     	mSessionPlayback.onDestroy();
+
+    	super.onDestroy();
     }
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
@@ -66,6 +89,11 @@ public class SimpleProject extends ProjectBase
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
+		if(item == mHelpMenuItem)
+		{
+			Request.notification(this, "Instructions", getResources().getString(R.string.simple_instructions));
+			return true;
+		}
     	return mSessionPlayback.onOptionsItemSelected(item);
     }
     
@@ -101,7 +129,24 @@ public class SimpleProject extends ProjectBase
         	}
         }
     };
-
+    
+    TimerTask mCurrentTimeTask = new TimerTask()
+	{
+		public void run()
+		{
+			SimpleProject.this.runOnUiThread(new Runnable()
+			{
+				public void run()
+				{
+					if(mSessionRecord.state() == SessionRecord.State.RECORDING)
+						mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mSessionRecord.timeInRecording()));
+				}
+			});                            
+		}
+	};
+    TextView mCurrentTime;
+    Timer mTimer = new Timer();
+    
     long sessionId;
     
     SessionRecord mSessionRecord;

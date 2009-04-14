@@ -28,6 +28,7 @@ public class SessionRecord
         	Sessions.START_TIME,
         	Sessions.END_TIME        	
         };
+        Log.d("Rehearsal Assistant", "SessionRecord opening Session URI: " + uri + " ID: " + mSessionId);
         Cursor cursor = resolver.query(Sessions.CONTENT_URI, projection, Sessions._ID + "=" + mSessionId, null,
                 Sessions.DEFAULT_SORT_ORDER);
     	cursor.moveToFirst();
@@ -127,6 +128,13 @@ public class SessionRecord
 	
 	public long timeAtStart()
 	{	return mTimeAtStart; }
+	
+	long timeInRecording()
+	{
+		if(recorder == null)
+			return 0;
+		return System.currentTimeMillis() - mTimeAtAnnotationStart;
+	}
 	
 	MediaRecorder recorder = null;
     State mState = State.INITIALIZING;

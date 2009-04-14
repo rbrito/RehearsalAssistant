@@ -87,7 +87,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-		Request.notification(this, "Instructions", getResources().getString(R.string.instructions));
+		Request.notification(this, "Instructions", getResources().getString(R.string.session_instructions));
 		return true;
     }
     
