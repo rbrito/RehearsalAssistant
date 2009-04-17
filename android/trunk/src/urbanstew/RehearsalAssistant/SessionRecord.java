@@ -69,6 +69,8 @@ public class SessionRecord
     	values.put(Annotations.START_TIME, mTimeAtStart);
     	values.putNull(Annotations.END_TIME);
 		mContentResolver.update(mUri, values, null, null);
+		
+	    mState = State.STARTED;
 	}
 	
 	public void stopSession()

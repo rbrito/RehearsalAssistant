@@ -53,7 +53,7 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener
         findViewById(R.id.create_and_start).setOnClickListener(this);
         
         EditText title = (EditText) findViewById(R.id.name);
-    	title.setText(DateFormat.getDateTimeInstance().format(new Date()));
+    	title.setText(DateFormat.getDateTimeInstance().format(new Date()) + " Session");
     	title.selectAll();
     }
 

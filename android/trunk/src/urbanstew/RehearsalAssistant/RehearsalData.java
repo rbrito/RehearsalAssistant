@@ -61,24 +61,34 @@ public class RehearsalData extends ContentProvider {
 		Log.w("RehearsalAssistant", "Read " + c.getCount() + " projects");
 		if (c.getCount() == 0)
 		{
-			ContentValues values = new ContentValues();
-			values.put(Projects.TITLE, "Session Project");
-			values.put(Projects.IDENTIFIER, "session_project");
-			values.put(Projects.TYPE, Projects.TYPE_SESSION);
-			db.insert("projects", "identifier", values);
-			c.requery();
+			addSimpleProject(db);
+			addSessionProject(db);
 		}
-		if(c.getCount() == 1)
+		else if(c.getCount() == 1)
 		{
-			ContentValues values = new ContentValues();
-			values.put(Projects.TITLE, "Simple Project");
-			values.put(Projects.IDENTIFIER, "simple_project");
-			values.put(Projects.TYPE, Projects.TYPE_SIMPLE);
-			db.insert("projects", "identifier", values);			
+			addSimpleProject(db);
 		}
 		c.close();
 		
 		return true;
+	}
+	
+	void addSimpleProject(SQLiteDatabase db)
+	{
+		ContentValues values = new ContentValues();
+		values.put(Projects.TITLE, "Simple Project");
+		values.put(Projects.IDENTIFIER, "simple_project");
+		values.put(Projects.TYPE, Projects.TYPE_SIMPLE);
+		db.insert("projects", "identifier", values);
+	}
+	
+	void addSessionProject(SQLiteDatabase db)
+	{
+		ContentValues values = new ContentValues();
+		values.put(Projects.TITLE, "Session Project");
+		values.put(Projects.IDENTIFIER, "session_project");
+		values.put(Projects.TYPE, Projects.TYPE_SESSION);
+		db.insert("projects", "identifier", values);
 	}
 
 	enum Project { _ID, TITLE, IDENTIFIER, TYPE }

@@ -87,10 +87,10 @@ public class SessionPlayback
 	private static final int ANNOTATIONS_LABEL = 4;
 	private static final int ANNOTATIONS_VIEWED = 5;
 	
-	private static final int SESSIONS_ID = 0;
-	private static final int SESSIONS_TITLE = 1;
-	private static final int SESSIONS_START_TIME = 2;
-	private static final int SESSIONS_END_TIME = 3;
+	static final int SESSIONS_ID = 0;
+	static final int SESSIONS_TITLE = 1;
+	static final int SESSIONS_START_TIME = 2;
+	static final int SESSIONS_END_TIME = 3;
 	
     /** Called when the activity is first created. */
     public SessionPlayback(Bundle savedInstanceState, Activity activity, Uri uri)
@@ -293,7 +293,7 @@ public class SessionPlayback
     	else
     	{
 	    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME)));
-	    	emailSession.setType("message/rfc822");
+	    	emailSession.setType("audio/3gpp");
 
     		messageText += annotationTextInfo("Recording");
     	}
@@ -467,6 +467,9 @@ public class SessionPlayback
 	public Cursor annotationsCursor()
 	{	return mAnnotationsCursor; }
 
+	public Cursor sessionCursor()
+	{	return mSessionCursor; }
+	
 	DateFormat playTimeFormatter()
 	{	return mPlayTimeFormatter; }
 	

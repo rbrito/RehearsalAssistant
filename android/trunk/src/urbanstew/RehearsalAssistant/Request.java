@@ -6,44 +6,36 @@ import android.content.DialogInterface;
 
 public class Request
 {
-	public static boolean confirmation(Context context, String title, String content)
+	public static void confirmation(Context context, String title, String content, DialogInterface.OnClickListener confirmation)
 	{
-		Dialog dialog = new Dialog(context, title, content, true);
-		return dialog.answer();
+		new Dialog(context, title, content, confirmation);
 	}
 	public static void notification(Context context, String title, String content)
 	{
-		new Dialog(context, title, content, false);
+		new Dialog(context, title, content, null);
 	}
 }
 
 class Dialog
 {
-	public Dialog(Context context, String title, String content, boolean permit_cancel)
+	public Dialog(Context context, String title, String content, DialogInterface.OnClickListener confirmation)
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
     	.setTitle(title)
     	.setMessage(content)
-    	.setPositiveButton("OK", ok);
-    	
-		if(permit_cancel)
-			dialog.setNegativeButton("Cancel", cancel);
-		
+    	.setPositiveButton
+    	(
+    		"OK",
+    		confirmation == null ?
+	    		new DialogInterface.OnClickListener()
+	    		{
+	    		    public void onClick(DialogInterface dialog, int whichButton)
+	    		    {
+	    		    }
+	    		}
+    			: confirmation
+    	);
+    			
         dialog.show();
 	}
-	public boolean answer()
-	{
-		return ok.chosen;
-	}
-	Choosable ok = new Choosable();
-	Choosable cancel = new Choosable();
 }
-
-class Choosable implements DialogInterface.OnClickListener
-{
-    public void onClick(DialogInterface dialog, int whichButton) {
-    	chosen = true;
-    }
-    public boolean chosen = false;
-}
-

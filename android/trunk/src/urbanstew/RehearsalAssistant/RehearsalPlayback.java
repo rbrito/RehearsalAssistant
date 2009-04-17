@@ -25,9 +25,12 @@
 package urbanstew.RehearsalAssistant;
 
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /** The RehearsalPlayback Activity provides playback access for
@@ -43,12 +46,20 @@ public class RehearsalPlayback extends RehearsalActivity
         setContentView(R.layout.playback);
         
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, getIntent().getData());
-
-        if(mSessionPlayback.annotationsCursor().getCount() == 0)
-        {
-        	TextView instructions = (TextView)findViewById(R.id.no_annotations);
-        	instructions.setText(R.string.no_annotations);
-        }
+        
+        setTitle(mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
+        
+        ((ListView)findViewById(R.id.annotation_list)).getAdapter()
+    	.registerDataSetObserver(new DataSetObserver()
+    	{
+    		public void onChanged()
+    		{
+    			reviseInstructions();
+    		}
+    	}
+    	);
+    
+        reviseInstructions();
     }
 
     public void onDestroy()
@@ -83,5 +94,17 @@ public class RehearsalPlayback extends RehearsalActivity
 		return mSessionPlayback.onContextItemSelected(item);
 	}
 
+	void reviseInstructions()
+	{
+    	TextView instructions = (TextView)findViewById(R.id.no_annotations);
+        if(mSessionPlayback.annotationsCursor().getCount() == 0)
+        {
+        	instructions.setText(R.string.no_annotations);
+        	instructions.setVisibility(View.VISIBLE);
+        }
+        else
+        	instructions.setVisibility(View.INVISIBLE);
+	}
+	
     SessionPlayback mSessionPlayback;
 }

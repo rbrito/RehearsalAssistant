@@ -2,8 +2,8 @@ package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
-import android.app.Activity;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +23,36 @@ public class ProjectBase extends RehearsalActivity
         mProjectId = Long.valueOf(projectId);
         
         setTitle(getResources().getString(R.string.about));
+        
+        mAppData = new AppDataAccess(getContentResolver());
+
+        // Display license if this is the first time running this version.
+        mVisitedVersion = mAppData.getVisitedVersion();
+        if (mVisitedVersion == null || !mVisitedVersion.equals("0.5"))
+        {
+    		Request.notification
+    		(
+				this,
+				"Warning",
+				getString(R.string.beta_warning)
+			);
+    		Request.confirmation
+    		(
+				this,
+				"License",
+				getString(R.string.license),
+				new DialogInterface.OnClickListener()
+	    		{
+	    		    public void onClick(DialogInterface dialog, int whichButton)
+	    		    {
+	    		    	if(mVisitedVersion == null)
+	    		    		mAppData.addVisitedVersion("0.5");
+	    		    	else
+	    		    		mAppData.setVisitedVersion("0.5");
+	    		    }
+	    		}
+	    	);
+        }
     }
     
     public boolean onCreateOptionsMenu(Menu menu)
@@ -72,4 +102,7 @@ public class ProjectBase extends RehearsalActivity
 	      Sessions._ID, // 0
 	      Sessions.TITLE // 1
 	};
+    
+    String mVisitedVersion;
+    AppDataAccess mAppData;
 }

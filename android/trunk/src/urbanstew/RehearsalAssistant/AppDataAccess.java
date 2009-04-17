@@ -87,6 +87,13 @@ public class AppDataAccess
        	values.put(AppData.VALUE, version);
        	mContent.insert(AppData.CONTENT_URI, values);
 	}
+	
+	void setVisitedVersion(String version)
+	{
+		ContentValues values = new ContentValues();
+    	values.put(AppData.VALUE, version);
+    	mContent.update(AppData.CONTENT_URI, values, AppData.KEY + "=" + "'app_visited_version'", null);
+	}
     // Display license if this is the first time running this version.
     static String[] appDataProjection =
     {

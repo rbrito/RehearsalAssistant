@@ -60,20 +60,6 @@ public class RehearsalAssistant extends RehearsalActivity
         		ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
         	)
         );
-
-        // Display license if this is the first time running this version.
-        String visitedVersion = appData.getVisitedVersion();
-        if (visitedVersion == null || !visitedVersion.equals("0.3"))
-        {
-    		Request.notification(this,
-    				"Warning",
-    				getString(R.string.beta_warning));
-    		Request.notification(this,
-    				"License",
-    				getString(R.string.license));
-        }
-    	if(visitedVersion == null)
-    		appData.addVisitedVersion("0.3");
     	
     	// finish
     	finish();

@@ -93,7 +93,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 
         reviseInstructions();
         
-        setTitleDelayed("List of sessions:");
+        setTitleDelayed("Session Mode");
     }
     
     public void onDestroy()

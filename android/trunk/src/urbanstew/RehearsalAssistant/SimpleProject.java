@@ -80,7 +80,7 @@ public class SimpleProject extends ProjectBase
 				0,
 				100);
 		
-        setTitleDelayed("List of recordings:");
+        setTitleDelayed("Simple Mode");
     }
     
     public void onDestroy()
