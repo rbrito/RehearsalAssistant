@@ -7,11 +7,13 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +58,29 @@ public class SimpleProject extends ProjectBase
         cursor.close();
         
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, sessionId));
+
+        scrollToEndOfList();
+        ((ListView)findViewById(R.id.annotation_list)).getAdapter()
+        	.registerDataSetObserver(new DataSetObserver()
+        	{
+        		public void onChanged()
+        		{
+        			reviseInstructions();
+        			if(mUpdateListSelection)
+        				scrollToEndOfList();
+        			mUpdateListSelection = false;
+        		}
+        	}
+        	);
         
+        reviseInstructions();
+        	
 		mTimer.scheduleAtFixedRate(
 				mCurrentTimeTask,
 				0,
 				100);
+		
+        setTitleDelayed("List of recordings:");
     }
     
     public void onDestroy()
@@ -70,6 +90,7 @@ public class SimpleProject extends ProjectBase
 
     	super.onDestroy();
     }
+    
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
     	super.onRestoreInstanceState(savedInstanceState);
@@ -102,6 +123,24 @@ public class SimpleProject extends ProjectBase
 		return mSessionPlayback.onContextItemSelected(item);
 	}
 
+	void reviseInstructions()
+	{
+    	TextView noAnnotations = (TextView)findViewById(R.id.no_annotations);
+        if(mSessionPlayback.annotationsCursor().getCount() == 0)
+        {
+        	noAnnotations.setText(getResources().getString(R.string.simple_no_annotations_instructions));
+        	noAnnotations.setVisibility(View.VISIBLE);
+        }
+        else
+        	noAnnotations.setVisibility(View.INVISIBLE);
+	}
+
+	void scrollToEndOfList()
+	{
+        ListView list = (ListView)findViewById(R.id.annotation_list);
+        list.setSelection(list.getCount()-1);
+    }
+	
     void startRecording()
     {
 		mSessionRecord.startRecording();
@@ -112,6 +151,15 @@ public class SimpleProject extends ProjectBase
     {
     	mSessionRecord.stopRecording();
     	((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
+    	
+    	mUpdateListSelection = true;
+    	runOnUiThread(new Runnable()
+		{
+			public void run()
+			{
+		    	scrollToEndOfList();
+			}
+		});     
     }
     
     /** Called when the button is pushed */
@@ -141,9 +189,10 @@ public class SimpleProject extends ProjectBase
 					if(mSessionRecord.state() == SessionRecord.State.RECORDING)
 						mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mSessionRecord.timeInRecording()));
 				}
-			});                            
+			});                          
 		}
 	};
+	
     TextView mCurrentTime;
     Timer mTimer = new Timer();
     
@@ -151,5 +200,7 @@ public class SimpleProject extends ProjectBase
     
     SessionRecord mSessionRecord;
     SessionPlayback mSessionPlayback;
+    
+    boolean mUpdateListSelection = false;
 
 }

@@ -26,7 +26,6 @@ package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -35,17 +34,11 @@ import android.view.Menu;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
-public class RehearsalAssistant extends Activity
+public class RehearsalAssistant extends RehearsalActivity
 {
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
     public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
-
-    private static final String[] PROJECTION = new String[]
-    {
-        "_id", // 0
-        "title" // 1
-    };
     
     /** Called when the activity is first created.
      *  

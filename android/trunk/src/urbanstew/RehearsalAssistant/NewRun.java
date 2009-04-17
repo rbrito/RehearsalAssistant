@@ -29,7 +29,6 @@ import java.util.Date;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,7 +40,7 @@ import android.widget.EditText;
 /** The NewRun Activity inserts a new run into the
  * 	current project.
  */
-public class NewRun extends Activity implements View.OnClickListener
+public class NewRun extends RehearsalActivity implements View.OnClickListener
 {
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)

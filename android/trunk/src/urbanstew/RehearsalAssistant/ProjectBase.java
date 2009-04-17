@@ -11,9 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class ProjectBase extends Activity
-{
-	
+public class ProjectBase extends RehearsalActivity
+{	
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -22,6 +21,8 @@ public class ProjectBase extends Activity
       	
         String projectId = getIntent().getData().getPathSegments().get(1);
         mProjectId = Long.valueOf(projectId);
+        
+        setTitle(getResources().getString(R.string.about));
     }
     
     public boolean onCreateOptionsMenu(Menu menu)

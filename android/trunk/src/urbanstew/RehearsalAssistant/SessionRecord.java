@@ -5,6 +5,7 @@ import java.io.File;
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.media.MediaRecorder;
@@ -73,19 +74,25 @@ public class SessionRecord
 	public void stopSession()
 	{
 		ContentValues values = new ContentValues();
-    	values.put(Annotations.END_TIME, System.currentTimeMillis());
+    	values.put(Sessions.END_TIME, System.currentTimeMillis());
 		mContentResolver.update(mUri, values, null, null);
 	}
 	
 	public void startRecording()
 	{
-		if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-		{
-			File external = Environment.getExternalStorageDirectory();
+		// insert a new Annotation
+        ContentValues values = new ContentValues();
+    	values.put(Annotations.SESSION_ID, mSessionId);
+    	Uri annotationUri = mContentResolver.insert(Annotations.CONTENT_URI, values);
+    	mRecordedAnnotationId = Long.parseLong(annotationUri.getPathSegments().get(1));
+
+    	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+		{	
+	    	File external = Environment.getExternalStorageDirectory();
 			File audio = new File(external.getAbsolutePath() + "/rehearsal/" + mSessionId); 
 			audio.mkdirs();
 			Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
-			mOutputFile = audio.getAbsolutePath() + "/audio" + cnt + ".3gp";
+			mOutputFile = audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId + ".3gp";
 			Log.w("Rehearsal Assistant", "writing to file " + mOutputFile);
 	    	recorder = new MediaRecorder();
 	    	recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -117,7 +124,7 @@ public class SessionRecord
     	values.put(Annotations.START_TIME, mTimeAtAnnotationStart);
     	values.put(Annotations.END_TIME, time);
     	values.put(Annotations.FILE_NAME, mOutputFile);
-    	mContentResolver.insert(Annotations.CONTENT_URI, values);
+    	mContentResolver.update(ContentUris.withAppendedId(Annotations.CONTENT_URI, mRecordedAnnotationId), values, null, null);
 
         mState = State.STARTED;
         cnt++;
@@ -144,6 +151,7 @@ public class SessionRecord
     long mSessionId;
     long mTimeAtStart;
     long mTimeAtAnnotationStart;
+    long mRecordedAnnotationId;
     
     ContentResolver mContentResolver;
     Uri mUri;

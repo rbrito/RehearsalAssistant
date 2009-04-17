@@ -23,7 +23,7 @@ public class ProjectOpener extends Activity
             Projects.TYPE
         };
         
-        Cursor projectsCursor = managedQuery(Projects.CONTENT_URI, projectsProjection, Projects._ID + "=" + project_id, null, Projects.DEFAULT_SORT_ORDER);
+        Cursor projectsCursor = getContentResolver().query(Projects.CONTENT_URI, projectsProjection, Projects._ID + "=" + project_id, null, Projects.DEFAULT_SORT_ORDER);
         projectsCursor.moveToFirst();
         
         // start appropriate activity
@@ -32,6 +32,7 @@ public class ProjectOpener extends Activity
         else
             startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData(), getApplication(), SimpleProject.class));
         
+        projectsCursor.close();
         // finish
         finish();
     }

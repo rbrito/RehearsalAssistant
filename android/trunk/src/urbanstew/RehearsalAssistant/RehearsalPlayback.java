@@ -25,7 +25,6 @@
 package urbanstew.RehearsalAssistant;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +33,7 @@ import android.widget.TextView;
 /** The RehearsalPlayback Activity provides playback access for
  * 	annotations in a particular project.
  */
-public class RehearsalPlayback extends Activity
+public class RehearsalPlayback extends RehearsalActivity
 {
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState)
@@ -54,8 +53,8 @@ public class RehearsalPlayback extends Activity
 
     public void onDestroy()
     {
-    	super.onDestroy();
     	mSessionPlayback.onDestroy();
+    	super.onDestroy();
     }
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {

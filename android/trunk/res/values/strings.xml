@@ -14,10 +14,22 @@
 	
 	<string name="recording_instructions">Click the button to start the session. Click again to start/stop each recording. Use the MENU to stop the session.</string>
 	<string name="recording_instructions_started">Click the button to start/stop each recording. Use the MENU to stop the session.</string>
-	<string name="session_instructions">Session mode allows you to record multiple voice/audio annotations during an event. Such a documented event is called a session. Click \'Document New Session\' to create a new session and record annotations.  You may also click on an existing session to review its annotations, or long-press for more options.</string>
-	<string name="simple_instructions">In simple mode, you can start/stop recording any time, and access the recordings from the list. Click on a recording to listen. Long-press to edit the recording\'s label. Use the MENU to e-mail all of the recordings.</string>
 
-	<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label. Use the MENU to e-mail the session.</string>
+<string name="session_instructions">Session
+Mode allows you to record multiple voice/audio annotations organized in a session.
+Click \'Document New Session\' to create a new session and record annotations.
+You may also click on an existing session to review its annotations, or long-press
+for more options.\n\nTo
+switch to Simple Mode, click \'Switch to Simple Mode\'.</string>
+<string name="session_no_session_instructions">Click below to document a new session, or to switch to Simple Mode.\n\n
+You can access more help from the MENU.</string>
+
+<string name="simple_instructions">In Simple Mode, you can start/stop recording any time, and access all of the recordings from the list. Click on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it. Use the MENU to e-mail all of the recordings.\n\nTo
+switch to Session Mode, click \'Switch to Session Mode\'.</string>
+<string name="simple_no_annotations_instructions">Click below to start recording, or to switch to Session Mode.\n\n
+You can access more help from the MENU.</string>
+
+	<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
 	<string name="annotation_label_text">Enter a new label for the annotation</string>
 	<string name="no_annotations">No annotations were recorded for this session.</string>
 

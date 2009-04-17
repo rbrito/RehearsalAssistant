@@ -132,7 +132,7 @@ public class SessionPlayback
         	mSessionTiming = false;
         }
         
-        mAnnotationsCursor = resolver.query(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + session_id, null,
+        mAnnotationsCursor = resolver.query(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + session_id + " AND " + Annotations.END_TIME + " IS NOT NULL", null,
                 Annotations.DEFAULT_SORT_ORDER);
         Log.w("RehearsalAssistant", "Read " + mAnnotationsCursor.getCount() + " annotations.");
 
@@ -208,7 +208,7 @@ public class SessionPlayback
     }
     
     public boolean onCreateOptionsMenu(Menu menu)
-    {        
+    {
       	menu.add("E-Mail Session").setIcon(android.R.drawable.ic_dialog_email);
         return true;
     }
@@ -243,57 +243,82 @@ public class SessionPlayback
         }
         return true;
     }
-    public boolean onOptionsItemSelected(MenuItem item) 
-    {                
-        String archiveFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/rehearsal/session.zip";
-        // If there are no annotations we don't need an archive
-        if(mAnnotationsCursor.getCount() == 0 || createSessionArchive(archiveFilename))
-        {
-	        Intent emailSession = new Intent(Intent.ACTION_SEND);
-	        emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant session \"" + mSessionCursor.getString(1) + "\"");
-	        
-	    	String messageText = new String();
+    String annotationTextInfo(String label)
+    {
+        String text = label + " " + (mAnnotationsCursor.getPosition() + 1) + "\n";
+        text += " label: " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
+        text += " start time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
+        text += " end time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
+        text += " filename: " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
+
+        return text;
+    }
+    void sendEmail(boolean wholeSession)
+    {
+        Intent emailSession = new Intent(Intent.ACTION_SEND);
+        if(wholeSession)
+        	emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant session \"" + mSessionCursor.getString(1) + "\"");
+        else
+        	emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant recording \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
+        
+    	String messageText = new String();
+    	if(wholeSession)
+    	{
 	    	messageText += "Session title: " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
 	    	messageText += "Session start time: " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_START_TIME))) + "\n";
 	    	messageText += "Session end time: " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_END_TIME))) + "\n\n";
-	    	
-	    	// If there are no annotations, say so.
-	    	if(mAnnotationsCursor.getCount() == 0)
-	    	{
-	    		messageText += R.string.no_annotations + "\n";
-	    		emailSession.setType("message/rfc822");
-	    	}
-	    	else // otherwise, attach the file.
-	    	{
-		    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + archiveFilename));
-		    	emailSession.setType("application/zip");
-	    	}
-	    	// Add annotation information
-            for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
-            {
-            	messageText += "Annotation " + (mAnnotationsCursor.getPosition() + 1) + "\n";
-            	messageText += " label: " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
-            	messageText += " start time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
-            	messageText += " end time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
-            	messageText += " filename: " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
+    	}
+    	if(wholeSession)
+    	{
+            String archiveFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/rehearsal/session.zip";
+            // If there are no annotations we don't need an archive
+            if(mAnnotationsCursor.getCount() == 0 || createSessionArchive(archiveFilename))
+            {    	    	
+    	    	// If there are no annotations, say so.
+    	    	if(mAnnotationsCursor.getCount() == 0)
+    	    	{
+    	    		messageText += mActivity.getResources().getString(R.string.no_annotations) + "\n";
+    	    		emailSession.setType("message/rfc822");
+    	    	}
+    	    	else // otherwise, attach the file.
+    	    	{
+    		    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + archiveFilename));
+    		    	emailSession.setType("application/zip");
+    	    	}
             }
-            emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
-	
-	      	emailSession = Intent.createChooser(emailSession, "E-Mail Session");
-	      	
-	      	try
-	      	{
-	      		mActivity.startActivity(emailSession);
-	      	} catch (ActivityNotFoundException e)
-	      	{
-	      		Toast.makeText(mActivity, "Unable to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-	      	}
-        }
+        	// Add annotation information
+            for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
+            	messageText += annotationTextInfo("Annotation");
+    	}
+    	else
+    	{
+	    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME)));
+	    	emailSession.setType("message/rfc822");
+
+    		messageText += annotationTextInfo("Recording");
+    	}
+        emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
+    	
+      	emailSession = Intent.createChooser(emailSession, wholeSession ? "E-Mail Session" : "E-Mail Recording");
+      	
+      	try
+      	{
+      		mActivity.startActivity(emailSession);
+      	} catch (ActivityNotFoundException e)
+      	{
+      		Toast.makeText(mActivity, "Unable to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+      	}
+    }
+    public boolean onOptionsItemSelected(MenuItem item) 
+    {
+    	sendEmail(true);
 		return true;
     }
     
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_LABEL = Menu.FIRST+1;
+    public static final int MENU_ITEM_EMAIL = Menu.FIRST+2;
+    public static final int MENU_ITEM_DELETE = Menu.FIRST+3;
 
     View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
     {
@@ -302,6 +327,8 @@ public class SessionPlayback
 		{
 			menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, "play");
 			menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, "edit label");
+			menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, "e-mail");
+			menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, "delete");
 		}
     	
     };
@@ -344,12 +371,28 @@ public class SessionPlayback
             return false;
         }
 
-        if(item.getItemId() == MENU_ITEM_PLAYBACK)
-        	playItem(info.position);
-        else
+        switch(item.getItemId())
         {
+        case MENU_ITEM_PLAYBACK:
+        	playItem(info.position);
+        	break;
+        case MENU_ITEM_LABEL:
         	mAnnotationsCursor.moveToPosition(info.position);
         	displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL), mAnnotationsCursor.getLong(ANNOTATIONS_ID));
+        	break;
+        case MENU_ITEM_EMAIL:
+        	mAnnotationsCursor.moveToPosition(info.position);
+        	sendEmail(false);
+        	break;
+        case MENU_ITEM_DELETE:
+        	mAnnotationsCursor.moveToPosition(info.position);
+        	mActivity.getContentResolver().delete
+        	(
+        		ContentUris.withAppendedId(Annotations.CONTENT_URI, mAnnotationsCursor.getLong(ANNOTATIONS_ID)),
+        		null,
+        		null
+        	);
+        	break;
         }
         return true;
 	}

@@ -29,7 +29,6 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,7 +39,7 @@ import android.widget.TextView;
 /** The RehearsalRecord Activity handles recording annotations
  * 	for a particular project.
  */
-public class RehearsalRecord extends Activity
+public class RehearsalRecord extends RehearsalActivity
 {
 	
     /** Called when the activity is first created. */

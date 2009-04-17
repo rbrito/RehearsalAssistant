@@ -29,6 +29,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,6 +42,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
@@ -62,7 +64,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         super.onCreate(savedInstanceState);
         
         // Read sessions
-        cursor = managedQuery(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
+        cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
                 Sessions.DEFAULT_SORT_ORDER);
         
         Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " " + Sessions.TABLE_NAME);
@@ -77,6 +79,21 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         ((Button)findViewById(R.id.new_run)).setOnClickListener(this);
         list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
         list.setOnItemClickListener(mSelectedListener);
+                
+        list.setSelection(list.getCount()-1);
+        
+        adapter.registerDataSetObserver(new DataSetObserver()
+        	{
+        		public void onChanged()
+        		{
+        			reviseInstructions();
+        		}
+        	}
+        	);
+
+        reviseInstructions();
+        
+        setTitleDelayed("List of sessions:");
     }
     
     public void onDestroy()
@@ -152,5 +169,16 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 			startActivity(new Intent(Intent.ACTION_INSERT, Sessions.CONTENT_URI));
 	}
 	
+	void reviseInstructions()
+	{
+    	TextView noSessions = (TextView)findViewById(R.id.no_sessions);
+        if(cursor.getCount() == 0)
+        {
+        	noSessions.setText(getResources().getString(R.string.session_no_session_instructions));
+        	noSessions.setVisibility(View.VISIBLE);
+        }
+        else
+        	noSessions.setVisibility(View.INVISIBLE);
+	}
 	Cursor cursor;
 }
