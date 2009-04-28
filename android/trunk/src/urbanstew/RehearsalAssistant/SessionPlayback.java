@@ -41,7 +41,6 @@ import java.util.zip.ZipOutputStream;
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -50,10 +49,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -63,17 +66,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 
 /** The RehearsalPlayback Activity provides playback access for
  * 	annotations in a particular project.
@@ -93,10 +97,11 @@ public class SessionPlayback
 	static final int SESSIONS_END_TIME = 3;
 	
     /** Called when the activity is first created. */
-    public SessionPlayback(Bundle savedInstanceState, Activity activity, Uri uri)
+    public SessionPlayback(Bundle savedInstanceState, RehearsalActivity activity, Uri uri)
     {
     	mActivity = activity;
-    	        
+    	mActivity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    	
         String[] projection =
         {
         	Annotations._ID,
@@ -136,16 +141,16 @@ public class SessionPlayback
                 Annotations.DEFAULT_SORT_ORDER);
         Log.w("RehearsalAssistant", "Read " + mAnnotationsCursor.getCount() + " annotations.");
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
+        mListAdapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
                 new String[] { Annotations.START_TIME}, new int[] { android.R.id.text1 });
         
-        adapter.setViewBinder(new ViewBinder()
+        mListAdapter.setViewBinder(new ViewBinder()
         {
 			public boolean setViewValue(View view, Cursor cursor,
 					int columnIndex)
 			{
 				TextView v = (TextView)view;
-				v.setText(formatter.format(new Date(cursor.getLong(columnIndex))) + " " + cursor.getString(ANNOTATIONS_LABEL), TextView.BufferType.SPANNABLE);
+				v.setText(makeAnnotationText(cursor), TextView.BufferType.SPANNABLE);
 				if(cursor.getInt(ANNOTATIONS_VIEWED) == 0)
 				{
 					v.setTextAppearance(mActivity.getApplicationContext(), android.R.attr.textAppearanceLarge);
@@ -155,11 +160,24 @@ public class SessionPlayback
 				return true;
 			}
         });
-        ListView list = (ListView)mActivity.findViewById(R.id.annotation_list);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(mSelectedListener);
-        list.setOnCreateContextMenuListener(mCreateContextMenuListener);	
-                
+        mListView = (IndicatingListView)mActivity.findViewById(R.id.annotation_list);
+        mListView.setAdapter(mListAdapter);
+        mListView.setOnItemClickListener(mSelectedListener);
+        mListView.setOnCreateContextMenuListener(mCreateContextMenuListener);
+        mAnnotationsCursor.registerContentObserver(new ContentObserver(mHandler)
+        {
+        	public void onChange(boolean selfChange)
+        	{
+                if(mPlaybackDialog != null && mPlaybackDialog.isShowing())
+                {
+                	if(mPlayingPosition == -1)
+                		return;
+                	
+                	mListView.setIndication(mPlayingPosition);
+                }
+        	}
+        });
+
         AudioManager audioManager = (AudioManager) mActivity.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0)
       		Toast.makeText(mActivity, "Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.", Toast.LENGTH_LONG).show();
@@ -170,8 +188,83 @@ public class SessionPlayback
 				mCurrentTimeTask,
 				0,
 				100);
+		
+		// construct playback dialog
+        LayoutInflater factory = LayoutInflater.from(mActivity);
+        View playbackView = factory.inflate(R.layout.alert_playback_dialog, null);
+        mPlaybackDialog = new AlertDialog.Builder(mActivity)
+            .setView(playbackView)
+            .setPositiveButton
+            (
+            	"Close",
+            	new DialogInterface.OnClickListener()
+            	{
+            		public void onClick(DialogInterface dialog, int whichButton)
+            		{
+            			onPlayItemLostFocus();
+                	}
+            	}
+            )
+            .setOnCancelListener(new DialogInterface.OnCancelListener()
+            {
+				public void onCancel(DialogInterface dialog)
+				{
+					onPlayItemLostFocus();					
+				}
+            })
+            .create();
+        mPlayPauseButton = (ImageButton)playbackView.findViewById(R.id.playback_pause);
+        playbackView.findViewById(R.id.playback_pause).setOnClickListener
+        (
+        	new OnClickListener()
+        	{
+				public void onClick(View view)
+				{
+					if(mPlayer.isPlaying())
+					{
+						mPlayer.pause();
+				    	setPlayPauseButton(android.R.drawable.ic_media_play);
+					}
+					else
+					{
+						mPlayer.start();
+				    	setPlayPauseButton(android.R.drawable.ic_media_pause);
+					}
+				}
+        	}
+        );
+        playbackView.findViewById(R.id.playback_next).setOnClickListener
+        (
+        	new OnClickListener()
+        	{
+				public void onClick(View view)
+				{
+					if(mAnnotationsCursor.getCount() > mPlayingPosition + 1)
+						playItem(mPlayingPosition + 1);
+				}
+        	}
+        );
+        playbackView.findViewById(R.id.playback_previous).setOnClickListener
+        (
+        	new OnClickListener()
+        	{
+				public void onClick(View view)
+				{
+					if((mAnnotationsCursor.getCount() > mPlayingPosition - 1) && mPlayingPosition > 0)
+						playItem(mPlayingPosition - 1);
+				}
+        	}
+        );
+        mOldTitle = mActivity.finalTitle();
     }
 
+    public void onResume()
+    {
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+    	mPlaybackPanelEnabled = preferences.getBoolean("playback_panel_enabled", true);
+    	mPlaybackPanelDisappears = preferences.getBoolean("playback_panel_disappears", false);
+    	mEmailDetail = preferences.getBoolean("email_detail", true);
+    }
     public void onDestroy()
     {
     	mTimer.cancel();
@@ -213,6 +306,35 @@ public class SessionPlayback
         return true;
     }
     
+    public void stopPlayback()
+    {
+    	if(mPlayer != null && mPlayer.isPlaying())
+    	{
+    		mPlayer.stop();
+    		onPlayCompletion();
+    	}
+    }
+    
+    public void setOldTitle(CharSequence title)
+    {
+    	mOldTitle = title;
+    }
+    String makeAnnotationText(Cursor cursor)
+    {
+		String text = formatter.format(new Date(cursor.getLong(ANNOTATIONS_START_TIME)));
+		String label = cursor.getString(ANNOTATIONS_LABEL);
+		if(label.length()>0)
+			text += " " + cursor.getString(ANNOTATIONS_LABEL);
+		return text;
+    }
+    
+    void onPlayItemLostFocus()
+    {
+		mPlayingPosition = -1;
+		mActivity.setTitle(mOldTitle);
+		if(mPlaybackPanelEnabled)
+			mListView.clearIndication();
+    }
     boolean createSessionArchive(String archiveFilename)
     {
         byte[] buffer = new byte[1024];
@@ -262,7 +384,7 @@ public class SessionPlayback
         	emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant recording \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
         
     	String messageText = new String();
-    	if(wholeSession)
+    	if(wholeSession && mEmailDetail)
     	{
 	    	messageText += "Session title: " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
 	    	messageText += "Session start time: " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_START_TIME))) + "\n";
@@ -287,16 +409,19 @@ public class SessionPlayback
     	    	}
             }
         	// Add annotation information
-            for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
-            	messageText += annotationTextInfo("Annotation");
+            if(mEmailDetail)
+	            for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
+	            	messageText += annotationTextInfo("Annotation");
     	}
     	else
     	{
 	    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME)));
 	    	emailSession.setType("audio/3gpp");
 
-    		messageText += annotationTextInfo("Recording");
+    		if(mEmailDetail)
+    			messageText += annotationTextInfo("Recording");
     	}
+    	messageText += "\n\nRecorded using Rehearsal Assistant.  http://urbanstew.org/rehearsalassistant/";
         emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
     	
       	emailSession = Intent.createChooser(emailSession, wholeSession ? "E-Mail Session" : "E-Mail Recording");
@@ -304,11 +429,13 @@ public class SessionPlayback
       	try
       	{
       		mActivity.startActivity(emailSession);
-      	} catch (ActivityNotFoundException e)
+      	}
+      	catch (ActivityNotFoundException e)
       	{
       		Toast.makeText(mActivity, "Unable to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
       	}
     }
+    
     public boolean onOptionsItemSelected(MenuItem item) 
     {
     	sendEmail(true);
@@ -350,11 +477,7 @@ public class SessionPlayback
             		mAnnotationLabelDialog = null;
                 }
             })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-            		mAnnotationLabelDialog = null;
-                }
-            })
+            .setNegativeButton("Cancel", null)
             .create();
         mAnnotationLabelDialog.show();
     	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
@@ -397,15 +520,56 @@ public class SessionPlayback
         return true;
 	}
 
+	void setPlayPauseButton(int id)
+	{
+		mPlayPauseButton.setImageDrawable(mActivity.getResources().getDrawable(id));		
+	}
+	
+    void displayPlaybackDialog()
+    {
+    	if(!mPlaybackDialog.isShowing())
+    	setPlayPauseButton(android.R.drawable.ic_media_pause);
+        mPlaybackDialog.show();
+    }
+
+    OnCompletionListener mCompletionListener = new OnCompletionListener()
+    {
+		public void onCompletion(MediaPlayer mp)
+		{
+			onPlayCompletion();
+		}
+    };
+    
+    void onPlayCompletion()
+    {
+    	if(mPlaybackPanelEnabled)
+    		setPlayPauseButton(android.R.drawable.ic_media_play);
+    	if(mPlaybackPanelDisappears)
+    	{
+			mPlayingPosition = -1;
+    		mPlaybackDialog.dismiss();
+    		onPlayItemLostFocus();
+    	}
+    	else if(!mPlaybackPanelEnabled)
+    	{
+    		onPlayItemLostFocus();
+    	}
+    	
+    }
+    
 	void playItem(int position)
 	{
+		mPlayingPosition = position;
 		mAnnotationsCursor.moveToPosition(position);
 		mActiveAnnotationStartTime = mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME);
 		
-		ContentValues values = new ContentValues();
-    	values.put(Annotations.VIEWED, true);
-    	mActivity.getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);
-
+		if(mAnnotationsCursor.getInt(ANNOTATIONS_VIEWED) == 0)
+		{
+			ContentValues values = new ContentValues();
+	    	values.put(Annotations.VIEWED, true);
+	    	mActivity.getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationsCursor.getLong(ANNOTATIONS_ID)), values, null, null);
+		}
+		
 		String state = android.os.Environment.getExternalStorageState();
     	if(!state.equals(android.os.Environment.MEDIA_MOUNTED)
     			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
@@ -417,17 +581,26 @@ public class SessionPlayback
         	return;
     	}
     	
-    	if(player != null)
+    	if(mPlayer != null)
     	{
-    		player.stop();
-    		player.release();
+    		mPlayer.stop();
+    		mPlayer.release();
     	}
         try
         {
-        	player = new MediaPlayer();
-        	player.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
-        	player.prepare();
-        	player.start();
+        	mPlayer = new MediaPlayer();
+        	mPlayer.setOnCompletionListener(mCompletionListener);
+        	mPlayer.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
+        	mPlayer.prepare();
+        	mPlayer.start();
+        	if(mPlaybackPanelEnabled)
+        	{
+        		displayPlaybackDialog();
+            	setPlayPauseButton(android.R.drawable.ic_media_pause);
+        		mListView.setIndication(position);
+        	}
+        	mActivity.setTitle("Rehearsal Assistant - " + makeAnnotationText(mAnnotationsCursor));
+        	
         }
         catch(java.io.IOException e)
         {
@@ -454,11 +627,11 @@ public class SessionPlayback
 			{
 				public void run()
 				{
-					if(player != null && player.isPlaying())
+					if(mPlayer != null && mPlayer.isPlaying())
 						if(mSessionTiming)
-							mCurrentTime.setText(formatter.format(player.getCurrentPosition() + mActiveAnnotationStartTime));
+							mCurrentTime.setText(formatter.format(mPlayer.getCurrentPosition() + mActiveAnnotationStartTime));
 						else
-							mCurrentTime.setText(mPlayTimeFormatter.format(player.getCurrentPosition()));
+							mCurrentTime.setText(mPlayTimeFormatter.format(mPlayer.getCurrentPosition()));
 				}
 			});                                
 		}
@@ -473,13 +646,16 @@ public class SessionPlayback
 	DateFormat playTimeFormatter()
 	{	return mPlayTimeFormatter; }
 	
-	Activity mActivity;
+	RehearsalActivity mActivity;
 	
     TextView mCurrentTime;
-
+    IndicatingListView mListView;
+    SimpleCursorAdapter mListAdapter;
+    
     Cursor mAnnotationsCursor;
     Cursor mSessionCursor;
-    MediaPlayer player = null;
+    MediaPlayer mPlayer = null;
+    int mPlayingPosition = -1;
     List<String> mStrings = new LinkedList<String>();
     ArrayAdapter<String> listAdapter;
     
@@ -490,5 +666,12 @@ public class SessionPlayback
     AlertDialog mAnnotationLabelDialog = null;
     long mAnnotationLabelId;
     
+    AlertDialog mPlaybackDialog = null;
+    ImageButton mPlayPauseButton;
     boolean mSessionTiming;
+    
+    boolean mPlaybackPanelEnabled, mPlaybackPanelDisappears, mEmailDetail;
+    
+    Handler mHandler = new Handler();
+    CharSequence mOldTitle;
 }

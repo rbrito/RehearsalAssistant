@@ -30,16 +30,11 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
 public class RehearsalAssistant extends RehearsalActivity
-{
-    public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
-    public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
-    public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
-    
+{    
     /** Called when the activity is first created.
      *  
      *  For now, provides access to the recording and playback activities.

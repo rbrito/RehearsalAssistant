@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.5.1</string>
-    <string name="help">Help</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.6.1</string>
+    <string name="help">Instructions</string>
+    <string name="settings">Settings</string>
     <string name="switch_to_simple">Switch to Simple Mode</string>
     <string name="switch_to_session">Switch to Session Mode</string>
 
@@ -19,16 +20,16 @@
 Mode allows you to record voice/audio annotations in sessions, and time-stamps relative to the beginning of the session.\n\nClick
 \'Document New Session\' to create a new session and record annotations.
 You may also click on an existing session to review its annotations, or long-press
-for more options.\n\nTo
-switch to Simple Mode, click \'Switch to Simple Mode\'.</string>
-<string name="session_no_session_instructions">Click below to document a new session, or to switch to Simple Mode (Simple Mode has a simpler playback/recording interface).\n\n
-You can access more help from the MENU.</string>
+for more options.\n\nYou can use the MENU to
+switch to Simple Mode.</string>
+<string name="session_no_session_instructions">Click below to document a new session.\n\n
+Use the menu to access instructions, adjust settings, or to switch to Simple Mode (Simple Mode has a simpler playback/recording interface).</string>
 
-<string name="simple_instructions">Simple Mode provides a combined playback/recording interface, and time-stamps with the current time.\n\nClick
-on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it. Use the MENU to e-mail all of the recordings.\n\nTo
-switch to Session Mode, click \'Switch to Session Mode\'.</string>
-<string name="simple_no_annotations_instructions">Click below to start recording, or to switch to Session Mode (Session Mode organizes recordings in sessions).\n\n
-You can access more help from the MENU.</string>
+<string name="simple_instructions">Simple Mode offers easy recording and playback of sound files.\n\nClick
+on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it.\n\nUse
+the MENU to e-mail all of the recordings or to switch to Session Mode.</string>
+<string name="simple_no_annotations_instructions">Click below to start recording.\n\n
+Use the menu to access instructions, adjust settings, or to switch to Session Mode (Session Mode organizes recordings in sessions).</string>
 
 	<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
 	<string name="annotation_label_text">Enter a new label for the annotation</string>

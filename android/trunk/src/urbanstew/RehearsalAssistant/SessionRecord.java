@@ -27,7 +27,8 @@ public class SessionRecord
         {
         	Sessions._ID,
         	Sessions.START_TIME,
-        	Sessions.END_TIME        	
+        	Sessions.END_TIME,
+        	Sessions.TITLE
         };
         Log.d("Rehearsal Assistant", "SessionRecord opening Session URI: " + uri + " ID: " + mSessionId);
         Cursor cursor = resolver.query(Sessions.CONTENT_URI, projection, Sessions._ID + "=" + mSessionId, null,
@@ -36,18 +37,11 @@ public class SessionRecord
         if(!cursor.isNull(1) && cursor.isNull(2))
         {
     		mState = State.STARTED;
-
     		mTimeAtStart = cursor.getLong(1);
-            String[] annotation_projection =
-            {
-            	Annotations._ID        	
-            };
-        	Cursor annotationCursor = resolver.query(Annotations.CONTENT_URI, annotation_projection, Annotations.SESSION_ID + "=" + mSessionId, null,
-                    Annotations.DEFAULT_SORT_ORDER);
-        	cnt = annotationCursor.getCount() + 1;
         }
         else
         	mState = State.READY;
+        mTitle = cursor.getString(3);
         cursor.close();
 	}
 	
@@ -129,7 +123,6 @@ public class SessionRecord
     	mContentResolver.update(ContentUris.withAppendedId(Annotations.CONTENT_URI, mRecordedAnnotationId), values, null, null);
 
         mState = State.STARTED;
-        cnt++;
 	}
 	
 	public State state()
@@ -138,6 +131,10 @@ public class SessionRecord
 	public long timeAtStart()
 	{	return mTimeAtStart; }
 	
+	public String getSessionTitle()
+	{
+		return mTitle;
+	}
 	long timeInRecording()
 	{
 		if(recorder == null)
@@ -147,9 +144,7 @@ public class SessionRecord
 	
 	MediaRecorder recorder = null;
     State mState = State.INITIALIZING;
-    
-    int cnt = 1;
-    
+        
     long mSessionId;
     long mTimeAtStart;
     long mTimeAtAnnotationStart;
@@ -159,4 +154,5 @@ public class SessionRecord
     Uri mUri;
     
     String mOutputFile;
+    String mTitle;
 }

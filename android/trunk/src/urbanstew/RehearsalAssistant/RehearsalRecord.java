@@ -47,7 +47,7 @@ public class RehearsalRecord extends RehearsalActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+                
         setContentView(R.layout.record);
         
         findViewById(R.id.button).setOnClickListener(mClickListener);
@@ -68,12 +68,14 @@ public class RehearsalRecord extends RehearsalActivity
     		((TextView)findViewById(R.id.record_instructions)).setText(R.string.recording_instructions_started);
         	startedSession();
         }
+        
+        setTitle("Rehearsal Assistant - " + mSessionRecord.getSessionTitle());
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        
+    public boolean onCreateOptionsMenu(Menu menu) {        
       	menu.add("Stop Session").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        //super.onCreateOptionsMenu(menu);
+
         return true;
     }
 
@@ -176,8 +178,8 @@ public class RehearsalRecord extends RehearsalActivity
     	else
     	{
     		mAlpha -= 8;
-    		if(mAlpha < 0xD0)
-    			mAlpha = 0xD0;
+    		if(mAlpha < 0xA0)
+    			mAlpha = 0xA0;
     	}
     	mLeftRecordIndicator.setAlpha(mAlpha);
     	mRightRecordIndicator.setAlpha(mAlpha);

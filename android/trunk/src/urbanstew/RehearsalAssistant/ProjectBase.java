@@ -8,20 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 public class ProjectBase extends RehearsalActivity
 {	
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-      	
-        ((Button)findViewById(R.id.switch_mode)).setOnClickListener(switchClickListener);
-      	
+      	      	
         String projectId = getIntent().getData().getPathSegments().get(1);
         mProjectId = Long.valueOf(projectId);
-        
+
         setTitle(getResources().getString(R.string.about));
         
         mAppData = new AppDataAccess(getContentResolver());
@@ -55,19 +51,26 @@ public class ProjectBase extends RehearsalActivity
         }
     }
     
+	protected void setSimpleProject(boolean simpleMode)
+	{
+		mSimpleMode = simpleMode;
+	}
+
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
+        String switchText;
+        switchText = mSimpleMode ? "Switch to Session Mode" : "Switch to Simple Mode";
+        mSwitchMenuItem = menu.add(switchText).setIcon(android.R.drawable.ic_menu_more);
         super.onCreateOptionsMenu(menu);
-        
-        mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_dialog_info);
         return true;
     }
     
-    View.OnClickListener switchClickListener = new View.OnClickListener()
+    public boolean onOptionsItemSelected(MenuItem item) 
     {
-		public void onClick(View v)
-		{
-			if(v == findViewById(R.id.switch_mode))
+    	if(!super.onOptionsItemSelected(item))
+    	{
+			if(item == mSwitchMenuItem)
 			{
 				long project_id = new AppDataAccess(getContentResolver()).switchCurrentProject();
 		        
@@ -81,10 +84,14 @@ public class ProjectBase extends RehearsalActivity
 		        );
 		        
 		        finish();
+
+				return true;
 			}
-		}
-    };
-    
+			return false;
+    	}
+    	return true;
+    }
+        
     protected long projectId()
     {
     	return mProjectId;
@@ -92,7 +99,7 @@ public class ProjectBase extends RehearsalActivity
     
     long mProjectId;
     
-    protected MenuItem mHelpMenuItem; 
+    protected MenuItem mHelpMenuItem, mSwitchMenuItem; 
     
     protected static final int SESSIONS_ID = 0;
     protected static final int SESSIONS_TITLE = 1;
@@ -105,4 +112,6 @@ public class ProjectBase extends RehearsalActivity
     
     String mVisitedVersion;
     AppDataAccess mAppData;
+    
+    boolean mSimpleMode;
 }

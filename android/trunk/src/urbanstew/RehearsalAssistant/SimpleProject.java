@@ -19,13 +19,15 @@ import android.widget.Toast;
 
 public class SimpleProject extends ProjectBase
 {
-
     public void onCreate(Bundle savedInstanceState)
     {
         setContentView(R.layout.simple);
 
         super.onCreate(savedInstanceState);
+        super.setSimpleProject(true);
         
+        setTitleDelayed("Rehearsal Assistant - Simple Mode");
+
         findViewById(R.id.button).setOnClickListener(mClickListener);
         mCurrentTime = (TextView) findViewById(R.id.playback_time);
 
@@ -80,15 +82,21 @@ public class SimpleProject extends ProjectBase
 				0,
 				100);
 		
-        setTitleDelayed("Simple Mode");
     }
     
     public void onDestroy()
     {
     	mTimer.cancel();
+    	mSessionRecord.onDestroy();
     	mSessionPlayback.onDestroy();
 
     	super.onDestroy();
+    }
+    
+    public void onResume()
+    {
+    	super.onResume();
+    	mSessionPlayback.onResume();
     }
     
     protected void onRestoreInstanceState(Bundle savedInstanceState)
@@ -103,19 +111,25 @@ public class SimpleProject extends ProjectBase
     	mSessionPlayback.onSaveInstanceState(outState);
     }
     
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return mSessionPlayback.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        mSessionPlayback.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-		if(item == mHelpMenuItem)
-		{
-			Request.notification(this, "Instructions", getResources().getString(R.string.simple_instructions));
-			return true;
-		}
-    	return mSessionPlayback.onOptionsItemSelected(item);
+    	if(!super.onOptionsItemSelected(item))
+    	{
+			if(item == mHelpMenuItem)
+			{
+				Request.notification(this, "Instructions", getResources().getString(R.string.simple_instructions));
+				return true;
+			}
+			else
+				return mSessionPlayback.onOptionsItemSelected(item);
+    	}
+    	return true;
     }
     
 	public boolean onContextItemSelected(MenuItem item)
@@ -143,6 +157,7 @@ public class SimpleProject extends ProjectBase
 	
     void startRecording()
     {
+    	mSessionPlayback.stopPlayback();
 		mSessionRecord.startRecording();
 		((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
     }

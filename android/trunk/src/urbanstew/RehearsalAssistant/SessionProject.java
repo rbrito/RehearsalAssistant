@@ -47,7 +47,7 @@ import android.widget.TextView;
 /** The RehearsalAssistant Activity is the top-level activity.
  */
 public class SessionProject extends ProjectBase implements View.OnClickListener
-{
+{	
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
     public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
@@ -62,6 +62,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         setContentView(R.layout.main);
 
         super.onCreate(savedInstanceState);
+        super.setSimpleProject(false);
         
         // Read sessions
         cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
@@ -93,7 +94,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 
         reviseInstructions();
         
-        setTitleDelayed("Session Mode");
+        setTitleDelayed("Rehearsal Assistant - Session Mode");
     }
     
     public void onDestroy()
@@ -104,7 +105,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-		Request.notification(this, "Instructions", getResources().getString(R.string.session_instructions));
+    	if(!super.onOptionsItemSelected(item))
+    		Request.notification(this, "Instructions", getResources().getString(R.string.session_instructions));
 		return true;
     }
     

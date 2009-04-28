@@ -39,16 +39,16 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="25.208366"
-     inkscape:cy="44.297114"
+     inkscape:zoom="2.0000001"
+     inkscape:cx="28.594559"
+     inkscape:cy="40.849701"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="939"
      inkscape:window-height="859"
-     inkscape:window-x="172"
-     inkscape:window-y="22" />
+     inkscape:window-x="204"
+     inkscape:window-y="51" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -66,7 +66,7 @@
      id="layer1">
     <path
        sodipodi:type="arc"
-       style="opacity:1;fill:#640e1f;fill-opacity:0.94117647;fill-rule:evenodd;stroke:none;stroke-width:2.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2.50000000000000000;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path2383"
        sodipodi:cx="32"
        sodipodi:cy="27.907639"

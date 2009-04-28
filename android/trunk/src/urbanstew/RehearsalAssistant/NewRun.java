@@ -47,6 +47,7 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
 
+        setTitle("Rehearsal Assistant - New Session");
         // setup the display and callbacks
         setContentView(R.layout.new_run);
         findViewById(R.id.create).setOnClickListener(this);

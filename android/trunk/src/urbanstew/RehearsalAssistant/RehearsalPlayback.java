@@ -47,7 +47,8 @@ public class RehearsalPlayback extends RehearsalActivity
         
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, getIntent().getData());
         
-        setTitle(mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
+        setTitle("Rehearsal Assistant - " + mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
+        mSessionPlayback.setOldTitle(getTitle());
         
         ((ListView)findViewById(R.id.annotation_list)).getAdapter()
     	.registerDataSetObserver(new DataSetObserver()
@@ -60,6 +61,12 @@ public class RehearsalPlayback extends RehearsalActivity
     	);
     
         reviseInstructions();
+    }
+
+    public void onResume()
+    {
+    	super.onResume();
+    	mSessionPlayback.onResume();
     }
 
     public void onDestroy()
@@ -80,13 +87,15 @@ public class RehearsalPlayback extends RehearsalActivity
     }
     
     public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return mSessionPlayback.onCreateOptionsMenu(menu);
+    	mSessionPlayback.onCreateOptionsMenu(menu);
+    	return super.onCreateOptionsMenu(menu);
     }
     
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-    	return mSessionPlayback.onOptionsItemSelected(item);
+    	return
+    		super.onOptionsItemSelected(item) ||
+    		mSessionPlayback.onOptionsItemSelected(item);
     }
     
 	public boolean onContextItemSelected(MenuItem item)

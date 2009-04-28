@@ -27,15 +27,22 @@
 	    	android:singleLine="true"
 		    android:layout_marginLeft="5dip"
 		    android:layout_marginRight="5dip"
+		    android:minHeight="?android:attr/listPreferredItemHeight"
 	    />
 	   	<Button android:id="@+id/create_and_start"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:text="Create and Start Session" />
+		   	android:text="Create and Start Session"
+		    android:textAppearance="?android:attr/textAppearanceMedium"
+		    android:minHeight="?android:attr/listPreferredItemHeight"
+		    />
 	   	<Button android:id="@+id/create"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:text="Create Session" />
+		    android:text="Create Session"
+		    android:textAppearance="?android:attr/textAppearanceMedium"	    
+		    android:minHeight="?android:attr/listPreferredItemHeight"
+		    />
 	</LinearLayout>
 	<LinearLayout
 	    android:layout_alignParentTop="true"

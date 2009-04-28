@@ -13,12 +13,10 @@
     >
 	<Button android:id="@+id/new_run"
 	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    android:text="Document New Session" />
-	<Button android:id="@+id/switch_mode"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    android:text="@string/switch_to_simple" />
+	    android:layout_height="?android:attr/listPreferredItemHeight"
+	    android:text="Document New Session"
+	    android:textAppearance="?android:attr/textAppearanceMedium"	    
+	    />
 </LinearLayout>
 <FrameLayout
 	android:layout_width="fill_parent" 
