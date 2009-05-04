@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="urbanstew.RehearsalAssistant" android:versionCode="14" android:versionName="0.6.1">
-<uses-sdk android:minSdkVersion="1" />
-<application android:icon="@drawable/icon" android:debuggable="true" android:label="Rehearsal Assistant" android:allowClearUserData="true">
+      package="urbanstew.RehearsalAssistant" android:versionCode="15" android:versionName="0.7.0">
+<uses-sdk android:minSdkVersion="2" />
+<application android:icon="@drawable/icon" android:label="Rehearsal Assistant" android:allowClearUserData="true" android:debuggable="false">
     <activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,8 +33,25 @@
 </intent-filter>
 </activity>
 <activity android:name="SessionProject"></activity>
-<activity android:name="SimpleProject"></activity>
+<activity android:name="SimpleProject"><intent-filter><action android:name="urbanstew.RehearsalAssistant.simple_mode"></action>
+<category android:name="android.intent.category.DEFAULT"></category>
+
+</intent-filter>
+</activity>
 <activity android:name="SettingsActivity"></activity>
+
+<service android:name="RecordService">
+<intent-filter>
+	<action android:name="urbanstew.RehearsalAssistant.record"></action>
+	<category android:name="android.intent.category.DEFAULT"></category>
+	</intent-filter>
+    <intent-filter>
+                <!-- These are the interfaces supported by the service, which
+                     you can bind to. -->
+                <action android:name="urbanstew.RehearsalAssistant.IRecordService" />
+    </intent-filter>
+
+</service>
 </application>
 
 <uses-permission android:name="android.permission.VIBRATE"></uses-permission>

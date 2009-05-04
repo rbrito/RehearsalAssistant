@@ -4,24 +4,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<LinearLayout android:id="@+id/main_buttons"
-    android:orientation="vertical"
+<ImageButton
+	android:id="@+id/button"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+   	android:scaleType="center"
     android:layout_alignParentBottom="true" 
 	android:paddingTop="7dip"
-    >
-	<Button android:id="@+id/button"
-	    android:layout_width="fill_parent"
-	    android:layout_height="?android:attr/listPreferredItemHeight"
-	    android:text="@string/record"
-	    android:textAppearance="?android:attr/textAppearanceMedium"
-	    />
-</LinearLayout>
+    />
 
 <TextView
     android:id="@+id/playback_time"
-	android:layout_above="@id/main_buttons"
+	android:layout_above="@+id/button"
     android:layout_width="fill_parent"
    	android:layout_height="wrap_content"
     android:singleLine="true"

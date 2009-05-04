@@ -14,9 +14,11 @@ public class ProjectBase extends RehearsalActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-      	      	
-        String projectId = getIntent().getData().getPathSegments().get(1);
-        mProjectId = Long.valueOf(projectId);
+      	
+        if(getIntent().getAction().equals("urbanstew.RehearsalAssistant.simple_mode"))
+        	mProjectId = SimpleProject.getProjectId(getContentResolver());
+        else
+        	mProjectId = Long.valueOf(getIntent().getData().getPathSegments().get(1));
 
         setTitle(getResources().getString(R.string.about));
         

@@ -36,8 +36,11 @@
 		android:layout_alignLeft="@id/current_time"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:src="@drawable/recording_disc"
-    	android:scaleType="fitCenter" android:visibility="invisible"/>
+		android:src="@drawable/media_recording"
+    	android:scaleType="center" android:visibility="invisible"
+    	android:layout_marginLeft="10dip"
+   		android:layout_marginBottom="6dip"
+    	/>
 		<ImageView
 		android:id="@+id/right_record_indicator"
 		android:layout_alignBottom="@id/current_time"
@@ -45,24 +48,10 @@
 		android:layout_alignRight="@id/current_time"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:src="@drawable/recording_disc"
-    	android:scaleType="fitCenter" android:visibility="invisible"/>
-		<ImageView
-		android:layout_alignBottom="@id/current_time"
-		android:layout_alignTop="@id/current_time"
-		android:layout_alignRight="@id/current_time"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:src="@drawable/recording_circle"
-    	android:scaleType="fitCenter"/>
-		<ImageView
-		android:layout_alignBottom="@id/current_time"
-		android:layout_alignTop="@id/current_time"
-		android:layout_alignLeft="@id/current_time"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:src="@drawable/recording_circle"
-    	android:scaleType="fitCenter"/>
+		android:src="@drawable/media_recording"
+		android:layout_marginRight="10dip"
+		android:layout_marginBottom="6dip"
+    	android:scaleType="center" android:visibility="invisible"/>
 		</RelativeLayout>
 	<FrameLayout
     android:layout_above="@+id/current_time_frame"

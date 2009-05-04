@@ -71,9 +71,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -214,6 +216,31 @@ public class SessionPlayback
             })
             .create();
         mPlayPauseButton = (ImageButton)playbackView.findViewById(R.id.playback_pause);
+        mSeekBar = (SeekBar)playbackView.findViewById(R.id.playback_seek);
+        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			public void onProgressChanged(SeekBar bar, int progress, boolean fromUser)
+			{
+				if(fromUser && mPlayer != null)
+						mPlayer.seekTo(mPlayer.getDuration() * progress / 1024);				
+			}
+
+			public void onStartTrackingTouch(SeekBar arg0)
+			{
+				if(mPlayer.isPlaying())
+				{
+					mPlayer.pause();
+			    	setPlayPauseButton(android.R.drawable.ic_media_play);
+				}
+			}
+
+			public void onStopTrackingTouch(SeekBar bar)
+			{
+				mPlayer.start();
+		    	setPlayPauseButton(android.R.drawable.ic_media_pause);
+			}
+        
+        });
         playbackView.findViewById(R.id.playback_pause).setOnClickListener
         (
         	new OnClickListener()
@@ -392,7 +419,7 @@ public class SessionPlayback
     	}
     	if(wholeSession)
     	{
-            String archiveFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/rehearsal/session.zip";
+            String archiveFilename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/urbanstew.RehearsalAssistant/session.zip";
             // If there are no annotations we don't need an archive
             if(mAnnotationsCursor.getCount() == 0 || createSessionArchive(archiveFilename))
             {    	    	
@@ -528,7 +555,7 @@ public class SessionPlayback
     void displayPlaybackDialog()
     {
     	if(!mPlaybackDialog.isShowing())
-    	setPlayPauseButton(android.R.drawable.ic_media_pause);
+    		setPlayPauseButton(android.R.drawable.ic_media_pause);
         mPlaybackDialog.show();
     }
 
@@ -542,6 +569,7 @@ public class SessionPlayback
     
     void onPlayCompletion()
     {
+    	updateProgressDisplay();
     	if(mPlaybackPanelEnabled)
     		setPlayPauseButton(android.R.drawable.ic_media_play);
     	if(mPlaybackPanelDisappears)
@@ -559,6 +587,7 @@ public class SessionPlayback
     
 	void playItem(int position)
 	{
+		mActivity.onPlaybackStarted();
 		mPlayingPosition = position;
 		mAnnotationsCursor.moveToPosition(position);
 		mActiveAnnotationStartTime = mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME);
@@ -600,7 +629,7 @@ public class SessionPlayback
         		mListView.setIndication(position);
         	}
         	mActivity.setTitle("Rehearsal Assistant - " + makeAnnotationText(mAnnotationsCursor));
-        	
+        	updateProgressDisplay();
         }
         catch(java.io.IOException e)
         {
@@ -618,6 +647,16 @@ public class SessionPlayback
         }
     };
     
+    void updateProgressDisplay()
+    {
+		if(mSessionTiming)
+			mCurrentTime.setText(formatter.format(mPlayer.getCurrentPosition() + mActiveAnnotationStartTime));
+		else
+			mCurrentTime.setText(mPlayTimeFormatter.format(mPlayer.getCurrentPosition()));
+
+		mSeekBar.setProgress((1024 * mPlayer.getCurrentPosition()) / mPlayer.getDuration());
+    }
+    
     Timer mTimer = new Timer();
     TimerTask mCurrentTimeTask = new TimerTask()
 	{
@@ -628,10 +667,9 @@ public class SessionPlayback
 				public void run()
 				{
 					if(mPlayer != null && mPlayer.isPlaying())
-						if(mSessionTiming)
-							mCurrentTime.setText(formatter.format(mPlayer.getCurrentPosition() + mActiveAnnotationStartTime));
-						else
-							mCurrentTime.setText(mPlayTimeFormatter.format(mPlayer.getCurrentPosition()));
+					{
+						updateProgressDisplay();
+					}
 				}
 			});                                
 		}
@@ -649,6 +687,7 @@ public class SessionPlayback
 	RehearsalActivity mActivity;
 	
     TextView mCurrentTime;
+    SeekBar mSeekBar;
     IndicatingListView mListView;
     SimpleCursorAdapter mListAdapter;
     

@@ -32,4 +32,10 @@
 		    android:paddingRight="0.15in"
 		/>
 	</LinearLayout>
+	<SeekBar
+		android:id="@+id/playback_seek"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:max="1024"
+			style="android:progressBarStyleHorizontal"/>
 </LinearLayout>

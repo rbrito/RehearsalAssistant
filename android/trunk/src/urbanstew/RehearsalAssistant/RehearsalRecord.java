@@ -148,13 +148,11 @@ public class RehearsalRecord extends RehearsalActivity
     
     void startRecording()
     {
-		mSessionRecord.startRecording();
-		
+    	mSessionRecord.startRecording();
+
         ((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
         mLeftRecordIndicator.setVisibility(View.VISIBLE);
         mRightRecordIndicator.setVisibility(View.VISIBLE);
-        mAlpha = 0xD0;
-        updateAlpha();
     }
     
     void stopRecording()
@@ -166,25 +164,6 @@ public class RehearsalRecord extends RehearsalActivity
     	mRightRecordIndicator.setVisibility(View.INVISIBLE);
     }
     
-    /** UI updates */
-    private void updateAlpha()
-    {
-    	if(mAlpha % 2 == 0)
-    	{
-    		mAlpha += 8;
-    		if(mAlpha > 0xFF)
-    			mAlpha = 0xFF;
-    	}
-    	else
-    	{
-    		mAlpha -= 8;
-    		if(mAlpha < 0xA0)
-    			mAlpha = 0xA0;
-    	}
-    	mLeftRecordIndicator.setAlpha(mAlpha);
-    	mRightRecordIndicator.setAlpha(mAlpha);
-    }
-    
     TimerTask mCurrentTimeTask = new TimerTask()
 	{
 		public void run()
@@ -194,8 +173,6 @@ public class RehearsalRecord extends RehearsalActivity
 				public void run()
 				{
 					mCurrentTime.setText(mFormatter.format(System.currentTimeMillis() - mSessionRecord.timeAtStart()));
-					if(mSessionRecord.state() == SessionRecord.State.RECORDING)
-						updateAlpha();
 				}
 			});                            
 		}
@@ -207,7 +184,6 @@ public class RehearsalRecord extends RehearsalActivity
     Timer mTimer = new Timer();
 
 	android.widget.ImageView mLeftRecordIndicator, mRightRecordIndicator;
-    int mAlpha;
 	
     RehearsalData data;
     

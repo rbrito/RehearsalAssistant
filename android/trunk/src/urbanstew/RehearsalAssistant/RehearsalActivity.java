@@ -44,6 +44,10 @@ public class RehearsalActivity extends Activity
     		return false;
     }
     
+	public void onPlaybackStarted()
+	{
+	} 
+	
     protected void setTitleDelayed(String title)
     {
     	mTimer = new Timer();
@@ -65,7 +69,7 @@ public class RehearsalActivity extends Activity
     
     Timer mTimer = null;
     TitleTimerTask mTimerTask = null;
-    protected MenuItem mSettingsMenuItem; 
+    protected MenuItem mSettingsMenuItem;
 }
 
 class TitleTimerTask extends TimerTask
@@ -89,7 +93,7 @@ class TitleTimerTask extends TimerTask
 			}
 		);
 	}
-	
+		
 	public boolean hasRun()
 	{	return mHasRun; }
 	

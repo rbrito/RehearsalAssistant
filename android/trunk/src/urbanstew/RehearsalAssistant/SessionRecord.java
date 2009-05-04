@@ -83,9 +83,9 @@ public class SessionRecord
     	mRecordedAnnotationId = Long.parseLong(annotationUri.getPathSegments().get(1));
 
     	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
-		{	
+		{
 	    	File external = Environment.getExternalStorageDirectory();
-			File audio = new File(external.getAbsolutePath() + "/rehearsal/" + mSessionId); 
+			File audio = new File(external.getAbsolutePath() + "/urbanstew.RehearsalAssistant/" + mSessionId); 
 			audio.mkdirs();
 			Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
 			mOutputFile = audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId + ".3gp";
@@ -95,9 +95,15 @@ public class SessionRecord
 	        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 	        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 	        recorder.setOutputFile(mOutputFile);
-	        recorder.prepare();
-	        recorder.start();   // Recording is now started*/
-	        mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
+//	        try
+//	        {
+	        	recorder.prepare();
+		        recorder.start();   // Recording is now started*/
+		        mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
+/*	        } catch(IOException e)
+	        {
+				mOutputFile = null;
+	        }*/ 
 		}
 		else
 		{
