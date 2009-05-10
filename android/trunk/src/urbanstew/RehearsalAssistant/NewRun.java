@@ -65,8 +65,7 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener
     	EditText title = (EditText) findViewById(R.id.name);
     	ContentValues values = new ContentValues();
 
-    	AppDataAccess appData = new AppDataAccess(getContentResolver());
-    	values.put(Sessions.PROJECT_ID, appData.getCurrentProjectId());
+    	values.put(Sessions.PROJECT_ID, getIntent().getExtras().getLong("project_id"));
     	
     	values.put(Sessions.TITLE, title.getText().toString());
     	if(v == findViewById(R.id.create_and_start))

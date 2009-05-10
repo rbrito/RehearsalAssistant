@@ -168,7 +168,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 	public void onClick(View v)
 	{
 		if(v == findViewById(R.id.new_run))
-			startActivity(new Intent(Intent.ACTION_INSERT, Sessions.CONTENT_URI));
+			startActivity(new Intent(Intent.ACTION_INSERT, Sessions.CONTENT_URI).putExtra("project_id", projectId()));
 	}
 	
 	void reviseInstructions()

@@ -62,11 +62,17 @@ public class RehearsalPlayback extends RehearsalActivity
     
         reviseInstructions();
     }
-
+    
     public void onResume()
     {
-    	super.onResume();
     	mSessionPlayback.onResume();
+    	super.onResume();
+    }
+
+    public void onPause()
+    {
+    	super.onPause();
+    	mSessionPlayback.onPause();    	
     }
 
     public void onDestroy()
@@ -74,6 +80,7 @@ public class RehearsalPlayback extends RehearsalActivity
     	mSessionPlayback.onDestroy();
     	super.onDestroy();
     }
+    
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
     	super.onRestoreInstanceState(savedInstanceState);

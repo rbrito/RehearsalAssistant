@@ -186,10 +186,6 @@ public class SessionPlayback
         
         mCurrentTime = (TextView) mActivity.findViewById(R.id.playback_time);
         mPlayTimeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-		mTimer.scheduleAtFixedRate(
-				mCurrentTimeTask,
-				0,
-				100);
 		
 		// construct playback dialog
         LayoutInflater factory = LayoutInflater.from(mActivity);
@@ -203,6 +199,9 @@ public class SessionPlayback
             	{
             		public void onClick(DialogInterface dialog, int whichButton)
             		{
+            			if(mPlayer!=null)
+            				mPlayer.stop();
+
             			onPlayItemLostFocus();
                 	}
             	}
@@ -285,12 +284,38 @@ public class SessionPlayback
         mOldTitle = mActivity.finalTitle();
     }
 
+    public void onPause()
+    {
+    	mCurrentTimeTask.cancel();
+    }
+    
     public void onResume()
     {
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
     	mPlaybackPanelEnabled = preferences.getBoolean("playback_panel_enabled", true);
     	mPlaybackPanelDisappears = preferences.getBoolean("playback_panel_disappears", false);
     	mEmailDetail = preferences.getBoolean("email_detail", true);
+    	
+    	mCurrentTimeTask = new TimerTask()
+    	{
+    		public void run()
+    		{
+    			mActivity.runOnUiThread(new Runnable()
+    			{
+    				public void run()
+    				{
+    					if(mPlayer != null && mPlayer.isPlaying())
+    					{
+    						updateProgressDisplay();
+    					}
+    				}
+    			});                                
+    		}
+    	};
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				0,
+				100);
     }
     public void onDestroy()
     {
@@ -658,22 +683,7 @@ public class SessionPlayback
     }
     
     Timer mTimer = new Timer();
-    TimerTask mCurrentTimeTask = new TimerTask()
-	{
-		public void run()
-		{
-			mActivity.runOnUiThread(new Runnable()
-			{
-				public void run()
-				{
-					if(mPlayer != null && mPlayer.isPlaying())
-					{
-						updateProgressDisplay();
-					}
-				}
-			});                                
-		}
-	};
+    TimerTask mCurrentTimeTask;
 	
 	public Cursor annotationsCursor()
 	{	return mAnnotationsCursor; }

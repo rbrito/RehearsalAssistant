@@ -1,111 +1,71 @@
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.AppData;
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-import android.content.ContentResolver;
-import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 
 public class AppDataAccess
 {
-	AppDataAccess(ContentResolver content)
+	AppDataAccess(Context context)
 	{
-		mContent = content;
+		mContext = context;
 	}
 	
 	public long getCurrentProjectId()
 	{
-		long result;
-        Cursor appDataCursor = mContent.query(AppData.CONTENT_URI, appDataProjection, AppData.KEY + "=" + "'current_project_id'", null, AppData.DEFAULT_SORT_ORDER);
-        if(appDataCursor.getCount()>0)
-        {
-        	appDataCursor.moveToFirst();
-        	result = appDataCursor.getLong(2);
-        }
-        else
-        {
-        	long id = getFirstProjectID();
-        	addCurrentProjectId(id);
-        	result = id;
-        }
-        appDataCursor.close();
-        return result;
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	if(preferences.contains("current_project_id"))
+    		return(preferences.getLong("current_project_id", -1));
+    	
+    	long id = getFirstProjectID();
+    	preferences.edit().putLong("current_project_id", id).commit();
+        return id;
 	}
 	
 	void setCurrentProjectId(long id)
 	{
-		ContentValues values = new ContentValues();
-    	values.put(AppData.VALUE, id);
-    	mContent.update(AppData.CONTENT_URI, values, AppData.KEY + "=" + "'current_project_id'", null);
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	preferences.edit().putLong("current_project_id", id).commit();
 	}
 
-	void addCurrentProjectId(long id)
-	{
-		ContentValues values = new ContentValues();
-    	values.put(AppData.KEY, "current_project_id");
-    	values.put(AppData.VALUE, id);
-    	mContent.insert(AppData.CONTENT_URI, values);
-	}
-
-	long switchCurrentProject()
-	{
-		long current = getCurrentProjectId();
-		
-        Cursor projectsCursor = mContent.query(Projects.CONTENT_URI, projectsDataProjection, Projects._ID + "<>" + current, null, Projects.DEFAULT_SORT_ORDER);
+	long getProjectIdNot(long id)
+	{		
+        Cursor projectsCursor = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsDataProjection, Projects._ID + "<>" + id, null, Projects.DEFAULT_SORT_ORDER);
         if(projectsCursor.getCount()>0)
         {
         	projectsCursor.moveToFirst();
-        	setCurrentProjectId(current = projectsCursor.getLong(0));
+        	setCurrentProjectId(id = projectsCursor.getLong(0));
         }
         projectsCursor.close();
-        return current;
+        return id;
 	}
-	// returns the currently active project id
+	
 	long getFirstProjectID() {
-        Cursor c = mContent.query(Projects.CONTENT_URI, projectsDataProjection, null, null, Projects.DEFAULT_SORT_ORDER);
+        Cursor c = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsDataProjection, null, null, Projects.DEFAULT_SORT_ORDER);
 		c.moveToFirst();
 		long result = c.getLong(0);
 		c.close();
 		return result;
 	}
 	
-	String getVisitedVersion()
+	float getVisitedVersion()
 	{
-        Cursor appDataCursor = mContent.query(AppData.CONTENT_URI, appDataProjection, AppData.KEY + "=" + "'app_visited_version'", null, AppData.DEFAULT_SORT_ORDER);
-        if(appDataCursor.getCount()==0)
-        	return null;
-    	appDataCursor.moveToFirst();
-    	String value = appDataCursor.getString(2);
-        appDataCursor.close();
-    	return value;
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	return preferences.getFloat("app_visited_version", 0);
 	}
 	
-	void addVisitedVersion(String version)
+	void setVisitedVersion(float version)
 	{
-  		ContentValues values = new ContentValues();
-       	values.put(AppData.KEY, "app_visited_version");
-       	values.put(AppData.VALUE, version);
-       	mContent.insert(AppData.CONTENT_URI, values);
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	preferences.edit().putFloat("app_visited_version", version).commit();
 	}
-	
-	void setVisitedVersion(String version)
-	{
-		ContentValues values = new ContentValues();
-    	values.put(AppData.VALUE, version);
-    	mContent.update(AppData.CONTENT_URI, values, AppData.KEY + "=" + "'app_visited_version'", null);
-	}
-    // Display license if this is the first time running this version.
-    static String[] appDataProjection =
-    {
-    	AppData._ID,
-        AppData.KEY,
-    	AppData.VALUE
-    };
     
     static String[] projectsDataProjection =
     {
     	Projects._ID,
     };
 
-    ContentResolver mContent;
+    Context mContext;
 }

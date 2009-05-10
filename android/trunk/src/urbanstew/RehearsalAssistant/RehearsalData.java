@@ -36,6 +36,7 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -43,6 +44,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
@@ -101,26 +103,17 @@ public class RehearsalData extends ContentProvider {
 	{
 		DatabaseHelper(Context context)
 		{
-			super(context, "rehearsal_assistant.db", null, 8);
+			super(context, "rehearsal_assistant.db", null, 9);
+			mContext = context;
 		}
 
 		public void onCreate(SQLiteDatabase db)
 		{
-			createAppDataTable(db);
 			createProjectsTable(db);
 			createSessionsTable(db);
 			createAnnotationsTable(db);
 		}
-		
-		void createAppDataTable(SQLiteDatabase db)
-		{
-			db.execSQL("CREATE TABLE " + AppData.TABLE_NAME + "("
-					+ AppData._ID + " INTEGER PRIMARY KEY,"
-					+ AppData.KEY + " STRING,"
-					+ AppData.VALUE + " STRING"
-					+ ");");
-		}
-		
+				
 		void createProjectsTable(SQLiteDatabase db)
 		{
 			db.execSQL("CREATE TABLE " + Projects.TABLE_NAME + "("
@@ -170,7 +163,9 @@ public class RehearsalData extends ContentProvider {
 		}
 		void upgrade5to6(SQLiteDatabase db)
 		{
-			createAppDataTable(db);
+			db.execSQL("CREATE TABLE " + AppData.TABLE_NAME + "("
+					+ AppData._ID + " INTEGER PRIMARY KEY"
+					+ ");");
 		}
 		void upgrade6to7(SQLiteDatabase db)
 		{
@@ -180,27 +175,56 @@ public class RehearsalData extends ContentProvider {
 		{
 			db.execSQL("ALTER TABLE " + Projects.TABLE_NAME + " ADD COLUMN " + Projects.TYPE + " INTEGER DEFAULT " + Projects.TYPE_SESSION);
 		}
+		void upgrade8to9(SQLiteDatabase db)
+		{
+		    // Display license if this is the first time running this version.
+		    String[] appDataProjection =
+		    {
+		    	AppData._ID,
+		        AppData.KEY,
+		    	AppData.VALUE
+		    };
+		    
+	    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+	    	SharedPreferences.Editor editor = preferences.edit();
+	    	
+	    	// get the current project information from AppData and move to preferences
+	    	Cursor project = db.query(AppData.TABLE_NAME, appDataProjection, AppData.KEY + "=" + "'current_project_id'", null, null, null, AppData.DEFAULT_SORT_ORDER, null);
+	    	if(project.getCount()>0)
+	    	{
+	    		project.moveToFirst();
+	    		editor.putLong("current_project_id", project.getLong(2));
+	    	}
+	    	project.close();
+	    	
+	    	Cursor visited_version = db.query(AppData.TABLE_NAME, appDataProjection, AppData.KEY + "=" + "'app_visited_version'", null, null, null, AppData.DEFAULT_SORT_ORDER, null);
+	    	if(visited_version.getCount()>0)
+	    	{
+	    		visited_version.moveToFirst();
+	    		editor.putFloat("app_visited_version", Float.valueOf(visited_version.getString(2)));
+	    	}
+	    	
+	    	editor.commit();
+	    	
+	    	db.execSQL("DROP TABLE " + AppData.TABLE_NAME);
+		}
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
             Log.w("RehearsalAssistant", "Upgrading database from version " + oldVersion + " to " + newVersion);
-			if(oldVersion==5)
-			{
-	            Log.w("RehearsalAssistant", "Upgrading from database version 5.");
+            switch(oldVersion)
+            {
+            case 5:
 				upgrade5to6(db);
+            case 6:
 				upgrade6to7(db);
-				upgrade7to8(db);				
-			}
-			else if(oldVersion==6)
-			{
-				upgrade6to7(db);
+            case 7:
 				upgrade7to8(db);
-			}
-			else if(oldVersion==7)
-				upgrade7to8(db);				
-			else
-			{
+            case 8:
+            	upgrade8to9(db);
+            	break;
+            default:
 	            Log.w("RehearsalAssistant", "Reinitializing database tables");
-	
+            	// drop tables that existed prior to 5
 	            db.execSQL("DROP TABLE IF EXISTS " + Projects.TABLE_NAME);
 	            db.execSQL("DROP TABLE IF EXISTS " + Sessions.TABLE_NAME);
 	            db.execSQL("DROP TABLE IF EXISTS " + Annotations.TABLE_NAME);
@@ -208,6 +232,8 @@ public class RehearsalData extends ContentProvider {
 	            onCreate(db);
 			}
         }
+		
+		Context mContext;
 	}
 
     private static final int APPDATA = 1;

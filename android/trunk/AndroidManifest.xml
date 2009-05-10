@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="urbanstew.RehearsalAssistant" android:versionCode="15" android:versionName="0.7.0">
+      package="urbanstew.RehearsalAssistant" android:versionCode="16" android:versionName="0.7.1">
 <uses-sdk android:minSdkVersion="2" />
 <application android:icon="@drawable/icon" android:label="Rehearsal Assistant" android:allowClearUserData="true" android:debuggable="false">
     <activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">

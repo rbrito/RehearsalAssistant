@@ -115,20 +115,6 @@ public class SimpleProject extends ProjectBase
         	);
 
         reviseInstructions();
-        	
-		mTimer.scheduleAtFixedRate(
-				mCurrentTimeTask,
-				0,
-				100);
-    }
-    
-    public void onDestroy()
-    {
-    	unbindService(mServiceConnection);
-    	mTimer.cancel();
-    	mSessionPlayback.onDestroy();
-
-    	super.onDestroy();
     }
     
     public void onResume()
@@ -140,7 +126,53 @@ public class SimpleProject extends ProjectBase
     		updateInterface();
     	} catch (RemoteException e)
     	{}
+    	
+    	mCurrentTimeTask = new TimerTask()
+    		{
+    			public void run()
+    			{
+    				SimpleProject.this.runOnUiThread(new Runnable()
+    				{
+    					public void run()
+    					{
+    						if(mRecordService == null)
+    							return;
+    				        try
+    				        {
+    							if(mRecordService.getState() == SessionRecord.State.RECORDING.ordinal())
+    								mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mRecordService.getTimeInRecording()));
+    				    	} catch (RemoteException e)
+    				    	{
+    				    		
+    				    	}
+    					}
+    				});                          
+    			}
+    		};
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				0,
+				100);
     }
+
+    public void onPause()
+    {
+    	mCurrentTimeTask.cancel();
+    	mSessionPlayback.onPause();
+    	
+    	super.onPause();
+    }
+
+    public void onDestroy()
+    {
+    	mTimer.cancel();
+    	unbindService(mServiceConnection);
+    	mSessionPlayback.onDestroy();
+
+    	super.onDestroy();
+    }
+    
+    
     
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
@@ -254,28 +286,7 @@ public class SimpleProject extends ProjectBase
         }
     };
     
-    TimerTask mCurrentTimeTask = new TimerTask()
-	{
-		public void run()
-		{
-			SimpleProject.this.runOnUiThread(new Runnable()
-			{
-				public void run()
-				{
-					if(mRecordService == null)
-						return;
-			        try
-			        {
-						if(mRecordService.getState() == SessionRecord.State.RECORDING.ordinal())
-							mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mRecordService.getTimeInRecording()));
-			    	} catch (RemoteException e)
-			    	{
-			    		
-			    	}
-				}
-			});                          
-		}
-	};
+    TimerTask mCurrentTimeTask;
 	
     /**
      * Class for interacting with the secondary interface of the service.

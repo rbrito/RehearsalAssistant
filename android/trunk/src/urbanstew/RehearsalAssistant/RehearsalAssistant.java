@@ -44,7 +44,7 @@ public class RehearsalAssistant extends RehearsalActivity
     {
         super.onCreate(savedInstanceState);
         
-        AppDataAccess appData = new AppDataAccess(getContentResolver());
+        AppDataAccess appData = new AppDataAccess(this);
 
         // View the current project
         startActivity

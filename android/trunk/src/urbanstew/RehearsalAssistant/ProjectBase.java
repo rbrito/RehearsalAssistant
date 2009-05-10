@@ -22,11 +22,12 @@ public class ProjectBase extends RehearsalActivity
 
         setTitle(getResources().getString(R.string.about));
         
-        mAppData = new AppDataAccess(getContentResolver());
+        mAppData = new AppDataAccess(this);
+        mAppData.setCurrentProjectId(mProjectId);
 
         // Display license if this is the first time running this version.
-        mVisitedVersion = mAppData.getVisitedVersion();
-        if (mVisitedVersion == null || !mVisitedVersion.equals("0.5"))
+        float visitedVersion = mAppData.getVisitedVersion();
+        if (visitedVersion < 0.5f)
         {
     		Request.notification
     		(
@@ -43,13 +44,15 @@ public class ProjectBase extends RehearsalActivity
 	    		{
 	    		    public void onClick(DialogInterface dialog, int whichButton)
 	    		    {
-	    		    	if(mVisitedVersion == null)
-	    		    		mAppData.addVisitedVersion("0.5");
-	    		    	else
-	    		    		mAppData.setVisitedVersion("0.5");
+	    		    	mAppData.setVisitedVersion(0.71f);
 	    		    }
 	    		}
 	    	);
+        }
+        else if (visitedVersion < 0.71f)
+        {
+    		Request.contribution(this);
+    		mAppData.setVisitedVersion(0.71f);
         }
     }
     
@@ -74,7 +77,7 @@ public class ProjectBase extends RehearsalActivity
     	{
 			if(item == mSwitchMenuItem)
 			{
-				long project_id = new AppDataAccess(getContentResolver()).switchCurrentProject();
+				long project_id = new AppDataAccess(this).getProjectIdNot(projectId());
 		        
 				startActivity
 		        (
@@ -112,7 +115,6 @@ public class ProjectBase extends RehearsalActivity
 	      Sessions.TITLE // 1
 	};
     
-    String mVisitedVersion;
     AppDataAccess mAppData;
     
     boolean mSimpleMode;

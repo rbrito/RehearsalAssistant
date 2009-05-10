@@ -79,14 +79,42 @@ public class RehearsalRecord extends RehearsalActivity
         return true;
     }
 
-    public void onDestroy()
+    public void onResume()
     {
-    	mSessionRecord.onDestroy();
-    	mTimer.cancel();
+    	super.onResume();
+    	
+    	mCurrentTimeTask = new TimerTask()
+    	{
+    		public void run()
+    		{
+    			RehearsalRecord.this.runOnUiThread(new Runnable()
+    			{
+    				public void run()
+    				{
+    					if(mSessionRecord.state() != SessionRecord.State.READY)
+    						mCurrentTime.setText(mFormatter.format(System.currentTimeMillis() - mSessionRecord.timeAtStart()));
+    				}
+    			});
+    		}
+    	};
+		mTimer.scheduleAtFixedRate(
+				mCurrentTimeTask,
+				0,
+				100);
+    }
 
-    	super.onDestroy();
+    public void onPause()
+    {
+    	mCurrentTimeTask.cancel();    	
+    	super.onPause();    	
     }
     
+    public void onDestroy()
+    {
+    	mTimer.cancel();
+    	mSessionRecord.onDestroy();
+    	super.onDestroy();
+    }
     
     /* User interaction events */
     public boolean onOptionsItemSelected(MenuItem item) 
@@ -132,10 +160,6 @@ public class RehearsalRecord extends RehearsalActivity
     {
 		((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
 		((android.widget.Button)findViewById(R.id.button)).setKeepScreenOn(true);
-		mTimer.scheduleAtFixedRate(
-				mCurrentTimeTask,
-				0,
-				100);
     }
 
     void stopSession()
@@ -164,19 +188,7 @@ public class RehearsalRecord extends RehearsalActivity
     	mRightRecordIndicator.setVisibility(View.INVISIBLE);
     }
     
-    TimerTask mCurrentTimeTask = new TimerTask()
-	{
-		public void run()
-		{
-			RehearsalRecord.this.runOnUiThread(new Runnable()
-			{
-				public void run()
-				{
-					mCurrentTime.setText(mFormatter.format(System.currentTimeMillis() - mSessionRecord.timeAtStart()));
-				}
-			});                            
-		}
-	};
+    TimerTask mCurrentTimeTask;
 
     TextView mCurrentTime;
     SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
