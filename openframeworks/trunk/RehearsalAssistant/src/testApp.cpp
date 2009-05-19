@@ -64,7 +64,7 @@ void testApp::update()
 	if (vidGrabber.isFrameNew() && isRecording)
 	{
 		// push a new frame in the videoRecording vector
-        videoRecording.push_back
+		videoRecording.push_back
 		(
 			videoFrame
 			(
