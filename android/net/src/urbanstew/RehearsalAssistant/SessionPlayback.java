@@ -28,6 +28,8 @@ import java.util.Date;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -37,6 +39,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPortOut;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
@@ -282,6 +287,20 @@ public class SessionPlayback
         	}
         );
         mOldTitle = mActivity.finalTitle();
+        
+		try
+		{
+			byte[] address = {(byte) 192, (byte) 168, 1, 101};
+			mSender = new OSCPortOut(java.net.InetAddress.getByAddress(address), 12345);
+		} catch (SocketException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public void onPause()
@@ -663,6 +682,23 @@ public class SessionPlayback
         				Toast.LENGTH_SHORT).show();
 
         }
+        
+        if(mSender != null)
+        {
+	    	try
+			{
+	            Object args[] = new Object[2];
+	            args[0] = new Float(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME) / 1000.0);
+	            args[1] = new Float(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME) / 1000.0);;
+	
+		        OSCMessage msg = new OSCMessage("/RehearsalAssistant/playbackStarted", args);
+	            mSender.send(msg);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
 	}
     /** Called when the user selects a list item. */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
@@ -723,4 +759,6 @@ public class SessionPlayback
     
     Handler mHandler = new Handler();
     CharSequence mOldTitle;
+    
+    OSCPortOut mSender = null;
 }

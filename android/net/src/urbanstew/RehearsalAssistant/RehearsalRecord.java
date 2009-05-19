@@ -24,6 +24,9 @@
 
 package urbanstew.RehearsalAssistant;
 
+import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import java.util.Timer;
@@ -35,6 +38,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPort;
+import com.illposed.osc.OSCPortOut;
 
 /** The RehearsalRecord Activity handles recording annotations
  * 	for a particular project.
@@ -70,6 +77,20 @@ public class RehearsalRecord extends RehearsalActivity
         }
         
         setTitle("Rehearsal Assistant - " + mSessionRecord.getSessionTitle());
+        
+		try
+		{
+			byte[] address = {(byte) 192, (byte) 168, 1, 101};
+			mSender = new OSCPortOut(java.net.InetAddress.getByAddress(address), 12345);
+		} catch (SocketException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {        
@@ -154,6 +175,19 @@ public class RehearsalRecord extends RehearsalActivity
     	mSessionRecord.startSession();
     	
     	startedSession();
+    	
+    	if(mSender != null)
+    	{
+	    	try
+			{
+		        OSCMessage msg = new OSCMessage("/RehearsalAssistant/sessionStarted", null);
+	            mSender.send(msg);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
     
     void startedSession()
@@ -168,6 +202,19 @@ public class RehearsalRecord extends RehearsalActivity
 		
 		startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData()));
 		finish();
+
+    	if(mSender != null)
+    	{
+	    	try
+			{
+		        OSCMessage msg = new OSCMessage("/RehearsalAssistant/sessionStopped", null);
+	            mSender.send(msg);
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
     
     void startRecording()
@@ -202,4 +249,7 @@ public class RehearsalRecord extends RehearsalActivity
     SessionRecord mSessionRecord = null;
 
     long project_id;
+    
+    OSCPortOut mSender = null;
+
 }
