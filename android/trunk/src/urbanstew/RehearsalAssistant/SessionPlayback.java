@@ -663,6 +663,13 @@ public class SessionPlayback
         				Toast.LENGTH_SHORT).show();
 
         }
+
+        Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.playbackStarted");
+        
+        intent.putExtra("START_TIME", (float)(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME) / 1000.0f));
+        intent.putExtra("END_TIME", (float)(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME) / 1000.0f));
+        
+        mActivity.sendBroadcast(intent);
 	}
     /** Called when the user selects a list item. */
     AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {

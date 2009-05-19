@@ -154,6 +154,9 @@ public class RehearsalRecord extends RehearsalActivity
     	mSessionRecord.startSession();
     	
     	startedSession();
+    	
+    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.startSession");
+    	sendBroadcast(intent);
     }
     
     void startedSession()
@@ -168,6 +171,9 @@ public class RehearsalRecord extends RehearsalActivity
 		
 		startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData()));
 		finish();
+		
+    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.stopSession");
+    	sendBroadcast(intent);
     }
     
     void startRecording()
