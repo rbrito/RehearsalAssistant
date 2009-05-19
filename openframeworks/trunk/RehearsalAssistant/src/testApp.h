@@ -4,6 +4,23 @@
 
 #include "ofMain.h"
 
+#include "ofxOsc.h"
+
+#include <Poco/SharedPtr.h>
+
+#define HOST "localhost"
+#define PORT 12345
+
+struct videoFrame
+{
+	videoFrame(unsigned char * data, float time)
+		: frameData(data), timeStamp(time)
+	{}
+
+	unsigned char * frameData;
+	float timeStamp;
+};
+
 class testApp : public ofBaseApp{
 	
 	public:
@@ -19,12 +36,24 @@ class testApp : public ofBaseApp{
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
 		void windowResized(int w, int h);
-		
+
+private:		
 		ofVideoGrabber 		vidGrabber;
-		unsigned char * 	videoInverted;
+		std::vector<videoFrame> 	videoRecording;
 		ofTexture			videoTexture;
 		int 				camWidth;
 		int 				camHeight;
+
+		bool				isRecording;
+		float				recordingStartTime;
+
+
+		bool				isPlaying;
+		int					playbackFrame;
+		float				playbackStopTime;
+		
+		ofxOscReceiver		receiver;
+		ofxOscSender		sender;
 };
 
 #endif	
