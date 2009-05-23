@@ -12,7 +12,6 @@
     android:layout_alignParentBottom="true" 
 	android:paddingTop="7dip"
     />
-
 <TextView
     android:id="@+id/playback_time"
 	android:layout_above="@+id/button"
@@ -34,7 +33,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:src="@drawable/red_masks"
-		android:scaleType="center"
+		android:scaleType="fitEnd"
 		/>
 	<urbanstew.RehearsalAssistant.IndicatingListView android:id="@+id/annotation_list"
 	    android:layout_width="fill_parent" 

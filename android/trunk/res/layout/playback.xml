@@ -29,12 +29,13 @@
 	android:layout_width="fill_parent" 
     android:layout_below="@+id/playback_instructions"
     android:layout_above="@id/playback_time"
-	android:background="#7da7d9" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
+	android:background="@drawable/masks_gradient" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
 	<ImageView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:src="@drawable/masks"
-		android:gravity="center"/>
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:src="@drawable/red_masks"
+		android:scaleType="center"
+	/>
 	<urbanstew.RehearsalAssistant.IndicatingListView android:id="@+id/annotation_list"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 

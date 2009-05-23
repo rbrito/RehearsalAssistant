@@ -60,7 +60,7 @@
     <FrameLayout
 		android:layout_width="fill_parent" 
     	android:layout_height="wrap_content"
-		android:background="#7da7d9"
+		android:background="@drawable/masks_gradient"
 		android:layout_marginLeft="5dip"
 		android:layout_marginRight="5dip"
 		android:layout_marginBottom="5dip"
@@ -69,7 +69,7 @@
     	<ImageView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:src="@drawable/masks"
+		android:src="@drawable/red_masks"
 		android:gravity="right"/>
 	</FrameLayout>
 	</LinearLayout>

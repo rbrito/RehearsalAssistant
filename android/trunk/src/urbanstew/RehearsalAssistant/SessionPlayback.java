@@ -144,7 +144,7 @@ public class SessionPlayback
         Log.w("RehearsalAssistant", "Read " + mAnnotationsCursor.getCount() + " annotations.");
 
         mListAdapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
-                new String[] { Annotations.START_TIME}, new int[] { android.R.id.text1 });
+                new String[] { Annotations.START_TIME, Annotations.LABEL }, new int[] { android.R.id.text1, android.R.id.text2 });
         
         mListAdapter.setViewBinder(new ViewBinder()
         {
@@ -152,7 +152,10 @@ public class SessionPlayback
 					int columnIndex)
 			{
 				TextView v = (TextView)view;
-				v.setText(makeAnnotationText(cursor), TextView.BufferType.SPANNABLE);
+				if(v.getId() == android.R.id.text2)
+					return false;
+				v.setText(formatter.format(new Date(cursor.getLong(ANNOTATIONS_START_TIME))),
+						/*makeAnnotationText(cursor),*/ TextView.BufferType.SPANNABLE);
 				if(cursor.getInt(ANNOTATIONS_VIEWED) == 0)
 				{
 					v.setTextAppearance(mActivity.getApplicationContext(), android.R.attr.textAppearanceLarge);

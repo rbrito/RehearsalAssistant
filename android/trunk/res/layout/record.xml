@@ -63,9 +63,10 @@
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent"
 	    android:text="@string/start_session"
-		android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textSize="40dip"/>
-	    <RelativeLayout
+		android:textAppearance="?android:attr/textAppearanceLargeInverse"
+	    android:textSize="40dip"
+	    />
+	    <FrameLayout
   		    android:layout_width="fill_parent" 
 		    android:layout_height="fill_parent"
 		    android:paddingLeft="5px"
@@ -77,36 +78,14 @@
 					<ImageView android:id="@+id/record_button_image"
 					android:layout_alignParentTop="true"
 					android:layout_alignParentLeft="true"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:src="@drawable/masks_transparent"
-					android:padding="0px"
-			    	android:layout_margin="0px"
-			    	android:scaleType="centerCrop"/>
-					<FrameLayout
-					android:layout_toRightOf="@id/record_button_image"
-					android:layout_alignParentTop="true"
-					android:layout_alignParentRight="true"
-					android:layout_alignBottom="@id/record_button_image"
-					android:layout_width="fill_parent" 
+					android:layout_width="fill_parent"
 					android:layout_height="fill_parent"
-					android:background="#7F7da7d9"
+					android:src="@drawable/grayscale_masks"
 					android:padding="0px"
 			    	android:layout_margin="0px"
-			    	/>
-				<FrameLayout
-					android:layout_alignParentBottom="true"
-					android:layout_alignParentLeft="true"
-					android:layout_alignParentRight="true"
-					android:layout_below="@id/record_button_image"
-			    android:padding="0px"
-			    android:layout_margin="0px"
-			    android:layout_width="fill_parent" 
-				android:layout_height="fill_parent"
-				android:background="#7F7da7d9"
-				/>
-				
+				    android:background="#1F000000"			    	
+			    	android:scaleType="centerCrop"/>				
 			
-		</RelativeLayout>>
+		</FrameLayout>
 	</FrameLayout>
 </RelativeLayout>
