@@ -25,16 +25,21 @@
  #include "testApp.h"
 
 //--------------------------------------------------------------
+testApp::testApp(const std::string &ip)
+	: serverIP(ip)
+{}
+
+//--------------------------------------------------------------
 void testApp::setup(){	 
 	
 	// record 320x240 for now. 
-	camWidth 		= 320;
-	camHeight 		= 240;
+	camWidth 		= 640;
+	camHeight 		= 480;
 	
 	// initialize video grabber
 	vidGrabber.setVerbose(true);
 	vidGrabber.initGrabber(camWidth,camHeight);
-	
+
 	// allocate texture for the playback
 	videoTexture.allocate(camWidth,camHeight, GL_RGB);
 	
@@ -44,9 +49,15 @@ void testApp::setup(){
 	playbackFrame = 0;
 	
 	// open an outgoing connection to HOST:PORT
-	sender.setup( HOST, PORT );
+	sender.setup( "localhost", 32624 );
 	// and an incoming connection to PORT
-	receiver.setup( PORT );
+	receiver.setup( 32624 );
+	
+	if(!serverIP.empty())
+	{
+		std::cout << "Connecting to: " << serverIP << std::endl;
+		client.setup(Poco::Net::SocketAddress(serverIP, 32623));
+	}
 }
 
 
@@ -93,11 +104,14 @@ void testApp::update()
 	}
 	
 	// check for waiting messages
-	while( receiver.hasWaitingMessages() )
+	while( receiver.hasWaitingMessages() || client.hasWaitingMessages() )
 	{
 		// get the next message
 		ofxOscMessage m;
-		receiver.getNextMessage( &m );
+		if( receiver.hasWaitingMessages() )
+			receiver.getNextMessage( &m );
+		else
+			client.getNextMessage( &m );
 
 		// check for session started message
 		if ( m.getAddress() == "/RehearsalAssistant/sessionStarted" )
@@ -142,20 +156,21 @@ void testApp::draw()
 	// white
 	ofSetColor(0xffffff);
 	// draw the camera input at 20,20
-	vidGrabber.draw(20,20);
+	if(isRecording)
+		vidGrabber.draw(20,20);
 	
 	// check whether we should display the playback frame
 	if(videoRecording.size() && isPlaying)
 	{
 		videoTexture.loadData(videoRecording[playbackFrame].frameData, camWidth,camHeight, GL_RGB);
-		videoTexture.draw(20+camWidth,20,camWidth,camHeight);
+		videoTexture.draw(20,20,camWidth,camHeight);
 	}
 	
 	// black
 	ofSetColor(0x000000);
 	// display the current recording / playback frame
-	ofDrawBitmapString("frame recorded: " + ofToString((int)videoRecording.size()),20,320);
-	ofDrawBitmapString("frame played: " + ofToString(playbackFrame),20,340);
+	ofDrawBitmapString("frame recorded: " + ofToString((int)videoRecording.size()),20, camHeight + 40);
+	ofDrawBitmapString("frame played: " + ofToString(playbackFrame),20, camHeight + 60);
 }
 
 

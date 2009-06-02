@@ -5,11 +5,7 @@
 #include "ofMain.h"
 
 #include "ofxOsc.h"
-
-#include <Poco/SharedPtr.h>
-
-#define HOST "localhost"
-#define PORT 12345
+#include "ofxOscTCPClient.h"
 
 struct videoFrame
 {
@@ -24,6 +20,8 @@ struct videoFrame
 class testApp : public ofBaseApp{
 	
 	public:
+		testApp() {};
+		testApp(const std::string &ip);
 		
 		void setup();
 		void update();
@@ -54,6 +52,8 @@ private:
 		
 		ofxOscReceiver		receiver;
 		ofxOscSender		sender;
+		ofxOscTCPClient		client;
+		std::string			serverIP;
 };
 
 #endif	
