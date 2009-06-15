@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.7.1</string>
+    <string name="about">Welcome to Rehearsal Assistant - beta 0.7.3</string>
     <string name="help">Instructions</string>
     <string name="settings">Settings</string>
     <string name="switch_to_simple">Switch to Simple Mode</string>

@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class SessionRecord
@@ -91,7 +92,7 @@ public class SessionRecord
 			mOutputFile = audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId + ".3gp";
 			Log.w("Rehearsal Assistant", "writing to file " + mOutputFile);
 	    	recorder = new MediaRecorder();
-	    	recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+	        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 	        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 	        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 	        recorder.setOutputFile(mOutputFile);
@@ -127,6 +128,34 @@ public class SessionRecord
     	values.put(Annotations.END_TIME, time);
     	values.put(Annotations.FILE_NAME, mOutputFile);
     	mContentResolver.update(ContentUris.withAppendedId(Annotations.CONTENT_URI, mRecordedAnnotationId), values, null, null);
+
+        String[] mediaProjection =
+        {
+            MediaStore.MediaColumns._ID,
+        };
+        		
+		Cursor c =
+			mContentResolver.query
+			(
+				MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+				mediaProjection,
+				MediaStore.MediaColumns.DATA + "='" + mOutputFile + "'",
+				null,
+				null
+			);
+		if(c.getCount()>0)
+		{
+			c.moveToFirst();
+
+	        ContentValues audioValues = new ContentValues(2);
+
+	        audioValues.put(MediaStore.Audio.AudioColumns.TITLE, "audio_" + mRecordedAnnotationId + ".3gp");
+	        audioValues.put(MediaStore.Audio.AudioColumns.ALBUM, mTitle);
+	        audioValues.put(MediaStore.Audio.AudioColumns.ARTIST, "Rehearsal Assistant");
+
+	        mContentResolver.update(ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, c.getLong(0)), audioValues, null, null);
+		}
+		c.close();
 
         mState = State.STARTED;
 	}

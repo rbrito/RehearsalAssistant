@@ -58,7 +58,7 @@ public class IndicatingListView extends ListView
 		   	if(mSelectedView != null)
 		   	{
 				mSelectedViewOldDrawable = mSelectedView.getBackground();
-	    		mSelectedView.setBackgroundColor(Color.BLACK);
+	    		mSelectedView.setBackgroundColor(Color.argb(127, 255, 255, 255));
 	    	}
 		}
 

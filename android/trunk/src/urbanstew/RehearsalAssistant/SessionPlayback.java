@@ -43,6 +43,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -501,6 +502,7 @@ public class SessionPlayback
     public static final int MENU_ITEM_LABEL = Menu.FIRST+1;
     public static final int MENU_ITEM_EMAIL = Menu.FIRST+2;
     public static final int MENU_ITEM_DELETE = Menu.FIRST+3;
+    public static final int MENU_ITEM_EDIT = Menu.FIRST+4;
 
     View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener()
     {
@@ -511,6 +513,7 @@ public class SessionPlayback
 			menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, "edit label");
 			menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, "e-mail");
 			menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, "delete");
+			menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, "open with Ringdroid");
 		}
     	
     };
@@ -571,6 +574,47 @@ public class SessionPlayback
         		null
         	);
         	break;
+        case MENU_ITEM_EDIT:
+    		try
+        	{
+    			Intent intent = 
+	            	new Intent
+	            	(
+	            		Intent.ACTION_EDIT,
+	            		Uri.parse(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME))
+	            	);
+    			intent.setComponent(new ComponentName("com.ringdroid", "com.ringdroid.RingdroidEditActivity"));
+    			
+	            mActivity.startActivity(intent);
+        	} catch (ActivityNotFoundException e)
+        	{
+          		Request.confirmation
+          		(
+          			mActivity,
+          			"Ringdroid not installed",
+          			"Click OK to donwload Ringdroid now.",
+          			new DialogInterface.OnClickListener()
+          			{
+						public void onClick(DialogInterface dialog, int which)
+						{
+							try
+							{
+					            mActivity.startActivity
+					            (
+					            	new Intent
+					            	(
+					            		Intent.ACTION_VIEW,
+					            		Uri.parse("market://search?q=pname:com.ringdroid")
+					            	)
+					            );
+							} catch (ActivityNotFoundException e)
+							{
+					      		Toast.makeText(mActivity, "Sorry, I could not start the Market app to download Ringdroid.", Toast.LENGTH_SHORT).show();
+							}
+						}
+          			}
+          		);
+        	}
         }
         return true;
 	}

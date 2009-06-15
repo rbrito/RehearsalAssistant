@@ -44,15 +44,15 @@ public class ProjectBase extends RehearsalActivity
 	    		{
 	    		    public void onClick(DialogInterface dialog, int whichButton)
 	    		    {
-	    		    	mAppData.setVisitedVersion(0.71f);
+	    		    	mAppData.setVisitedVersion(0.73f);
 	    		    }
 	    		}
 	    	);
         }
-        else if (visitedVersion < 0.71f)
+        else if (visitedVersion < 0.73f)
         {
     		Request.contribution(this);
-    		mAppData.setVisitedVersion(0.71f);
+    		mAppData.setVisitedVersion(0.73f);
         }
     }
     
