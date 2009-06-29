@@ -79,5 +79,9 @@ public class RecordService extends Service
 		{
 			RecordService.this.toggleRecording();
 		}
+		public int getMaxAmplitude() throws RemoteException
+		{
+			return mSessionRecord.getMaxAmplitude();
+		}
     };
 }

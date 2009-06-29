@@ -13,22 +13,54 @@
 	android:paddingTop="7dip"
     />
 
-<TextView
-    android:id="@+id/playback_time"
+<RelativeLayout
+	android:id="@+id/time_and_volume"
 	android:layout_above="@+id/button"
     android:layout_width="fill_parent"
    	android:layout_height="wrap_content"
-    android:singleLine="true"
-    android:gravity="center"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="00:00:00"
-    android:layout_marginTop="5dip"
-    />
+    android:layout_marginBottom="2dip"
+>
+	<TextView
+	    android:id="@+id/playback_time_sizer"
+	    android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	    android:singleLine="true"
+	    android:gravity="center"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:text=""
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="8dip"
+	    />
+	<urbanstew.RehearsalAssistant.VolumeEnvelopeView
+		xmlns:app="http://schemas.android.com/apk/res/urbanstew.RehearsalAssistant"
+		android:id="@+id/volume_envelope"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	   	android:layout_alignBottom="@id/playback_time_sizer"
+	   	android:layout_alignTop="@id/playback_time_sizer"
+	   	android:layout_alignLeft="@id/playback_time_sizer"
+	   	android:layout_alignRight="@id/playback_time_sizer" 
+	    android:layout_marginLeft="5dip"
+	    android:layout_marginRight="5dip"
+	   	app:color="#888"
+	   	/>
+	<TextView
+	    android:id="@+id/playback_time"
+	    android:layout_width="fill_parent"
+	   	android:layout_height="wrap_content"
+	    android:singleLine="true"
+	    android:gravity="center"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:text="00:00:00"
+	    android:layout_marginTop="5dip"
+	    android:layout_marginBottom="8dip"
+	    />
+</RelativeLayout>
 <FrameLayout
 	android:layout_height="fill_parent" 
 	android:layout_width="fill_parent" 
     android:layout_alignParentTop="true" 
-    android:layout_above="@id/playback_time"
+    android:layout_above="@id/time_and_volume"
 	android:background="@drawable/masks_gradient" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
 	<ImageView
 		android:layout_width="fill_parent"

@@ -15,4 +15,5 @@ interface IRecordService
 	void stopRecording();
 	int getState();
 	long getTimeInRecording();
+	int getMaxAmplitude();
 }

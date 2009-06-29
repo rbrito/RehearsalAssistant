@@ -177,6 +177,13 @@ public class SessionRecord
 		return System.currentTimeMillis() - mTimeAtAnnotationStart;
 	}
 	
+	int getMaxAmplitude()
+	{
+		if(recorder == null)
+			return 0;
+		return recorder.getMaxAmplitude();
+	}
+	
 	MediaRecorder recorder = null;
     State mState = State.INITIALIZING;
         

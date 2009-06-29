@@ -12,11 +12,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -87,7 +89,8 @@ public class SimpleProject extends ProjectBase
         mRecordButton.setOnClickListener(mClickListener);
         mRecordButton.setClickable(false);
         mCurrentTime = (TextView) findViewById(R.id.playback_time);
-
+        mEnvelopeView = (VolumeEnvelopeView) findViewById(R.id.volume_envelope);
+        
         mSessionId = getSessionId(getContentResolver(), projectId());
         if(mSessionId < 0)
         {
@@ -127,6 +130,9 @@ public class SimpleProject extends ProjectBase
     	} catch (RemoteException e)
     	{}
     	
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    	mVolumeEnvelopeEnabled = preferences.getBoolean("recording_waveform", true);
+    	
     	mCurrentTimeTask = new TimerTask()
     		{
     			public void run()
@@ -135,18 +141,23 @@ public class SimpleProject extends ProjectBase
     				{
     					public void run()
     					{
-    						if(mRecordService == null)
-    							return;
+    						if(mRecordService != null)
     				        try
     				        {
     							if(mRecordService.getState() == SessionRecord.State.RECORDING.ordinal())
+    							{
     								mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mRecordService.getTimeInRecording()));
+    								if(mVolumeEnvelopeEnabled)
+    									mEnvelopeView.setNewVolume(mRecordService.getMaxAmplitude());
+    								return;
+    							}
     				    	} catch (RemoteException e)
     				    	{
-    				    		
     				    	}
+    				    	if(mVolumeEnvelopeEnabled)
+    				    		mEnvelopeView.clearVolume();
     					}
-    				});                          
+    				});              
     			}
     		};
 		mTimer.scheduleAtFixedRate(
@@ -313,6 +324,8 @@ public class SimpleProject extends ProjectBase
     IRecordService mRecordService = null;
 
     TextView mCurrentTime;
+    VolumeEnvelopeView mEnvelopeView;
+    
     Timer mTimer = new Timer();
     
     ImageButton mRecordButton;
@@ -322,5 +335,6 @@ public class SimpleProject extends ProjectBase
     SessionPlayback mSessionPlayback;
     
     boolean mUpdateListSelection = false;
+    boolean mVolumeEnvelopeEnabled;
 
 }
