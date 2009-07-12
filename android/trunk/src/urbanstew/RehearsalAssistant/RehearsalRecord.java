@@ -29,11 +29,17 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 /** The RehearsalRecord Activity handles recording annotations
@@ -60,16 +66,12 @@ public class RehearsalRecord extends RehearsalActivity
 
         RehearsalAssistant.checkSdCard(this);
 
-        mSessionRecord = new SessionRecord(getIntent().getData(), getContentResolver());
-
-    	// Find out whether the session is already going
-        if(mSessionRecord.state() == SessionRecord.State.STARTED)
-        {
-    		((TextView)findViewById(R.id.record_instructions)).setText(R.string.recording_instructions_started);
-        	startedSession();
-        }
+        mRecordButton = ((Button)findViewById(R.id.button));
+		mSessionId = Long.parseLong(getIntent().getData().getPathSegments().get(1));
+        bindService(new Intent(IRecordService.class.getName()),
+                mServiceConnection, Context.BIND_AUTO_CREATE);
         
-        setTitle("Rehearsal Assistant - " + mSessionRecord.getSessionTitle());
+        setTitle("Rehearsal Assistant - Recording Session");
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {        
@@ -83,7 +85,16 @@ public class RehearsalRecord extends RehearsalActivity
     {
     	super.onResume();
     	
-    	mCurrentTimeTask = new TimerTask()
+		if(mRecordService != null)
+			try
+			{
+				mRecordService.setSession(mSessionId);
+				updateViews();
+			} catch (RemoteException e)
+			{
+			}
+
+		mCurrentTimeTask = new TimerTask()
     	{
     		public void run()
     		{
@@ -91,8 +102,15 @@ public class RehearsalRecord extends RehearsalActivity
     			{
     				public void run()
     				{
-    					if(mSessionRecord.state() != SessionRecord.State.READY)
-    						mCurrentTime.setText(mFormatter.format(System.currentTimeMillis() - mSessionRecord.timeAtStart()));
+    					if(mRecordService == null)
+    						return;
+    					try
+						{
+							if(mRecordService.getState() != RecordService.State.READY.ordinal())
+								mCurrentTime.setText(mFormatter.format(mRecordService.getTimeInSession()));
+						} catch (RemoteException e)
+						{
+						}
     				}
     			});
     		}
@@ -112,20 +130,25 @@ public class RehearsalRecord extends RehearsalActivity
     public void onDestroy()
     {
     	mTimer.cancel();
-    	mSessionRecord.onDestroy();
+    	unbindService(mServiceConnection);
     	super.onDestroy();
     }
     
     /* User interaction events */
     public boolean onOptionsItemSelected(MenuItem item) 
     {
-    	switch(mSessionRecord.state())
-    	{
-    	case RECORDING:
-    		stopRecording();
-    	case STARTED:
-    		stopSession();
-    	}
+    	try
+		{
+			switch(RecordService.State.values()[mRecordService.getState()])
+			{
+			case RECORDING:
+				stopRecording();
+			case STARTED:
+				stopSession();
+			}
+		} catch (RemoteException e)
+		{
+		}
 		return true;
     }
     
@@ -134,29 +157,38 @@ public class RehearsalRecord extends RehearsalActivity
     {
         public void onClick(View v)
         {
-        	switch(mSessionRecord.state())
-        	{
-        	case READY:
-        		startSession();
-        		return;
-        	case STARTED:
-        		startRecording();
-	            return;
-        	default:
-            	stopRecording();
-        	}
+        	try
+			{
+				switch(RecordService.State.values()[mRecordService.getState()])
+				{
+				case READY:
+					startSession();
+					return;
+				case STARTED:
+					startRecording();
+				    return;
+				default:
+					stopRecording();
+				}
+			} catch (RemoteException e)
+			{
+			}
         }
     };
 
     /** State changes. */
     void startSession()
     {
-    	mSessionRecord.startSession();
-    	
-    	startedSession();
-    	
-    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.startSession");
-    	sendBroadcast(intent);
+    	try
+		{
+			mRecordService.startSession(mSessionId);
+	    	startedSession();
+	    	
+	    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.startSession");
+	    	sendBroadcast(intent);
+		} catch (RemoteException e)
+		{
+		}    	
     }
     
     void startedSession()
@@ -167,35 +199,85 @@ public class RehearsalRecord extends RehearsalActivity
 
     void stopSession()
     {
-		mSessionRecord.stopSession();
-		
-		startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData()));
-		finish();
-		
-    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.stopSession");
-    	sendBroadcast(intent);
+    	try
+		{
+			mRecordService.stopSession(mSessionId);
+
+			startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData()));
+			finish();
+			
+	    	Intent intent = new Intent("urbanstew.RehearsalAssistant.NetPlugin.stopSession");
+	    	sendBroadcast(intent);
+		} catch (RemoteException e)
+		{
+		}	
     }
     
     void startRecording()
     {
-    	mSessionRecord.startRecording();
+    	try
+		{
+			mRecordService.startRecording(mSessionId);
+			updateViews();
+		} catch (RemoteException e)
+		{
+		}
 
-        ((android.widget.Button)findViewById(R.id.button)).setText(R.string.stop_recording);
-        mLeftRecordIndicator.setVisibility(View.VISIBLE);
-        mRightRecordIndicator.setVisibility(View.VISIBLE);
     }
     
     void stopRecording()
     {
-    	mSessionRecord.stopRecording();
+    	try
+		{
+			mRecordService.stopRecording();
+			updateViews();
 
-    	((android.widget.Button)findViewById(R.id.button)).setText(R.string.record);
-    	mLeftRecordIndicator.setVisibility(View.INVISIBLE);
-    	mRightRecordIndicator.setVisibility(View.INVISIBLE);
+		} catch (RemoteException e)
+		{
+		}
     }
     
-    TimerTask mCurrentTimeTask;
+    void updateViews() throws RemoteException
+    {
+		boolean value = mRecordService.getState() == RecordService.State.RECORDING.ordinal();
+		mRecordButton.setText(value ? R.string.stop_recording : R.string.record);
+    	mLeftRecordIndicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);
+    	mRightRecordIndicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);
+    }
 
+    /**
+     * Class for interacting with the secondary interface of the service.
+     */
+    private ServiceConnection mServiceConnection = new ServiceConnection()
+    {
+        public void onServiceConnected(ComponentName className, IBinder service)
+        {
+        	mRecordService = IRecordService.Stub.asInterface(service);
+        	try
+        	{
+        		mRecordService.setSession(mSessionId);
+                mRecordButton.setClickable(true);
+            	// Find out whether the session is already going
+                if(mRecordService.getState() == RecordService.State.STARTED.ordinal())
+                {
+            		((TextView)findViewById(R.id.record_instructions)).setText(R.string.recording_instructions_started);
+                	startedSession();
+                }
+        	} catch (RemoteException e)
+        	{}
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+        	mRecordService = null;
+            mRecordButton.setClickable(false);
+        }
+    };
+    
+    Button mRecordButton;
+    IRecordService mRecordService = null;
+    TimerTask mCurrentTimeTask;
+    long mSessionId;
+    
     TextView mCurrentTime;
     SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
     
@@ -205,7 +287,5 @@ public class RehearsalRecord extends RehearsalActivity
 	
     RehearsalData data;
     
-    SessionRecord mSessionRecord = null;
-
     long project_id;
 }

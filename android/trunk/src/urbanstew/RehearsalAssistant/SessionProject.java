@@ -27,7 +27,9 @@ package urbanstew.RehearsalAssistant;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.net.Uri;
@@ -93,8 +95,6 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
         	);
 
         reviseInstructions();
-        
-        setTitleDelayed("Rehearsal Assistant - Session Mode");
     }
     
     public void onDestroy()
@@ -128,8 +128,20 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo)
 		{
-			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
-			menu.add(0, MENU_ITEM_RECORD, 1, "record");
+   			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo; 
+   			//menu.add(Menu.NONE, MENU_ITEM_RENAME, 0, "rename");
+   			cursor.moveToPosition(info.position);
+
+   			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
+   			String recordAction;
+   			if(cursor.isNull(SESSIONS_START_TIME))
+   				recordAction = "record";
+   			else if(cursor.isNull(SESSIONS_END_TIME))
+   				recordAction = "continue recording";
+   			else
+   				recordAction = "overwrite";
+   				
+			menu.add(0, MENU_ITEM_RECORD, 1, recordAction);
 			menu.add(0, MENU_ITEM_DELETE, 2, "delete");
 		}
     };
@@ -143,7 +155,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             return false;
         }
 
-    	Uri runUri = ContentUris.withAppendedId(Sessions.CONTENT_URI, info.id);
+    	final Uri runUri = ContentUris.withAppendedId(Sessions.CONTENT_URI, info.id);
 
     	switch (item.getItemId()) {
 
@@ -152,8 +164,25 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             	startActivity(new Intent(Intent.ACTION_VIEW, runUri));
                 return true;
             }
-            case MENU_ITEM_RECORD: {
-        		startActivity(new Intent(Intent.ACTION_EDIT, runUri));
+            case MENU_ITEM_RECORD:
+            {
+            	cursor.moveToPosition(info.position);
+            	if(!cursor.isNull(SESSIONS_END_TIME))
+            		Request.cancellable_confirmation
+            		(
+            			this,
+            			"Warning",
+            			"This will erase all recordings made the previous time session was recorded.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+            			new OnClickListener()
+            			{
+							public void onClick(DialogInterface arg0, int arg1)
+							{
+				        		startActivity(new Intent(Intent.ACTION_EDIT, runUri));
+							}            				
+            			}
+            		);
+            	else
+            		startActivity(new Intent(Intent.ACTION_EDIT, runUri));
                 return true;
             }
             case MENU_ITEM_DELETE: {

@@ -29,12 +29,16 @@ import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 /** The RehearsalAssistant Activity is the top-level activity.
  */
 public class RehearsalAssistant extends RehearsalActivity
-{    
+{
+	public static float currentVersion = 0.8f;
+	
     /** Called when the activity is first created.
      *  
      *  For now, provides access to the recording and playback activities.
@@ -44,20 +48,32 @@ public class RehearsalAssistant extends RehearsalActivity
     {
         super.onCreate(savedInstanceState);
         
-        AppDataAccess appData = new AppDataAccess(this);
-
-        // View the current project
-        startActivity
-        (
-        	new Intent
-        	(
-        		Intent.ACTION_VIEW,
-        		ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
-        	)
-        );
+        Intent intent;
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    	if(preferences.getBoolean("launch_with_last_project", true))
+		{
+	        // View the current project
+	        AppDataAccess appData = new AppDataAccess(this);
+	        intent =
+	        	new Intent
+	        	(
+	        		Intent.ACTION_VIEW,
+	        		ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
+	        	);
+		}
+    	else
+    	{
+    		// Open Project Manager
+        	intent =
+		       	new Intent
+		       	(
+		       		Intent.ACTION_VIEW,
+		       		Projects.CONTENT_URI
+		       	);
+    	}
     	
-    	// finish
-    	finish();
+        startActivity(intent);
+        finish();
     }
     
     public static void checkSdCard(Context context)

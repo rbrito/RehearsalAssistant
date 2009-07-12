@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rehearsal Assistant</string>
-    <string name="about">Welcome to Rehearsal Assistant - beta 0.7.4</string>
+
     <string name="help">Instructions</string>
     <string name="settings">Settings</string>
-    <string name="switch_to_simple">Switch to Simple Mode</string>
-    <string name="switch_to_session">Switch to Session Mode</string>
 
     <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 
@@ -16,25 +14,38 @@
 	<string name="recording_instructions">Click the button to start the session. Click again to start/stop each recording. Use the MENU to stop the session.</string>
 	<string name="recording_instructions_started">Click the button to start/stop each recording. Use the MENU to stop the session.</string>
 
-<string name="session_instructions">Session
-Mode allows you to record voice/audio annotations in sessions, and time-stamps relative to the beginning of the session.\n\nClick
+<string name="session_instructions">A Session
+Project allows you to record voice/audio annotations in sessions, and time-stamps relative to the beginning of the session.\n\nClick
 \'Document New Session\' to create a new session and record annotations.
 You may also click on an existing session to review its annotations, or long-press
-for more options.\n\nYou can use the MENU to
-switch to Simple Mode.</string>
+for more options.\n\nYou can use the MENU to access the Project Manager.</string>
 <string name="session_no_session_instructions">Click below to document a new session.\n\n
-Use the menu to access instructions, adjust settings, or to switch to Simple Mode (Simple Mode has a simpler playback/recording interface).</string>
+Use the menu to access instructions, adjust settings, or to access the Project Manager.</string>
 
-<string name="simple_instructions">Simple Mode offers easy recording and playback of sound files.\n\nUse
+<string name="simple_instructions">A Memo Project offers easy recording and playback of sound files.\n\nUse
 the record button to start / stop recording. Click
 on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it.\n\nUse
-the MENU to e-mail all of the recordings or to switch to Session Mode.</string>
+the MENU to e-mail all of the recordings or to access the Project Manager.</string>
 <string name="simple_no_annotations_instructions">Click below to start / stop recording.\n\n
-Use the menu to access instructions, adjust settings, or to switch to Session Mode (Session Mode organizes recordings in sessions).</string>
+Use the menu to access instructions, adjust settings, or to access the Project Manager.</string>
 
-	<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
-	<string name="annotation_label_text">Enter a new label for the annotation</string>
-	<string name="no_annotations">No annotations were recorded for this session.</string>
+<string name="project_manager_instructions">The Project Manager allows you to open,
+create, and manage projects, which you can use to organize your recordings. Two
+types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*
+ideal for memos, reminders, etc.\n*
+can be designated for use with the Sound Recorder Widget\n\nSession
+projects:\n* organize recordings into sessions\n*
+timestamp relative to the
+beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick
+on a project to open it. Long-press to delete or designate for
+Sound Recorder Widget recordings (Memo projects only).\n\nAt
+this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou
+can use the menu to create a new project, download the Sound Recorder Widget,
+or to review these instructions again.\n\n</string>
+
+<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
+<string name="annotation_label_text">Enter a new label for the annotation</string>
+<string name="no_annotations">No annotations were recorded for this session.</string>
 
 <string name="license">Welcome to Rehearsal Assistant!\n\nBy
 using this application, you agree to the following license:\n\nAndroid
@@ -56,4 +67,15 @@ you are likely to encounter problems during use.\n\nIf you experience
 problems or have any suggestions,
 please e-mail us at comments@urbanstew.org
 and we will try to fix the problem / incorporate your suggestions.\n\nThank you!\n\n</string>
+
+<string name="memo">Memo</string>
+<string name="my_memo_project">My Memo Project</string>
+<string name="memo_project">Memo Project</string>
+<string name="session">Session</string>
+<string name="session_project">Session Project</string>
+<string name="my_session_project">My Session Project</string>
+<string name="project_type">project type:</string>
+
+<string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string> 
+
 </resources>

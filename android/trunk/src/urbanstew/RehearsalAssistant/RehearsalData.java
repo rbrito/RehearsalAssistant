@@ -57,37 +57,27 @@ public class RehearsalData extends ContentProvider {
 		// Access the database.
 		mOpenHelper = new DatabaseHelper(getContext());
 		
-		// Insert the hard-coded projects if they are missing.
-		SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-		Cursor c = db.query("projects", null, null, null, null, null, null);
-		Log.w("RehearsalAssistant", "Read " + c.getCount() + " projects");
-		if (c.getCount() == 0)
-		{
-			addSimpleProject(db);
-			addSessionProject(db);
-		}
-		else if(c.getCount() == 1)
-		{
-			addSimpleProject(db);
-		}
-		c.close();
-		
 		return true;
 	}
 	
-	void addSimpleProject(SQLiteDatabase db)
+	static ContentValues valuesForMemoProject(Context context)
 	{
 		ContentValues values = new ContentValues();
-		values.put(Projects.TITLE, "Simple Project");
-		values.put(Projects.IDENTIFIER, "simple_project");
+		values.put(Projects.TITLE, context.getResources().getString(R.string.my_memo_project));
+		values.put(Projects.IDENTIFIER, "memo_project");
 		values.put(Projects.TYPE, Projects.TYPE_SIMPLE);
-		db.insert("projects", "identifier", values);
+		return values;
+	}
+
+	static void addSimpleProject(SQLiteDatabase db, Context context)
+	{
+		db.insert("projects", "identifier", valuesForMemoProject(context));
 	}
 	
-	void addSessionProject(SQLiteDatabase db)
+	static void addSessionProject(SQLiteDatabase db, Context context)
 	{
 		ContentValues values = new ContentValues();
-		values.put(Projects.TITLE, "Session Project");
+		values.put(Projects.TITLE, context.getResources().getString(R.string.my_session_project));
 		values.put(Projects.IDENTIFIER, "session_project");
 		values.put(Projects.TYPE, Projects.TYPE_SESSION);
 		db.insert("projects", "identifier", values);
@@ -122,6 +112,9 @@ public class RehearsalData extends ContentProvider {
 					+ Projects.IDENTIFIER + " TEXT,"
 					+ Projects.TYPE + " INTEGER DEFAULT " + Projects.TYPE_SESSION 
 					+ ");");
+
+			addSimpleProject(db, mContext);
+			addSessionProject(db, mContext);
 		}
 		
 		void createSessionsTable(SQLiteDatabase db)
@@ -300,7 +293,10 @@ public class RehearsalData extends ContentProvider {
         int count;
         switch (sUriMatcher.match(uri)) {
         case SESSIONS:
-            count = db.delete(Sessions.TABLE_NAME, selection, selectionArgs);
+        	Cursor c = db.query(Sessions.TABLE_NAME, new String[] {Sessions._ID}, selection, selectionArgs, null, null, null);
+        	count = 0;
+        	for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
+        		count += delete(ContentUris.withAppendedId(Sessions.CONTENT_URI, c.getLong(0)), null, null);
             break;
 
         case SESSION_ID:
@@ -319,6 +315,14 @@ public class RehearsalData extends ContentProvider {
             String annotationId = uri.getPathSegments().get(1);
             count = deleteAnnotations(db, Annotations._ID + "=" + annotationId
                     + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+            break;
+            
+        case PROJECT_ID:
+        	String projectId = uri.getPathSegments().get(1);
+            count = db.delete(Projects.TABLE_NAME, Projects._ID + "=" + projectId
+                    + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+            if(count>0)
+            	delete(Sessions.CONTENT_URI, Sessions.PROJECT_ID + "=" + projectId, null);
             break;
 
         default:
@@ -426,6 +430,12 @@ public class RehearsalData extends ContentProvider {
 				rowId = db.insert(Annotations.TABLE_NAME, Annotations.FILE_NAME, values);
 				contentURI = Annotations.CONTENT_URI;
 		        break;
+			}
+			case PROJECTS:
+			{
+				rowId = db.insert(Projects.TABLE_NAME, Projects.TITLE, values);
+				contentURI = Projects.CONTENT_URI;
+				break;
 			}
 			default:
 		        throw new IllegalArgumentException("Unknown URI " + uri);

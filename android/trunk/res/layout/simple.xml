@@ -11,6 +11,7 @@
    	android:scaleType="center"
     android:layout_alignParentBottom="true" 
 	android:paddingTop="7dip"
+	android:clickable="false"
     />
 
 <RelativeLayout

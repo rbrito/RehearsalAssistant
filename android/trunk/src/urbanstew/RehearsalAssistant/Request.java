@@ -10,13 +10,17 @@ import android.widget.Toast;
 
 public class Request
 {
+	public static void cancellable_confirmation(Context context, String title, String content, DialogInterface.OnClickListener confirmation)
+	{
+		new Dialog(context, title, content, confirmation, true);
+	}
 	public static void confirmation(Context context, String title, String content, DialogInterface.OnClickListener confirmation)
 	{
-		new Dialog(context, title, content, confirmation);
+		new Dialog(context, title, content, confirmation, false);
 	}
 	public static void notification(Context context, String title, String content)
 	{
-		new Dialog(context, title, content, null);
+		new Dialog(context, title, content, null, false);
 	}
 	public static void contribution(final Context context)
 	{
@@ -95,7 +99,7 @@ public class Request
 
 class Dialog
 {
-	public Dialog(Context context, String title, String content, DialogInterface.OnClickListener confirmation)
+	public Dialog(Context context, String title, String content, DialogInterface.OnClickListener confirmation, boolean cancellable)
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
     	.setTitle(title)
@@ -103,16 +107,10 @@ class Dialog
     	.setPositiveButton
     	(
     		"OK",
-    		confirmation == null ?
-	    		new DialogInterface.OnClickListener()
-	    		{
-	    		    public void onClick(DialogInterface dialog, int whichButton)
-	    		    {
-	    		    }
-	    		}
-    			: confirmation
+    		confirmation
     	);
-    			
+		if(cancellable)
+			dialog.setNegativeButton("Cancel", null);
         dialog.show();
 	}
 }

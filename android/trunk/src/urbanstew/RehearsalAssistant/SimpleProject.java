@@ -3,7 +3,6 @@ package urbanstew.RehearsalAssistant;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -30,22 +29,6 @@ import android.widget.Toast;
 
 public class SimpleProject extends ProjectBase
 {
-	static long getProjectId(ContentResolver resolver)
-	{
-        String[] projectsProjection =
-        {
-        	Projects._ID,
-            Projects.TYPE
-        };
-        
-        Cursor projectsCursor = resolver.query(Projects.CONTENT_URI, projectsProjection, Projects.TYPE + "=" + Projects.TYPE_SIMPLE, null, Projects.DEFAULT_SORT_ORDER);
-        projectsCursor.moveToFirst();
-
-        long result = projectsCursor.getLong(0);
-        projectsCursor.close();
-        
-        return result;
-	}
 	static long getSessionId(ContentResolver resolver, long projectId)
 	{
         // a simple project must have exactly one session
@@ -83,27 +66,23 @@ public class SimpleProject extends ProjectBase
         super.onCreate(savedInstanceState);
         super.setSimpleProject(true);
         
-        setTitleDelayed("Rehearsal Assistant - Simple Mode");
-
         mRecordButton = (ImageButton) findViewById(R.id.button);
         mRecordButton.setOnClickListener(mClickListener);
-        mRecordButton.setClickable(false);
         mCurrentTime = (TextView) findViewById(R.id.playback_time);
         mEnvelopeView = (VolumeEnvelopeView) findViewById(R.id.volume_envelope);
         
         mSessionId = getSessionId(getContentResolver(), projectId());
         if(mSessionId < 0)
         {
-    		Toast.makeText(this, "There was a problem switching to simple mode.", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, "There was a problem opening a Memo Project.", Toast.LENGTH_LONG).show();
         	finish();
         }
-
+        mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
+        scrollToEndOfList();
+        
         bindService(new Intent(IRecordService.class.getName()),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
         
-        mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
-
-        scrollToEndOfList();
         ((ListView)findViewById(R.id.annotation_list)).getAdapter()
         	.registerDataSetObserver(new DataSetObserver()
         	{
@@ -119,7 +98,7 @@ public class SimpleProject extends ProjectBase
 
         reviseInstructions();
     }
-    
+            
     public void onResume()
     {
     	super.onResume();
@@ -133,6 +112,14 @@ public class SimpleProject extends ProjectBase
     	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     	mVolumeEnvelopeEnabled = preferences.getBoolean("recording_waveform", true);
     	
+		if(mRecordService != null)
+			try
+			{
+				mRecordService.setSession(mSessionId);
+			} catch (RemoteException e)
+			{
+			}
+
     	mCurrentTimeTask = new TimerTask()
     		{
     			public void run()
@@ -144,7 +131,7 @@ public class SimpleProject extends ProjectBase
     						if(mRecordService != null)
     				        try
     				        {
-    							if(mRecordService.getState() == SessionRecord.State.RECORDING.ordinal())
+    							if(mRecordService.getState() == RecordService.State.RECORDING.ordinal())
     							{
     								mCurrentTime.setText(mSessionPlayback.playTimeFormatter().format(mRecordService.getTimeInRecording()));
     								if(mVolumeEnvelopeEnabled)
@@ -225,9 +212,9 @@ public class SimpleProject extends ProjectBase
 
 		try
 		{
-	    	if(mRecordService.getState() == SessionRecord.State.RECORDING.ordinal())
+	    	if(mRecordService.getState() == RecordService.State.RECORDING.ordinal())
 	    	{
-	    		mRecordService.toggleRecording();
+	    		mRecordService.toggleRecording(mSessionId);
 	    		updateInterface();
 	    	}
 		} catch (RemoteException e)
@@ -261,7 +248,7 @@ public class SimpleProject extends ProjectBase
 		if(mRecordService == null)
 			return;
 
-    	if(mRecordService.getState() == SessionRecord.State.STARTED.ordinal())
+    	if(mRecordService.getState() == RecordService.State.STARTED.ordinal())
     	{
     		mRecordButton.setImageResource(R.drawable.media_record);
         	
@@ -288,7 +275,7 @@ public class SimpleProject extends ProjectBase
 	        try
 	        {
 	        	mSessionPlayback.stopPlayback();
-	        	mRecordService.toggleRecording();
+	        	mRecordService.toggleRecording(mSessionId);
 	        	updateInterface();
 	    	} catch (RemoteException e)
 	    	{
@@ -309,6 +296,7 @@ public class SimpleProject extends ProjectBase
         	mRecordService = IRecordService.Stub.asInterface(service);
         	try
         	{
+        		mRecordService.setSession(mSessionId);
         		updateInterface();
                 mRecordButton.setClickable(true);
         	} catch (RemoteException e)

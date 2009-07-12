@@ -5,9 +5,11 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ProjectBase extends RehearsalActivity
 {	
@@ -15,16 +17,36 @@ public class ProjectBase extends RehearsalActivity
     {
         super.onCreate(savedInstanceState);
       	
-        if(getIntent().getAction().equals("urbanstew.RehearsalAssistant.simple_mode"))
-        	mProjectId = SimpleProject.getProjectId(getContentResolver());
-        else
-        	mProjectId = Long.valueOf(getIntent().getData().getPathSegments().get(1));
-
-        setTitle(getResources().getString(R.string.about));
-        
         mAppData = new AppDataAccess(this);
+
+       	mProjectId = Long.valueOf(getIntent().getData().getPathSegments().get(1));
+        
         mAppData.setCurrentProjectId(mProjectId);
 
+        String[] projectsProjection =
+        {
+        	Projects._ID,
+        	Projects.TITLE
+        };
+
+        Cursor projectCursor =
+        	getContentResolver().query
+        	(
+        			ContentUris.withAppendedId(Projects.CONTENT_URI, mProjectId),
+        			projectsProjection, null, null, Projects.DEFAULT_SORT_ORDER
+        	);
+        if(projectCursor.getCount() == 0)
+        {
+        	Toast.makeText(this, R.string.error_project_does_not_exist, Toast.LENGTH_LONG).show();
+            projectCursor.close();
+        	finish();
+        	return;
+        }
+
+        projectCursor.moveToFirst();
+        setTitle("Rehearsal Assistant - " + projectCursor.getString(1));
+        projectCursor.close();
+        
         // Display license if this is the first time running this version.
         float visitedVersion = mAppData.getVisitedVersion();
         if (visitedVersion < 0.5f)
@@ -44,19 +66,26 @@ public class ProjectBase extends RehearsalActivity
 	    		{
 	    		    public void onClick(DialogInterface dialog, int whichButton)
 	    		    {
-	    		    	mAppData.setVisitedVersion(0.74f);
+	    		    	mAppData.setVisitedVersion(0.8f);
 	    		    }
 	    		}
 	    	);
         }
-        else if (visitedVersion < 0.74f)
+        else if (visitedVersion < RehearsalAssistant.currentVersion)
         {
     		//Request.contribution(this);
     		Request.recordWidget(this);
-    		mAppData.setVisitedVersion(0.74f);
+    		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }
-    
+        
+    protected void onNewIntent(Intent intent)
+    {
+    	super.onNewIntent(intent);
+    	finish();
+    	startActivity(intent);
+    }
+
 	protected void setSimpleProject(boolean simpleMode)
 	{
 		mSimpleMode = simpleMode;
@@ -66,7 +95,7 @@ public class ProjectBase extends RehearsalActivity
     {
         mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
         String switchText;
-        switchText = mSimpleMode ? "Switch to Session Mode" : "Switch to Simple Mode";
+        switchText = "Project Manager";
         mSwitchMenuItem = menu.add(switchText).setIcon(android.R.drawable.ic_menu_more);
         super.onCreateOptionsMenu(menu);
         return true;
@@ -77,15 +106,13 @@ public class ProjectBase extends RehearsalActivity
     	if(!super.onOptionsItemSelected(item))
     	{
 			if(item == mSwitchMenuItem)
-			{
-				long project_id = new AppDataAccess(this).getProjectIdNot(projectId());
-		        
+			{		        
 				startActivity
 		        (
 		        	new Intent
 		        	(
 		        		Intent.ACTION_VIEW,
-		        		ContentUris.withAppendedId(Projects.CONTENT_URI, project_id)
+		        		Projects.CONTENT_URI
 		        	)
 		        );
 		        
@@ -109,11 +136,15 @@ public class ProjectBase extends RehearsalActivity
     
     protected static final int SESSIONS_ID = 0;
     protected static final int SESSIONS_TITLE = 1;
+    protected static final int SESSIONS_START_TIME = 2;
+    protected static final int SESSIONS_END_TIME = 3;
     
     protected static final String[] sessionsProjection = new String[]
 	{
 	      Sessions._ID, // 0
-	      Sessions.TITLE // 1
+	      Sessions.TITLE, // 1
+	      Sessions.START_TIME,
+	      Sessions.END_TIME
 	};
     
     AppDataAccess mAppData;

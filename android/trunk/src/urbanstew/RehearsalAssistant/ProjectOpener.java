@@ -2,11 +2,19 @@ package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 
+/**
+ * @author Stjepan Rajko
+ *
+ * Handles opening of projects - delegates to appropriate Project activity depending on the project type.
+ * 
+ */
 public class ProjectOpener extends Activity
 {    
     /** Called when the activity is first created.
@@ -14,7 +22,18 @@ public class ProjectOpener extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        String project_id = getIntent().getData().getPathSegments().get(1);
+        
+        // Get the project id and make sure we have the correct data Uri
+        Uri data = getIntent().getData();
+        
+        long project_id;
+        if(getIntent().getAction().equals("urbanstew.RehearsalAssistant.simple_mode"))
+        {
+        	project_id = new AppDataAccess(this).getRecorderWidgetProjectId();
+        	data = ContentUris.withAppendedId(Projects.CONTENT_URI, project_id);
+        }
+        else
+        	project_id = Long.valueOf(data.getPathSegments().get(1));
 
         // Find out what kind of project this is
         String[] projectsProjection =
@@ -23,14 +42,36 @@ public class ProjectOpener extends Activity
             Projects.TYPE
         };
         
-        Cursor projectsCursor = getContentResolver().query(Projects.CONTENT_URI, projectsProjection, Projects._ID + "=" + project_id, null, Projects.DEFAULT_SORT_ORDER);
-        projectsCursor.moveToFirst();
+        Cursor projectsCursor =
+        	getContentResolver().query
+        	(
+        		ContentUris.withAppendedId(Projects.CONTENT_URI, project_id),
+        		projectsProjection, 
+        		null, null, Projects.DEFAULT_SORT_ORDER
+        	);
         
-        // start appropriate activity
-        if(projectsCursor.getLong(1) == Projects.TYPE_SESSION)
-            startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData(), getApplication(), SessionProject.class));
+        if(projectsCursor.getCount() == 0)
+        {
+        	// if the project does not exist, start the Project Manager
+        	startActivity
+		    (
+		       	new Intent
+		       	(
+		       		Intent.ACTION_VIEW,
+		       		Projects.CONTENT_URI
+		       	)
+		    );
+        }
         else
-            startActivity(new Intent(Intent.ACTION_VIEW, getIntent().getData(), getApplication(), SimpleProject.class));
+        {
+        	// otherwise, start the appropriate activity
+	        projectsCursor.moveToFirst();
+	        
+	        if(projectsCursor.getLong(1) == Projects.TYPE_SESSION)
+	            startActivity(new Intent(Intent.ACTION_VIEW, data, getApplication(), SessionProject.class));
+	        else
+	        	startActivity(new Intent(Intent.ACTION_VIEW, data, getApplication(), SimpleProject.class));
+        }
         
         projectsCursor.close();
         // finish

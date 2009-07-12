@@ -11,9 +11,14 @@ package urbanstew.RehearsalAssistant;
 // Declare the interface.
 interface IRecordService
 {
-	void toggleRecording();
+	void toggleRecording(long SessionId);
+	void startRecording(long SessionId);
 	void stopRecording();
+	void startSession(long SessionId);
+	void stopSession(long SessionId);
 	int getState();
 	long getTimeInRecording();
+	long getTimeInSession();
 	int getMaxAmplitude();
+	void setSession(long sessionId);
 }

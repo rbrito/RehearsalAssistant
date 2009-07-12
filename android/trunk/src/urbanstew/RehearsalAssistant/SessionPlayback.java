@@ -285,7 +285,7 @@ public class SessionPlayback
 				}
         	}
         );
-        mOldTitle = mActivity.finalTitle();
+        mOldTitle = mActivity.getTitle();
     }
 
     public void onPause()
@@ -299,6 +299,7 @@ public class SessionPlayback
     	mPlaybackPanelEnabled = preferences.getBoolean("playback_panel_enabled", true);
     	mPlaybackPanelDisappears = preferences.getBoolean("playback_panel_disappears", false);
     	mEmailDetail = preferences.getBoolean("email_detail", true);
+    	mConfirmIndividualDeletion = preferences.getBoolean("confirm_individual_deletion", true);
     	
     	mCurrentTimeTask = new TimerTask()
     	{
@@ -551,7 +552,7 @@ public class SessionPlayback
             Log.e("Rehearsal Assistant", "bad menuInfo", e);
             return false;
         }
-
+        final AdapterView.AdapterContextMenuInfo final_info = info;
         switch(item.getItemId())
         {
         case MENU_ITEM_PLAYBACK:
@@ -566,13 +567,30 @@ public class SessionPlayback
         	sendEmail(false);
         	break;
         case MENU_ITEM_DELETE:
-        	mAnnotationsCursor.moveToPosition(info.position);
-        	mActivity.getContentResolver().delete
-        	(
-        		ContentUris.withAppendedId(Annotations.CONTENT_URI, mAnnotationsCursor.getLong(ANNOTATIONS_ID)),
-        		null,
-        		null
-        	);
+        	DialogInterface.OnClickListener delete = new DialogInterface.OnClickListener()
+    		{
+				public void onClick(DialogInterface dialog, int which)
+				{
+		        	mAnnotationsCursor.moveToPosition(final_info.position);
+		        	mActivity.getContentResolver().delete
+		        	(
+		        		ContentUris.withAppendedId(Annotations.CONTENT_URI, mAnnotationsCursor.getLong(ANNOTATIONS_ID)),
+		        		null,
+		        		null
+		        	);
+				}
+    		};
+    		
+    		if(mConfirmIndividualDeletion)        	
+	        	Request.cancellable_confirmation
+	        	(
+	        		mActivity,
+	        		"Warning",
+	        		"This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+	        		delete
+	        	);
+    		else
+    			delete.onClick(null, 0);
         	break;
         case MENU_ITEM_EDIT:
     		try
@@ -773,7 +791,7 @@ public class SessionPlayback
     ImageButton mPlayPauseButton;
     boolean mSessionTiming;
     
-    boolean mPlaybackPanelEnabled, mPlaybackPanelDisappears, mEmailDetail;
+    boolean mPlaybackPanelEnabled, mPlaybackPanelDisappears, mEmailDetail, mConfirmIndividualDeletion;
     
     Handler mHandler = new Handler();
     CharSequence mOldTitle;
