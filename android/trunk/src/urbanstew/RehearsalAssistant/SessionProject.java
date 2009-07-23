@@ -186,8 +186,19 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
                 return true;
             }
             case MENU_ITEM_DELETE: {
-                // Delete the run that the context menu is for
-                getContentResolver().delete(runUri, null, null);
+            	Request.cancellable_confirmation
+        		(
+        			this,
+        			"Warning",
+        			"This will erase all recordings in the session.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+        			new OnClickListener()
+        			{
+						public void onClick(DialogInterface arg0, int arg1)
+						{
+							getContentResolver().delete(runUri, null, null);
+						}            				
+        			}
+        		);
                 return true;
             }
         }
