@@ -17,8 +17,15 @@ import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.util.Log;
 
+
 public class RecordService extends Service
 {
+	/**
+	 * INITIALIZING : service is initializing; no session selected
+	 * READY : session has been selected, session is not started
+	 * STARTED : session has been started, not currently recording
+	 * RECORDING : recording
+	 */
 	enum State { INITIALIZING, READY, STARTED, RECORDING };
 
 	public void onCreate()
@@ -35,6 +42,14 @@ public class RecordService extends Service
 			updateViews();
 		}
 	}
+	
+	/**
+	 * Starting the activity will toggle the recording state.
+	 * When this starts recording, it will always start recording
+	 * in the project designated for Recorder Widget recordings
+	 * (which is guaranteed to exist / will be created when needed,
+	 * and has a single session that is STARTED).
+	 */
 	public void onStart(Intent intent, int startId)
 	{
 		if(mState == State.RECORDING)
@@ -48,6 +63,13 @@ public class RecordService extends Service
 		}
 		updateViews();
 	}
+	
+	/**
+	 * Selects the active session.
+	 * 
+	 * @param sessionId	id of the session to select.
+	 * 
+	 */
 	void setSession(long sessionId)
 	{
 		if(mSessionId != sessionId)
@@ -55,7 +77,9 @@ public class RecordService extends Service
 	    	if(mState == State.RECORDING)
 	    		stopRecording();
 			
-			mSessionId = sessionId;
+	        Log.d("Rehearsal Assistant", "RecordService opening Session ID: " + mSessionId);
+
+	        mSessionId = sessionId;
 			
 	        String[] projection =
 	        {
@@ -64,7 +88,8 @@ public class RecordService extends Service
 	        	Sessions.END_TIME,
 	        	Sessions.TITLE
 	        };
-	        Log.d("Rehearsal Assistant", "RecordService opening Session ID: " + mSessionId);
+	        
+	        // determine whether the session is already started
 	        Cursor cursor = getContentResolver().query(Sessions.CONTENT_URI, projection, Sessions._ID + "=" + mSessionId, null,
 	                Sessions.DEFAULT_SORT_ORDER);
 	    	cursor.moveToFirst();
@@ -79,6 +104,17 @@ public class RecordService extends Service
 	        cursor.close();
 		}
 	}
+	
+	/**
+	 * Starts the designated session.  This will erase all existing recordings in
+	 * the session, set its end time to null, and update the session's start
+	 * time with the current time.
+	 * 
+	 * Changes the RecordService state to STARTED.
+	 * 
+	 * @param sessionId	id of the session to start.
+	 * 
+	 */
 	void startSession(long sessionId)
 	{
 		setSession(sessionId);
@@ -96,6 +132,16 @@ public class RecordService extends Service
 		
 	    mState = State.STARTED;
 	}
+	
+	/**
+	 * Stops the designated session.  This will set its end time to
+	 * the current time.
+	 * 
+	 * Changes the RecordService state to READY.
+	 * 
+	 * @param sessionId	id of the session to start.
+	 * 
+	 */
 	void stopSession(long sessionId)
 	{
 		ContentValues values = new ContentValues();
@@ -103,6 +149,16 @@ public class RecordService extends Service
 		getContentResolver().update(ContentUris.withAppendedId(Sessions.CONTENT_URI, sessionId), values, null, null);
 		mState = State.READY;
 	}
+	
+	/**
+	 * Toggles recording.
+	 *
+	 * Calls startRecording or stopRecording depending on the current state.
+	 *
+	 * @param sessionId	id of the session for the recording (used only when starting a recording)
+	 * @see startRecording
+	 * @see stopRecording
+	 */
 	void toggleRecording(long sessionId)
 	{		
 		if(mState == State.STARTED)
@@ -112,27 +168,43 @@ public class RecordService extends Service
 		
 		updateViews();
 	}
+	
+	/**
+	 * Starts recording.
+	 *
+	 * Changes state to RECORDING.
+	 *
+	 * @param sessionId	id of the session for the recording
+	 * 
+	 */
 	void startRecording(long sessionId)
 	{		
 		setSession(sessionId);
 
+		// session must be in STARTED state
 		if(mState != State.STARTED)
 			return;
 
-		// insert a new Annotation
+		// insert a new Annotation into the Session
         ContentValues values = new ContentValues();
     	values.put(Annotations.SESSION_ID, mSessionId);
     	Uri annotationUri = getContentResolver().insert(Annotations.CONTENT_URI, values);
     	mRecordedAnnotationId = Long.parseLong(annotationUri.getPathSegments().get(1));
 
+    	// make sure the SD card is present for the recording
     	if(android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
 		{
+    		// create the directory
 	    	File external = Environment.getExternalStorageDirectory();
 			File audio = new File(external.getAbsolutePath() + "/urbanstew.RehearsalAssistant/" + mSessionId); 
 			audio.mkdirs();
 			Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
+			
+			// construct file name
 			mOutputFile = audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId + ".3gp";
 			Log.w("Rehearsal Assistant", "writing to file " + mOutputFile);
+			
+			// start the recording
 	    	mRecorder = new MediaRecorder();
 	        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 	        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -155,8 +227,16 @@ public class RecordService extends Service
 	    mState = State.RECORDING;
 	    updateViews();
 	}
+	
+	/**
+	 * Stops recording.
+	 *
+	 * Changes state to STARTED.
+	 *
+	 */
 	void stopRecording()
 	{
+		// state must be RECORDING
 		if(mState != State.RECORDING)
 			return;
 		
@@ -165,6 +245,8 @@ public class RecordService extends Service
     		mRecorder.stop();
             mRecorder.release();
     	}
+    	
+    	// complete the Annotation entry in the database
         long time = System.currentTimeMillis() - mTimeAtStart;
         
         ContentValues values = new ContentValues();
@@ -174,6 +256,7 @@ public class RecordService extends Service
     	values.put(Annotations.FILE_NAME, mOutputFile);
     	getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI, mRecordedAnnotationId), values, null, null);
 
+    	// Add some information to the MediaStore
         String[] mediaProjection =
         {
             MediaStore.MediaColumns._ID,
