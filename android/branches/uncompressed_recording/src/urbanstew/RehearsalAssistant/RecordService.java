@@ -10,7 +10,9 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioFormat;
 import android.media.MediaRecorder;
+import android.media.MediaRecorder.AudioSource;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
@@ -215,27 +217,21 @@ public class RecordService extends Service
 			// start the recording
 			if(!uncompressed)
 			{
-		    	mRecorder = new MediaRecorder();
-		        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-		        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-		        mRecorder.setOutputFile(mOutputFile);
-		        try
-		        {
-		        	mRecorder.prepare();
-			        mRecorder.start();   // Recording is now started*/
-			        mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
-		        } catch(IOException e)
-		        {
-					mOutputFile = null;
-		        }
+		    	mRecorder = new RehearsalAudioRecorder(false, 0, 0, 0, 0);
 			}
 			else
 			{
-				// TODO: IMPLEMENT UNCOMPRESSED RECORDING HERE
-				mOutputFile = null;
-				mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
+				mRecorder = new RehearsalAudioRecorder(true, AudioSource.MIC, 8000, AudioFormat.CHANNEL_CONFIGURATION_MONO,
+						AudioFormat.ENCODING_PCM_16BIT);
 			}
+			mRecorder.setOutputFile(mOutputFile);
+			mRecorder.prepare();
+			mRecorder.start(); // Recording is now started
+			mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
+		    if (mRecorder.getState() == RehearsalAudioRecorder.State.ERROR)
+		    {
+		    	mOutputFile = null;
+		    }
 		}
 		else
 		{
@@ -351,7 +347,7 @@ public class RecordService extends Service
     State mState;
     long mTimeAtStart;
     long mRecordedAnnotationId;
-	MediaRecorder mRecorder = null;
+	RehearsalAudioRecorder mRecorder = null;
     
     long mTimeAtAnnotationStart;
     String mOutputFile;
