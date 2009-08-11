@@ -19,10 +19,12 @@ public class RehearsalAudioRecorder
 	 * ERROR : reconstruction needed
 	 * STOPPED: reset needed
 	 */
-	public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED}
-	enum ByteOrder { LSB_FIRST, MSB_FIRST };
+	public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED};
 	
-	private final int PERIOD_IN_FRAMES = 1000;
+	public static final boolean RECORDING_UNCOMPRESSED = true;
+	public static final boolean RECORDING_COMPRESSED = false;
+	
+	private static final int TIMER_INTERVAL = 125;
 	
 	private boolean 		 rUncompressed;
 	private AudioRecord 	 aRecorder = null;
@@ -37,6 +39,7 @@ public class RehearsalAudioRecorder
 	private int				 bufferSize;
 	private int				 aSource;
 	private int				 aFormat;
+	private int				 framePeriod;
 	
 	private byte[] 			 buffer;
 	
@@ -49,6 +52,12 @@ public class RehearsalAudioRecorder
 		return state;
 	}
 	
+	/* 
+	 * 
+	 * A timer takes care of the recording process, as the 
+	 * RecordPositionUpdateListener is somewhat buggy.
+	 * 
+	 */
 	private class RecordTask extends TimerTask
 	{
 		public void run()
@@ -87,6 +96,15 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/** 
+	 * 
+	 * 
+	 * Default constructor
+	 * 
+	 * Instantiates a new recorder, in case of compressed recording the parameters can be left as 0.
+	 * In case of errors, no exception is thrown, but the state is set to ERROR
+	 * 
+	 */ 
 	public RehearsalAudioRecorder(boolean uncompressed, int audioSource, int sampleRate, int channelConfig,
 			int audioFormat)
 	{
@@ -117,8 +135,11 @@ public class RehearsalAudioRecorder
 				sRate   = sampleRate;
 				aFormat = audioFormat;
 
-				bufferSize = PERIOD_IN_FRAMES * 2 * bSamples / 8 * nChannels;
+				framePeriod = sampleRate / 8;
+				bufferSize = framePeriod * 2 * bSamples / 8 * nChannels;
 				aRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, bufferSize);
+				if (aRecorder.getState() != AudioRecord.STATE_INITIALIZED)
+					throw new Exception("AudioRecord initialization failed");
 			} else
 			{
 				mRecorder = new MediaRecorder();
@@ -135,19 +156,23 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * Sets output file path, call after initialization.
+	 *  
+	 * @param output file path
+	 * 
+	 */
 	public void setOutputFile(String argPath)
 	{
 		try
 		{
-			fPath = argPath;
-			if (rUncompressed)
+			if (state == State.INITIALIZING)
 			{
-				if (state != State.INITIALIZING)
-					state = State.ERROR;
-			}
-			else
-			{
-				mRecorder.setOutputFile(fPath);
+				fPath = argPath;
+				if (!rUncompressed)
+				{
+					mRecorder.setOutputFile(fPath);
+				}
 			}
 		}
 		catch (Exception e)
@@ -156,6 +181,13 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * 
+	 * Gets the largest amplitude sampled since the last call to this method.
+	 * 
+	 * @return returns the largest amplitude since the last call, or 0 when not in recording state. 
+	 * 
+	 */
 	public int getMaxAmplitude()
 	{
 		if (state == State.RECORDING)
@@ -184,6 +216,15 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+
+	/**
+	 * 
+	* Prepares the recorder for recording, in case the recorder is not in the INITIALIZING state and the file path was not set
+	* the recorder is set to the ERROR state, which makes a reconstruction necessary.
+	* In case uncompressed recording is toggled, the header of the wave file is written.
+	* In case of an exception, the state is changed to ERROR
+	* 	 
+	*/
 	public void prepare()
 	{
 		try
@@ -203,17 +244,17 @@ public class RehearsalAudioRecorder
 						fWriter.writeInt(0); // Final file size not known yet, write 0 
 						fWriter.writeBytes("WAVE");
 						fWriter.writeBytes("fmt ");
-						fWriter.write(getBytes(16, ByteOrder.LSB_FIRST)); // Sub-chunk size, 16 for PCM
-						fWriter.write(getBytes((short)1, ByteOrder.LSB_FIRST)); // AudioFormat, 1 for PCM
-						fWriter.write(getBytes(nChannels, ByteOrder.LSB_FIRST));// Number of channels, 1 for mono, 2 for stereo
-						fWriter.write(getBytes(sRate, ByteOrder.LSB_FIRST)); // Sample rate
-						fWriter.write(getBytes(sRate*bSamples*nChannels/8, ByteOrder.LSB_FIRST)); // Byte rate, SampleRate*NumberOfChannels*BitsPerSample/8
-						fWriter.write(getBytes((short)(nChannels*bSamples/8),ByteOrder.LSB_FIRST)); // Block align, NumberOfChannels*BitsPerSample/8
-						fWriter.write(getBytes(bSamples, ByteOrder.LSB_FIRST)); // Bits per sample
+						fWriter.writeInt(Integer.reverseBytes(16)); // Sub-chunk size, 16 for PCM
+						fWriter.writeInt(Short.reverseBytes((short) 1)); // AudioFormat, 1 for PCM
+						fWriter.writeShort(Short.reverseBytes(nChannels));// Number of channels, 1 for mono, 2 for stereo
+						fWriter.writeInt(Integer.reverseBytes(sRate)); // Sample rate
+						fWriter.writeInt(Integer.reverseBytes(sRate*bSamples*nChannels/8)); // Byte rate, SampleRate*NumberOfChannels*BitsPerSample/8
+						fWriter.writeShort(Short.reverseBytes((short)(nChannels*bSamples/8))); // Block align, NumberOfChannels*BitsPerSample/8
+						fWriter.writeShort(Short.reverseBytes(bSamples)); // Bits per sample
 						fWriter.writeBytes("data");
 						fWriter.writeInt(0); // Data chunk size not known yet, write 0
 						
-						buffer = new byte[PERIOD_IN_FRAMES*bSamples/8*nChannels];
+						buffer = new byte[framePeriod*bSamples/8*nChannels];
 						state = State.READY;
 					}
 					else
@@ -238,6 +279,12 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 *  Releases the resources associated with this class, and removes the unnecessary files, when necessary
+	 *  
+	 */
 	public void release()
 	{
 		if (state == State.RECORDING)
@@ -270,6 +317,14 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 * Resets the recorder to the INITIALIZING state, as if it was just created.
+	 * In case the class was in RECORDING state, the recording is stopped.
+	 * In case of exceptions the class is set to the ERROR state.
+	 * 
+	 */
 	public void reset()
 	{
 		try
@@ -299,6 +354,13 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 * Starts the recording, and sets the state to RECORDING.
+	 * Call after prepare().
+	 * 
+	 */
 	public void start()
 	{
 		if (state == State.READY)
@@ -308,7 +370,7 @@ public class RehearsalAudioRecorder
 				payloadSize = 0;
 				aRecorder.startRecording();
 				timer = new Timer();
-				timer.scheduleAtFixedRate(new RecordTask(), (long)(1000/(((double)sRate)/1000)), (long)(1000/(((double)sRate)/1000)));
+				timer.scheduleAtFixedRate(new RecordTask(), TIMER_INTERVAL, TIMER_INTERVAL);
 			}
 			else
 			{
@@ -322,6 +384,14 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/**
+	 * 
+	 * 
+	 *  Stops the recording, and sets the state to STOPPED.
+	 * In case of further usage, a reset is needed.
+	 * Also finalizes the wave file in case of uncompressed recording.
+	 * 
+	 */
 	public void stop()
 	{
 		if (state == State.RECORDING)
@@ -332,15 +402,15 @@ public class RehearsalAudioRecorder
 				
 				try
 				{
-				timer.cancel();
+					timer.cancel();
 
-				fWriter.seek(4); // Write size to RIFF header
-				fWriter.write(getBytes(36+payloadSize, ByteOrder.LSB_FIRST));
+					fWriter.seek(4); // Write size to RIFF header
+					fWriter.writeInt(Integer.reverseBytes(36+payloadSize));
 				
-				fWriter.seek(40); // Write size to Subchunk2Size field
-				fWriter.write(getBytes(payloadSize, ByteOrder.LSB_FIRST));
+					fWriter.seek(40); // Write size to Subchunk2Size field
+					fWriter.writeInt(Integer.reverseBytes(payloadSize));
 				
-				fWriter.close();
+					fWriter.close();
 				}
 				catch(IOException e)
 				{
@@ -359,47 +429,14 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
+	/* 
+	 * 
+	 * Converts a byte[2] to a short, in LITTLE_ENDIAN format
+	 * 
+	 */
 	private short getShort(byte argB1, byte argB2)
 	{
 		return (short)(argB1 | (argB2 << 8));
-	}
-	
-	private byte[] getBytes(int argInt, ByteOrder byteOrder)
-	{
-		byte[] bytes = new byte[4];
-		if (byteOrder == ByteOrder.LSB_FIRST)
-		{
-			bytes[0] = (byte) (argInt & 0x00FF);
-			bytes[1] = (byte) ((argInt >> 8) & 0x000000FF);
-			bytes[2] = (byte) ((argInt >> 16) & 0x000000FF);
-			bytes[3] = (byte) ((argInt >> 24) & 0x000000FF);
-			return bytes;
-		}
-		else
-		{
-			bytes[0] = (byte) ((argInt >> 24) & 0x000000FF);
-			bytes[1] = (byte) ((argInt >> 16) & 0x000000FF);
-			bytes[2] = (byte) ((argInt >> 8) & 0x000000FF);
-			bytes[3] = (byte) (argInt & 0x00FF);
-			return bytes;
-		}
-	}
-	
-	private byte[] getBytes(short argInt, ByteOrder byteOrder)
-	{
-		byte[] bytes = new byte[2];
-		if (byteOrder == ByteOrder.LSB_FIRST)
-		{
-			bytes[0] = (byte) argInt;
-			bytes[1] = (byte) ((argInt >> 8) & 0x000000FF);
-			return bytes;
-		}
-		else
-		{
-			bytes[0] = (byte) ((argInt >> 8) & 0x000000FF);
-			bytes[1] = (byte) argInt;
-			return bytes;
-		}
 	}
 }
 
