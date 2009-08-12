@@ -137,6 +137,11 @@ public class RehearsalAudioRecorder
 
 				framePeriod = sampleRate / 8;
 				bufferSize = framePeriod * 2 * bSamples / 8 * nChannels;
+				if (bufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat))
+				{ // Check to make sure buffer size is not smaller than the smallest allowed one 
+					bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+				}
+				
 				aRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, bufferSize);
 				if (aRecorder.getState() != AudioRecord.STATE_INITIALIZED)
 					throw new Exception("AudioRecord initialization failed");
@@ -245,7 +250,7 @@ public class RehearsalAudioRecorder
 						fWriter.writeBytes("WAVE");
 						fWriter.writeBytes("fmt ");
 						fWriter.writeInt(Integer.reverseBytes(16)); // Sub-chunk size, 16 for PCM
-						fWriter.writeInt(Short.reverseBytes((short) 1)); // AudioFormat, 1 for PCM
+						fWriter.writeShort(Short.reverseBytes((short) 1)); // AudioFormat, 1 for PCM
 						fWriter.writeShort(Short.reverseBytes(nChannels));// Number of channels, 1 for mono, 2 for stereo
 						fWriter.writeInt(Integer.reverseBytes(sRate)); // Sample rate
 						fWriter.writeInt(Integer.reverseBytes(sRate*bSamples*nChannels/8)); // Byte rate, SampleRate*NumberOfChannels*BitsPerSample/8
