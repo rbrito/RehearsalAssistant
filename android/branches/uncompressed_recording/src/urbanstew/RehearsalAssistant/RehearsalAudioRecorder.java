@@ -24,35 +24,63 @@ public class RehearsalAudioRecorder
 	public static final boolean RECORDING_UNCOMPRESSED = true;
 	public static final boolean RECORDING_COMPRESSED = false;
 	
+	// The interval in which the recorded samples are output to the file
+	// Used only in uncompressed mode
 	private static final int TIMER_INTERVAL = 125;
 	
+	// Toggles uncompressed recording on/off; RECORDING_UNCOMPRESSED / RECORDING_COMPRESSED
 	private boolean 		 rUncompressed;
+	
+	// Recorder used for uncompressed recording
 	private AudioRecord 	 aRecorder = null;
+	// Recorder used for compressed recording
 	private MediaRecorder	 mRecorder = null;
+	
+	// Stores current amplitude (only in uncompressed mode)
 	private int				 cAmplitude= 0;
+	// Output file path
 	private String			 fPath = null;
+	
+	// Recorder state; see State
 	private State			 state;
+	
+	// File writer (only in uncompressed mode)
 	private RandomAccessFile fWriter;
+	
+	// Number of channels, sample rate, sample size(size in bits), buffer size, audio source, sample size(see AudioFormat)
 	private short 			 nChannels;
 	private int				 sRate;
 	private short			 bSamples;
 	private int				 bufferSize;
 	private int				 aSource;
 	private int				 aFormat;
+	
+	// Number of frames written to file on each output(only in uncompressed mode)
 	private int				 framePeriod;
 	
+	// Buffer for output(only in uncompressed mode)
 	private byte[] 			 buffer;
 	
+	// Number of bytes written to file after header(only in uncompressed mode)
+	// after stop() is called, this size is written to the header/data chunk in the wave file
 	private int				 payloadSize;
 	
+	// A timer is used to schedule the outputs
 	private Timer			 timer;
 	
+	/**
+	 * 
+	 * Returns the state of the recorder in a RehearsalAudioRecord.State typed object.
+	 * Useful, as no exceptions are thrown.
+	 * 
+	 * @return recorder state
+	 */
 	public State getState()
 	{
 		return state;
 	}
 	
-	/* 
+	/*
 	 * 
 	 * A timer takes care of the recording process, as the 
 	 * RecordPositionUpdateListener is somewhat buggy.
@@ -62,10 +90,10 @@ public class RehearsalAudioRecorder
 	{
 		public void run()
 		{
-			aRecorder.read(buffer, 0, buffer.length);
+			aRecorder.read(buffer, 0, buffer.length); // Fill buffer
 			try
-			{
-				fWriter.write(buffer);
+			{ 
+				fWriter.write(buffer); // Write buffer to file
 				payloadSize += buffer.length;
 				if (bSamples == 16)
 				{
@@ -73,7 +101,7 @@ public class RehearsalAudioRecorder
 					{ // 16bit sample size
 						short curSample = getShort(buffer[i*2], buffer[i*2+1]);
 						if (curSample > cAmplitude)
-						{
+						{ // Check amplitude
 							cAmplitude = curSample;
 						}
 					}
@@ -83,7 +111,7 @@ public class RehearsalAudioRecorder
 					for (int i=0; i<buffer.length; i++)
 					{
 						if (buffer[i] > cAmplitude)
-						{
+						{ // Check amplitude
 							cAmplitude = buffer[i];
 						}
 					}
@@ -112,7 +140,7 @@ public class RehearsalAudioRecorder
 		{
 			rUncompressed = uncompressed;
 			if (rUncompressed)
-			{
+			{ // RECORDING_UNCOMPRESSED
 				if (audioFormat == AudioFormat.ENCODING_PCM_16BIT)
 				{
 					bSamples = 16;
@@ -146,7 +174,7 @@ public class RehearsalAudioRecorder
 				if (aRecorder.getState() != AudioRecord.STATE_INITIALIZED)
 					throw new Exception("AudioRecord initialization failed");
 			} else
-			{
+			{ // RECORDING_COMPRESSED
 				mRecorder = new MediaRecorder();
 				mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 				mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -162,7 +190,7 @@ public class RehearsalAudioRecorder
 	}
 	
 	/**
-	 * Sets output file path, call after initialization.
+	 * Sets output file path, call directly after construction/reset.
 	 *  
 	 * @param output file path
 	 * 
@@ -188,7 +216,7 @@ public class RehearsalAudioRecorder
 	
 	/**
 	 * 
-	 * Gets the largest amplitude sampled since the last call to this method.
+	 * Returns the largest amplitude sampled since the last call to this method.
 	 * 
 	 * @return returns the largest amplitude since the last call, or 0 when not in recording state. 
 	 * 
@@ -314,11 +342,17 @@ public class RehearsalAudioRecorder
 		
 		if (rUncompressed)
 		{
-			aRecorder.release();
+			if (aRecorder != null)
+			{
+				aRecorder.release();
+			}
 		}
 		else
 		{
-			mRecorder.release();
+			if (mRecorder != null)
+			{
+				mRecorder.release();
+			}
 		}
 	}
 	
