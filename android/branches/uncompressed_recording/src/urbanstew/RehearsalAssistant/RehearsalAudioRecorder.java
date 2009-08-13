@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 public class RehearsalAudioRecorder
 {
@@ -26,7 +27,7 @@ public class RehearsalAudioRecorder
 	
 	// The interval in which the recorded samples are output to the file
 	// Used only in uncompressed mode
-	private static final int TIMER_INTERVAL = 125;
+	private static final int TIMER_INTERVAL = 120;
 	
 	// Toggles uncompressed recording on/off; RECORDING_UNCOMPRESSED / RECORDING_COMPRESSED
 	private boolean 		 rUncompressed;
@@ -163,11 +164,12 @@ public class RehearsalAudioRecorder
 				sRate   = sampleRate;
 				aFormat = audioFormat;
 
-				framePeriod = sampleRate / 8;
-				bufferSize = framePeriod * 2 * bSamples / 8 * nChannels;
+				framePeriod = sampleRate * TIMER_INTERVAL / 1000;
+				bufferSize = framePeriod * 2 * bSamples * TIMER_INTERVAL * nChannels / 1000;
 				if (bufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat))
 				{ // Check to make sure buffer size is not smaller than the smallest allowed one 
 					bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+					Log.w(RehearsalAudioRecorder.class.getName(), "Increasing buffer size to " + Integer.toString(bufferSize));
 				}
 				
 				aRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, bufferSize);
