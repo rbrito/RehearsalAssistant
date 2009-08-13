@@ -165,7 +165,7 @@ public class RehearsalAudioRecorder
 				aFormat = audioFormat;
 
 				framePeriod = sampleRate * TIMER_INTERVAL / 1000;
-				bufferSize = framePeriod * 2 * bSamples * TIMER_INTERVAL * nChannels / 1000;
+				bufferSize = framePeriod * 2 * bSamples * nChannels / 8;
 				if (bufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat))
 				{ // Check to make sure buffer size is not smaller than the smallest allowed one 
 					bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
