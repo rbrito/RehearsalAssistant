@@ -28,7 +28,7 @@ public class RehearsalAudioRecorder
 	// The interval in which the recorded samples are output to the file
 	// Used only in uncompressed mode
 	private static final int TIMER_INTERVAL = 120;
-	
+
 	// Toggles uncompressed recording on/off; RECORDING_UNCOMPRESSED / RECORDING_COMPRESSED
 	private boolean 		 rUncompressed;
 	
@@ -58,16 +58,13 @@ public class RehearsalAudioRecorder
 	
 	// Number of frames written to file on each output(only in uncompressed mode)
 	private int				 framePeriod;
-	
+		
 	// Buffer for output(only in uncompressed mode)
 	private byte[] 			 buffer;
 	
 	// Number of bytes written to file after header(only in uncompressed mode)
 	// after stop() is called, this size is written to the header/data chunk in the wave file
 	private int				 payloadSize;
-	
-	// A timer is used to schedule the outputs
-	private Timer			 timer;
 	
 	/**
 	 * 
@@ -83,13 +80,13 @@ public class RehearsalAudioRecorder
 	
 	/*
 	 * 
-	 * A timer takes care of the recording process, as the 
-	 * RecordPositionUpdateListener is somewhat buggy.
+	 * Method used for recording.
 	 * 
 	 */
-	private class RecordTask extends TimerTask
+	private AudioRecord.OnRecordPositionUpdateListener updateListener = new AudioRecord.OnRecordPositionUpdateListener()
 	{
-		public void run()
+		@Override
+		public void onPeriodicNotification(AudioRecord recorder)
 		{
 			aRecorder.read(buffer, 0, buffer.length); // Fill buffer
 			try
@@ -120,10 +117,17 @@ public class RehearsalAudioRecorder
 			}
 			catch (IOException e)
 			{
+				Log.e(RehearsalAudioRecorder.class.getName(), "Error occured in updateListener, recording is aborted");
 				stop();
 			}
 		}
-	}
+		
+		@Override
+		public void onMarkerReached(AudioRecord recorder)
+		{
+			// NOT USED
+		}
+	};
 	
 	/** 
 	 * 
@@ -169,12 +173,16 @@ public class RehearsalAudioRecorder
 				if (bufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat))
 				{ // Check to make sure buffer size is not smaller than the smallest allowed one 
 					bufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+					// Set frame period and timer interval accordingly
+					framePeriod = bufferSize / ( 2 * bSamples * nChannels / 8 );
 					Log.w(RehearsalAudioRecorder.class.getName(), "Increasing buffer size to " + Integer.toString(bufferSize));
 				}
 				
 				aRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, bufferSize);
 				if (aRecorder.getState() != AudioRecord.STATE_INITIALIZED)
 					throw new Exception("AudioRecord initialization failed");
+				aRecorder.setRecordPositionUpdateListener(updateListener);
+				aRecorder.setPositionNotificationPeriod(framePeriod);
 			} else
 			{ // RECORDING_COMPRESSED
 				mRecorder = new MediaRecorder();
@@ -187,6 +195,14 @@ public class RehearsalAudioRecorder
 			state = State.INITIALIZING;
 		} catch (Exception e)
 		{
+			if (e.getMessage() != null)
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), e.getMessage());
+			}
+			else
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), "Unknown error occured while initializing recording");
+			}
 			state = State.ERROR;
 		}
 	}
@@ -212,6 +228,14 @@ public class RehearsalAudioRecorder
 		}
 		catch (Exception e)
 		{
+			if (e.getMessage() != null)
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), e.getMessage());
+			}
+			else
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), "Unknown error occured while setting output path");
+			}
 			state = State.ERROR;
 		}
 	}
@@ -294,6 +318,7 @@ public class RehearsalAudioRecorder
 					}
 					else
 					{
+						Log.e(RehearsalAudioRecorder.class.getName(), "prepare() method called on uninitialized recorder");
 						state = State.ERROR;
 					}
 				}
@@ -305,11 +330,21 @@ public class RehearsalAudioRecorder
 			}
 			else
 			{
+				Log.e(RehearsalAudioRecorder.class.getName(), "prepare() method called on illegal state");
+				release();
 				state = State.ERROR;
 			}
 		}
 		catch(Exception e)
 		{
+			if (e.getMessage() != null)
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), e.getMessage());
+			}
+			else
+			{
+				Log.e(RehearsalAudioRecorder.class.getName(), "Unknown error occured in prepare()");
+			}
 			state = State.ERROR;
 		}
 	}
@@ -336,7 +371,7 @@ public class RehearsalAudioRecorder
 				}
 				catch (IOException e)
 				{
-					e.printStackTrace();
+					Log.e(RehearsalAudioRecorder.class.getName(), "I/O exception occured while closing output file");
 				}
 				(new File(fPath)).delete();
 			}
@@ -391,6 +426,7 @@ public class RehearsalAudioRecorder
 		}
 		catch (Exception e)
 		{
+			Log.e(RehearsalAudioRecorder.class.getName(), e.getMessage());
 			state = State.ERROR;
 		}
 	}
@@ -410,8 +446,7 @@ public class RehearsalAudioRecorder
 			{
 				payloadSize = 0;
 				aRecorder.startRecording();
-				timer = new Timer();
-				timer.scheduleAtFixedRate(new RecordTask(), TIMER_INTERVAL, TIMER_INTERVAL);
+				aRecorder.read(buffer, 0, buffer.length);
 			}
 			else
 			{
@@ -421,6 +456,7 @@ public class RehearsalAudioRecorder
 		}
 		else
 		{
+			Log.e(RehearsalAudioRecorder.class.getName(), "start() called on illegal state");
 			state = State.ERROR;
 		}
 	}
@@ -443,8 +479,6 @@ public class RehearsalAudioRecorder
 				
 				try
 				{
-					timer.cancel();
-
 					fWriter.seek(4); // Write size to RIFF header
 					fWriter.writeInt(Integer.reverseBytes(36+payloadSize));
 				
@@ -455,6 +489,7 @@ public class RehearsalAudioRecorder
 				}
 				catch(IOException e)
 				{
+					Log.e(RehearsalAudioRecorder.class.getName(), "I/O exception occured while closing output file");
 					state = State.ERROR;
 				}
 			}
@@ -466,6 +501,7 @@ public class RehearsalAudioRecorder
 		}
 		else
 		{
+			Log.e(RehearsalAudioRecorder.class.getName(), "stop() called on illegal state");
 			state = State.ERROR;
 		}
 	}
@@ -480,4 +516,3 @@ public class RehearsalAudioRecorder
 		return (short)(argB1 | (argB2 << 8));
 	}
 }
-
