@@ -85,7 +85,6 @@ public class RehearsalAudioRecorder
 	 */
 	private AudioRecord.OnRecordPositionUpdateListener updateListener = new AudioRecord.OnRecordPositionUpdateListener()
 	{
-		@Override
 		public void onPeriodicNotification(AudioRecord recorder)
 		{
 			aRecorder.read(buffer, 0, buffer.length); // Fill buffer
@@ -122,7 +121,6 @@ public class RehearsalAudioRecorder
 			}
 		}
 		
-		@Override
 		public void onMarkerReached(AudioRecord recorder)
 		{
 			// NOT USED
