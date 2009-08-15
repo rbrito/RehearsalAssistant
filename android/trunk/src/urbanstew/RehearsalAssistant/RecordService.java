@@ -9,11 +9,13 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaRecorder;
+import android.media.AudioFormat;
+import android.media.MediaRecorder.AudioSource;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -28,6 +30,8 @@ public class RecordService extends Service
 	 */
 	enum State { INITIALIZING, READY, STARTED, RECORDING };
 
+	private final static int[] sampleRates = {44100, 22050, 11025, 8000};
+	
 	public void onCreate()
 	{
 		mSessionId = -1;
@@ -200,29 +204,45 @@ public class RecordService extends Service
 			audio.mkdirs();
 			Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
 			
+
+			// get the recording type from preferences
+			boolean uncompressed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("uncompressed_recording", false);
+
 			// construct file name
-			mOutputFile = audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId + ".3gp";
+			mOutputFile =
+				audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId
+				+ (uncompressed ? ".wav" : ".3gp");
 			Log.w("Rehearsal Assistant", "writing to file " + mOutputFile);
 			
 			// start the recording
-	    	mRecorder = new MediaRecorder();
-	        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-	        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-	        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-	        mRecorder.setOutputFile(mOutputFile);
-//	        try
-//	        {
-	        	mRecorder.prepare();
-		        mRecorder.start();   // Recording is now started*/
-		        mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
-/*	        } catch(IOException e)
-	        {
-				mOutputFile = null;
-	        }*/ 
+			if(!uncompressed)
+			{
+		    	mRecorder = new RehearsalAudioRecorder(false, 0, 0, 0, 0);
+			}
+			else
+			{
+				int i=0;
+				do
+				{
+					if (mRecorder != null)
+						mRecorder.release();
+					mRecorder = new RehearsalAudioRecorder(true, AudioSource.MIC, sampleRates[i], AudioFormat.CHANNEL_CONFIGURATION_MONO,
+							AudioFormat.ENCODING_PCM_16BIT);
+				} while((++i<sampleRates.length) & !(mRecorder.getState() == RehearsalAudioRecorder.State.INITIALIZING));
+			}
+			mRecorder.setOutputFile(mOutputFile);
+			mRecorder.prepare();
+			mRecorder.start(); // Recording is now started
+			mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
+		    if (mRecorder.getState() == RehearsalAudioRecorder.State.ERROR)
+		    {
+		    	mOutputFile = null;
+		    }
 		}
 		else
 		{
 			mOutputFile = null;
+			mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
 		}
 	    mState = State.RECORDING;
 	    updateViews();
@@ -333,7 +353,7 @@ public class RecordService extends Service
     State mState;
     long mTimeAtStart;
     long mRecordedAnnotationId;
-	MediaRecorder mRecorder = null;
+	RehearsalAudioRecorder mRecorder = null;
     
     long mTimeAtAnnotationStart;
     String mOutputFile;
