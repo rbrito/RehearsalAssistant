@@ -3,8 +3,6 @@ package urbanstew.RehearsalAssistant;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;

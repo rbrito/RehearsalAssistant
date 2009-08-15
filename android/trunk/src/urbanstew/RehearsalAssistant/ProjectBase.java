@@ -66,7 +66,7 @@ public class ProjectBase extends RehearsalActivity
 	    		{
 	    		    public void onClick(DialogInterface dialog, int whichButton)
 	    		    {
-	    		    	mAppData.setVisitedVersion(0.8f);
+	    		    	mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
 	    		    }
 	    		}
 	    	);
@@ -74,7 +74,8 @@ public class ProjectBase extends RehearsalActivity
         else if (visitedVersion < RehearsalAssistant.currentVersion)
         {
     		//Request.contribution(this);
-    		Request.recordWidget(this);
+//    		Request.recordWidget(this);
+    		Request.notification(this, "Uncompressed Recording", "This version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and thank you for all the feedback so far!");
     		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }

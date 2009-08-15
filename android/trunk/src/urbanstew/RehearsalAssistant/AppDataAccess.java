@@ -139,6 +139,14 @@ public class AppDataAccess
     	preferences.edit().putFloat("app_visited_version" + what, version).commit();
 	}
     
+	boolean lastVisitedVersionOlderThan(String what, float version)
+	{
+    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+		float oldVersion = preferences.getFloat("app_visited_version" + what, 0);
+		preferences.edit().putFloat("app_visited_version" + what, RehearsalAssistant.currentVersion).commit();
+		return oldVersion < version;
+	}
+	
     static String[] projectsDataProjection =
     {
     	Projects._ID,

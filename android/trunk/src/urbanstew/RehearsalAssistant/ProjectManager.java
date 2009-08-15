@@ -78,9 +78,8 @@ public class ProjectManager extends ListActivity
         // * Display Project Manager instructions if needed
         // **
         // Project Manager was introduced at version 0.8.0
-        if(appData.getVisitedVersion("project_manager") < 0.8f)
+        if(appData.lastVisitedVersionOlderThan("project_manager", 0.8f))
         	Request.notification(this, "Instructions", getResources().getString(R.string.project_manager_instructions));
-       	appData.setVisitedVersion("project_manager", RehearsalAssistant.currentVersion);
 
         // ***
         // * Creation of project context menus 
