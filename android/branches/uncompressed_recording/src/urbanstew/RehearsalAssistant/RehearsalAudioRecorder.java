@@ -7,8 +7,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.ShortBuffer;
 import java.nio.channels.FileChannel;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -97,6 +95,7 @@ public class RehearsalAudioRecorder
 	 */
 	private AudioRecord.OnRecordPositionUpdateListener updateListener = new AudioRecord.OnRecordPositionUpdateListener()
 	{
+		@Override
 		public void onPeriodicNotification(AudioRecord recorder)
 		{
 			aRecorder.read(bBuffer, bBuffer.capacity()); // Fill buffer
@@ -141,6 +140,7 @@ public class RehearsalAudioRecorder
 			}
 		}
 		
+		@Override
 		public void onMarkerReached(AudioRecord recorder)
 		{
 			// NOT USED
@@ -540,15 +540,5 @@ public class RehearsalAudioRecorder
 			Log.e(RehearsalAudioRecorder.class.getName(), "stop() called on illegal state");
 			state = State.ERROR;
 		}
-	}
-	
-	/* 
-	 * 
-	 * Converts a byte[2] to a short, in LITTLE_ENDIAN format
-	 * 
-	 */
-	private short getShort(byte argB1, byte argB2)
-	{
-		return (short)(argB1 | (argB2 << 8));
 	}
 }
