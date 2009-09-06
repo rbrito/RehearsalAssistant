@@ -21,4 +21,7 @@ interface IRecordService
 	long getTimeInSession();
 	int getMaxAmplitude();
 	void setSession(long sessionId);
+	
+	void setGain(double gain);
+	void pauseRecording(long sessionId);
 }

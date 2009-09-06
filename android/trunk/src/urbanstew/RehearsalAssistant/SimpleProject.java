@@ -22,10 +22,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class SimpleProject extends ProjectBase
 {
@@ -70,11 +74,49 @@ public class SimpleProject extends ProjectBase
         mRecordButton.setOnClickListener(mClickListener);
         mCurrentTime = (TextView) findViewById(R.id.playback_time);
         mEnvelopeView = (VolumeEnvelopeView) findViewById(R.id.volume_envelope);
+        mViewSwitcher = (ViewSwitcher) findViewById(R.id.view_switcher);
+        mGainSlider = (SeekBar) findViewById(R.id.gain_slider);
+        mGainSlider.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			public void onProgressChanged(SeekBar bar, int progress, boolean fromUser)
+			{
+				if(mRecordService != null)
+					try
+					{
+						mRecordService.setGain((progress - 512) / 8.0);
+					} catch (RemoteException e)
+					{
+					}
+			}
+
+			public void onStartTrackingTouch(SeekBar arg0)
+			{
+			}
+
+			public void onStopTrackingTouch(SeekBar bar)
+			{
+			}
+        
+        });
+        ((ImageButton)findViewById(R.id.record_pause_button)).setOnClickListener(new OnClickListener()
+        {
+
+			public void onClick(View arg0)
+			{
+				if(mRecordService != null)
+					try
+					{
+						mRecordService.pauseRecording(mSessionId);
+					} catch (RemoteException e)
+					{
+					}				
+			}
+        });
         
         mSessionId = getSessionId(getContentResolver(), projectId());
         if(mSessionId < 0)
         {
-    		Toast.makeText(this, "There was a problem opening a Memo Project.", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, "There was a problem opening a Simple Project.", Toast.LENGTH_LONG).show();
         	finish();
         }
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
@@ -251,7 +293,7 @@ public class SimpleProject extends ProjectBase
     	if(mRecordService.getState() == RecordService.State.STARTED.ordinal())
     	{
     		mRecordButton.setImageResource(R.drawable.media_record);
-        	
+        	mViewSwitcher.setDisplayedChild(0);
         	mUpdateListSelection = true;
         	runOnUiThread(new Runnable()
     		{
@@ -262,8 +304,10 @@ public class SimpleProject extends ProjectBase
     		});
         }
     	else
+    	{
     		mRecordButton.setImageResource(R.drawable.media_recording);
-
+        	mViewSwitcher.setDisplayedChild(1);
+    	}
     }
     /** Called when the button is pushed */
     View.OnClickListener mClickListener = new View.OnClickListener()
@@ -317,6 +361,8 @@ public class SimpleProject extends ProjectBase
     Timer mTimer = new Timer();
     
     ImageButton mRecordButton;
+    ViewSwitcher mViewSwitcher;
+    SeekBar mGainSlider;
     
     long mSessionId;
     
