@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="146dip"
+    android:layout_height="fill_parent"
+    >
+<TextView
+	android:id="@+id/rehearsal"
+    android:singleLine="true"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceSmallInverse"
+    android:text="Sound"
+    android:layout_alignParentTop="true" 
+    />
+<TextView
+	android:id="@+id/assistant"
+    android:gravity="center"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceSmallInverse"
+    android:text="Recorder"
+    android:layout_alignParentBottom="true" 
+    />
+<ImageButton
+	android:id="@+id/record_button"
+	android:layout_height="wrap_content"
+	android:layout_width="73dip"
+    android:layout_below="@id/rehearsal"
+	android:layout_above="@id/assistant"
+    android:src="@drawable/media_recording"
+   	android:scaleType="center"
+ />
+<ImageButton
+	android:id="@+id/play_button"
+	android:layout_alignTop="@id/record_button"
+	android:layout_alignBottom="@id/record_button"
+	android:layout_height="wrap_content"
+	android:layout_width="73dip"
+    android:layout_toRightOf="@id/record_button"
+    android:src="@android:drawable/ic_media_play"
+   	android:scaleType="center"
+ />
+</RelativeLayout>
+ 

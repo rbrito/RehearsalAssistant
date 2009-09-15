@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Sound Recorder Widget</string>
+<string name="instructions">To use the Sound Recorder Widget:\n\nGo to your phone\'s home screen, press the MENU button, select Add, then Widgets, then Sound Recorder.\n\nYou will then be able to access the Widget from the home screen. </string>
+</resources>
