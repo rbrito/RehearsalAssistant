@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Sound Recorder Widget</string>
+<string name="instructions">K používaniu Sound Recorder Widget:\n\nOtvorte plochu telefónu, kliknite tlačítko MENU, potom Pridať, Widgety, a Sound Recorder.\n\nPotom už budete môcť používať tento Widget z plochy. </string>
+<string name="instructions2">Tento widget potrebuje BEZPLATNÚ aplikáciu 'Rehearsal Assistant / VoiceRecrd'. Prosím stiahnite ho pomocou služby Market</string>
+</resources>

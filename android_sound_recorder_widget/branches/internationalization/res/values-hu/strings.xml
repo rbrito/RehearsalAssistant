@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Sound Recorder Widget</string>
+<string name="instructions">A Sound Recorder Widget használatához:\n\nMenjen a telefonja home screen-jére, nyomja meg a MENU gombot, válassza a Hozzáadás opciót, majd Widgets, Sound Recorder.\n\nEzután a Widget elérhetővé válik a home screen-ről. </string>
+<string name="instructions2">Ehhez a Widgethez szükséges az INGYENES 'Rehearsal Assistant / VoiceRecrd' alkalmazás.  Kérem töltse le a Market-en keresztül.</string>
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Sound Recorder Widget</string>
+<string name="instructions">Um das Sound Recorder Widget zu benutzen:\n\nGehen Sie zur Startseite, drücken Sie das MENU Knopf, wählen sie Hinzufügen, dann Widgets, Sound Recorder.\n\nSie können dann das Widget auf ihren Startseite anwenden. </string>
+<string name="instructions2">Dieses widget benötigt die FREIE 'Rehearsal Assistant / VoiceRecrd' anwendung.  Bitte herunterladen Sie es durch den Market</string>
+</resources>
