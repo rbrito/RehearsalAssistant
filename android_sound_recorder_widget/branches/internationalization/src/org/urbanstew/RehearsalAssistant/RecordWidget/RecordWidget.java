@@ -96,6 +96,6 @@ public class RecordWidget extends AppWidgetProvider
 		{
 		}
 
-    	Toast.makeText(context, "This widget requires the FREE 'Rehearsal Assistant / VoiceRecrd' app.  Please download it through the Market", Toast.LENGTH_LONG).show();
+    	Toast.makeText(context, R.string.instructions2, Toast.LENGTH_LONG).show();
     }
 }
