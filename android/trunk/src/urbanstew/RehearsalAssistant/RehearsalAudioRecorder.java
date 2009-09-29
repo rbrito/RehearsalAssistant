@@ -3,10 +3,6 @@ package urbanstew.RehearsalAssistant;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
-import java.nio.channels.FileChannel;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -49,7 +45,6 @@ public class RehearsalAudioRecorder
 	
 	// File writer (only in uncompressed mode)
 	private RandomAccessFile fWriter;
-	private FileChannel		 fChannel;
 	
 	// Number of channels, sample rate, sample size(size in bits), buffer size, audio source, sample size(see AudioFormat)
 	private short 			 nChannels;
@@ -63,21 +58,11 @@ public class RehearsalAudioRecorder
 	private int				 framePeriod;
 		
 	// Buffer for output(only in uncompressed mode)
-	private ShortBuffer		shBuffer;
-	private ByteBuffer		bBuffer;
+	private byte[] 			 buffer;
 	
 	// Number of bytes written to file after header(only in uncompressed mode)
 	// after stop() is called, this size is written to the header/data chunk in the wave file
 	private int				 payloadSize;
-	
-	
-	// Apply gain - Supported only in uncompressed recording
-	private double 			gain; // Gain converted from dB to multiplier;
-								  // Based on info found in WaveGain application
-								  // multiplier = 10 ^ (0.05 * dB)
-	
-	// Flag indicating that recording is paused - Supported only in uncompressed recording
-	private boolean			paused;
 	
 	/**
 	 * 
@@ -100,45 +85,32 @@ public class RehearsalAudioRecorder
 	{
 		public void onPeriodicNotification(AudioRecord recorder)
 		{
-			aRecorder.read(bBuffer, bBuffer.capacity()); // Fill buffer
-			
-			// if recording is paused, ignore audio data
-			if(paused)
-				return;
-			
+			aRecorder.read(buffer, 0, buffer.length); // Fill buffer
 			try
-			{
+			{ 
+				fWriter.write(buffer); // Write buffer to file
+				payloadSize += buffer.length;
 				if (bSamples == 16)
 				{
-					shBuffer.rewind();
-					int bLength = shBuffer.capacity(); // Faster than accessing buffer.capacity each time
-					for (int i=0; i<bLength; i++)
+					for (int i=0; i<buffer.length/2; i++)
 					{ // 16bit sample size
-						short curSample = (short) (shBuffer.get(i) * gain);
+						short curSample = getShort(buffer[i*2], buffer[i*2+1]);
 						if (curSample > cAmplitude)
 						{ // Check amplitude
 							cAmplitude = curSample;
 						}
-						shBuffer.put(curSample);
 					}
 				}
 				else
 				{ // 8bit sample size
-					int bLength = bBuffer.capacity(); // Faster than accessing buffer.capacity each time
-					bBuffer.rewind();
-					for (int i=0; i<bLength; i++)
+					for (int i=0; i<buffer.length; i++)
 					{
-						byte curSample = (byte) (bBuffer.get(i) * gain);
-						if (curSample > cAmplitude)
+						if (buffer[i] > cAmplitude)
 						{ // Check amplitude
-							cAmplitude = curSample;
+							cAmplitude = buffer[i];
 						}
-						bBuffer.put(curSample);
 					}
 				}
-				bBuffer.rewind();
-				fChannel.write(bBuffer); // Write buffer to file
-				payloadSize += bBuffer.capacity();
 			}
 			catch (IOException e)
 			{
@@ -215,7 +187,6 @@ public class RehearsalAudioRecorder
 				mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 			}
 			cAmplitude = 0;
-			gain = 1.0;
 			fPath = null;
 			state = State.INITIALIZING;
 		} catch (Exception e)
@@ -230,17 +201,6 @@ public class RehearsalAudioRecorder
 			}
 			state = State.ERROR;
 		}
-	}
-	
-	/**
-	 * 
-	 * Set gain, can be called in any state
-	 * 
-	 */
-	public void setGain(double dBGain)
-	{
-		gain = Math.pow(10, dBGain*0.05);
-		Log.d("Gain", Double.toString(gain));
 	}
 	
 	/**
@@ -333,7 +293,6 @@ public class RehearsalAudioRecorder
 						// write file header
 
 						fWriter = new RandomAccessFile(fPath, "rw");
-						fChannel= fWriter.getChannel();
 						
 						fWriter.setLength(0); // Set file length to 0, to prevent unexpected behavior in case the file already existed
 						fWriter.writeBytes("RIFF");
@@ -350,11 +309,7 @@ public class RehearsalAudioRecorder
 						fWriter.writeBytes("data");
 						fWriter.writeInt(0); // Data chunk size not known yet, write 0
 						
-						bBuffer = ByteBuffer.allocateDirect(framePeriod*bSamples/8*nChannels);
-						bBuffer.order(ByteOrder.LITTLE_ENDIAN);
-						bBuffer.rewind();
-						shBuffer = bBuffer.asShortBuffer();
-						
+						buffer = new byte[framePeriod*bSamples/8*nChannels];
 						state = State.READY;
 					}
 					else
@@ -451,7 +406,6 @@ public class RehearsalAudioRecorder
 				release();
 				fPath = null; // Reset file path
 				cAmplitude = 0; // Reset amplitude
-				gain = 1.0;
 				if (rUncompressed)
 				{
 					aRecorder = new AudioRecord(aSource, sRate, nChannels+1, aFormat, bufferSize);
@@ -488,8 +442,7 @@ public class RehearsalAudioRecorder
 			{
 				payloadSize = 0;
 				aRecorder.startRecording();
-				aRecorder.read(bBuffer, bBuffer.capacity());
-				bBuffer.rewind();
+				aRecorder.read(buffer, 0, buffer.length);
 			}
 			else
 			{
@@ -549,13 +502,13 @@ public class RehearsalAudioRecorder
 		}
 	}
 	
-	public void togglePause()
+	/* 
+	 * 
+	 * Converts a byte[2] to a short, in LITTLE_ENDIAN format
+	 * 
+	 */
+	private short getShort(byte argB1, byte argB2)
 	{
-		paused = !paused;
-	}
-	
-	public boolean isPaused()
-	{
-		return paused;
+		return (short)(argB1 | (argB2 << 8));
 	}
 }

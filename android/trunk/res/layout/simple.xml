@@ -32,7 +32,7 @@
 	    android:layout_marginTop="5dip"
 	    android:layout_marginBottom="8dip"
 	    />
-<!-- 	<urbanstew.RehearsalAssistant.VolumeEnvelopeView
+	<urbanstew.RehearsalAssistant.VolumeEnvelopeView
 		xmlns:app="http://schemas.android.com/apk/res/urbanstew.RehearsalAssistant"
 		android:id="@+id/volume_envelope"
 	    android:layout_width="fill_parent"
@@ -44,7 +44,7 @@
 	    android:layout_marginLeft="5dip"
 	    android:layout_marginRight="5dip"
 	   	app:color="#888"
-	   	/> -->
+	   	/>
 	<TextView
 	    android:id="@+id/playback_time"
 	    android:layout_width="fill_parent"
@@ -57,18 +57,12 @@
 	    android:layout_marginBottom="8dip"
 	    />
 </RelativeLayout>
-<ViewSwitcher
-	android:id="@+id/view_switcher"
+<FrameLayout
 	android:layout_height="fill_parent" 
 	android:layout_width="fill_parent" 
     android:layout_alignParentTop="true" 
     android:layout_above="@id/time_and_volume"
-	android:background="@drawable/masks_gradient" android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
->
-<FrameLayout
-	android:layout_height="fill_parent" 
-	android:layout_width="fill_parent" 
->
+	android:background="@drawable/masks_gradient" android:layout_marginLeft="5dip" android:layout_marginRight="5dip">
 	<ImageView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
@@ -89,37 +83,4 @@
 		android:background="#7F000000"
 	    android:textAppearance="?android:attr/textAppearanceLarge"
 	/>
-</FrameLayout>
-<RelativeLayout
-	android:layout_height="fill_parent" 
-	android:layout_width="fill_parent" 
-	android:background="@android:drawable/dialog_frame"
->
-	<SeekBar
-		android:id="@+id/gain_slider"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-	    android:max="1024"
-	    android:progress="512"
-		style="android:progressBarStyleHorizontal"
-   	/>
-	<ImageButton
-	android:id="@+id/record_pause_button"
-	android:layout_height="wrap_content" 
-	android:layout_width="fill_parent"
-	android:layout_alignParentBottom="true"
-	android:src="@android:drawable/ic_media_pause"
-	/>
-	<urbanstew.RehearsalAssistant.VolumeEnvelopeView
-		xmlns:app="http://schemas.android.com/apk/res/urbanstew.RehearsalAssistant"
-		android:id="@+id/volume_envelope"
-	    android:layout_width="fill_parent"
-	    android:layout_height="50px"
-	    
-		android:layout_below="@id/gain_slider"
-	   	app:color="#FFF"
-	   	/>
-</RelativeLayout>
-</ViewSwitcher>
-</RelativeLayout>
+</FrameLayout></RelativeLayout>

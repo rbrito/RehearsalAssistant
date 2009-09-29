@@ -349,21 +349,6 @@ public class RecordService extends Service
 		return mBinder;
 	}
 
-	public void setGain(double gain)
-	{
-		if(mRecorder != null)
-			mRecorder.setGain(gain);
-	}
-	
-	public void pauseRecording(long sessionId)
-	{
-		// state must be RECORDING
-		if(mState != State.RECORDING)
-			return;
-	
-		mRecorder.togglePause();
-	}
-	
 	long mSessionId;
     State mState;
     long mTimeAtStart;
@@ -417,15 +402,6 @@ public class RecordService extends Service
 		public void stopSession(long sessionId) throws RemoteException
 		{
 			RecordService.this.stopSession(sessionId);
-		}
-		
-		public void setGain(double gain) throws RemoteException
-		{
-			RecordService.this.setGain(gain);
-		}
-		public void pauseRecording(long sessionId) throws RemoteException
-		{
-			RecordService.this.pauseRecording(sessionId);
 		}
     };
 }
