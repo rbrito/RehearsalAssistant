@@ -2,7 +2,7 @@
 <resources>
     
 
-    <string name="app_name">Rehearsal Assistant</string><string name="help">Instructions</string>
+    <string name="app_name">Rehearsal Assistant</string><string name="help">Pokyny</string>
     
 
     <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string><string name="project_manager_instructions">The Project Manager allows you to open,
@@ -82,14 +82,14 @@ and we will try to fix the problem / incorporate your suggestions.\n\nThank you!
 <string name="create_session">Create Session</string>
 <string name="create_and_start_session">Create and Start Session</string>
 <string name="memo_error">There was a problem opening a Memo Project.</string>
-<string name="warning">Warning</string>
+<string name="warning">Upozornenie</string>
 <string name="warning_erase_previous_recordings">This will erase all recordings made the previous time session was recorded.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
 <string name="warning_erase_current_recordings">&quot;This will erase all recordings in the session.\n\nARE YOU SURE YOU WANT TO DO THIS?&quot;</string>
 <string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
 <string name="error_zip">Problem creating ZIP archive:</string>
 <string name="error_send">Unable to send message:</string>
 <string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone's home screen.</string>
-<string name="download_it">Download it!</string>
+<string name="download_it">Stiahni to!</string>
 <string name="market_start_error">Could not start the Market app to download.</string>
 <string name="cancel">Cancel</string>
 <string name="ok">OK</string>

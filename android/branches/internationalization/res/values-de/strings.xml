@@ -1,49 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-
-    <string name="app_name">Rehearsal Assistant</string><string name="help">Anleitungen</string>
-    
-
-    <string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
-    <string name="project_manager_instructions">Der Projektmanager ermöglicht Ihnen Projekte zu öffnen, erstellen, und verwalten, welchen Sie zum ordnen der Aufzeichnungen einwenden können. Zwei Projektentypen werden unterstützt - Gesprächsnotiz und Sitzung.\n\nGesprächsnotiz Projekten:\n* haben eine einfache Aufnahme-/Wiedergabeoberfläche\n*
-ideal für Notizen, Abmahnungen, usw.\n*
-für den Einsatz mit dem Sound Recorder Widget geeignet\n\nSitzung
-projekte:\n* ordnen die Aufzeichnungen in Sitzungen\n*
-markiert relativ zur Anfangszeit der Sitzung.\n* für die Notierung von Erreignissen wie z.B.: Proben, oder Experimenten vorgesehen.\n\nKlicken Sie auf ein Projekt um es zu öffnen. Klicken Sie länger um das Projekt zu löschen oder es für 
-Sound Recorder Widget Aufnahmen zu bestimmen (nur bei Gesprächsnotizprojekten).\n\nZurzeit ist es nicht möglich Projekte umbenennen, oder Aufnahmen zwischen Projekten zu bewegen.\n\nSie können das Menü nutzen um neue Projekte zu erstellen, das Sound Recorder Widget herunterladen,
-oder diese Anleitungen nochmal durchsehen.\n\n</string><string name="record">Klicken Sie für Aufnahme</string><string name="recording_instructions">Klicken Sie das Button um die Sitzung zu starten. Klicken Sie nochmal um die Aufnahme zu starten/stoppen. Benutzen Sie das MENÜ um die Sitzung zu stoppen.</string><string name="recording_instructions_started">Klicken Sie auf das Button um die Aufnahme zu starten/stoppen. Benutzen Sie das MENÜ um die Sitzung zu stoppen.</string><string name="session_instructions">Das Sitzungprojekt ermöglicht Stimmen-/Tonannotationen in Sitzungen aufzunehmen, und markiert sie relativ zum Sitzungbeginn.\n\nKlicken Sie
-\'Neuen Sitzung dokumentieren\' um einen neuen Sitzung zu erstellen und Annotationen aufzunehmen .
-Sie können auch auf einen schon existierenden Sitzung klicken um seine Annotationen durchzusehen, oder drücken Sie länger 
-für mehrere Optione.\n\nSie können das Projektmanager durch das MENÜ abrufen.</string><string name="session_no_session_instructions">Klicken Sie unten um einen neuen Sitzung zu dokumentieren.\n\nBenutzen Sie das menü um die Anleitungen, Einstellungen, oder den Projektmanager abzurufen.</string><string name="settings">Einstellungen</string>
-
-	<string name="simple_instructions">Das Gesprächsnotizprojekt ermöglicht eine einfache Aufnahme und Wiedergabe der Tondatein.\n\nBenutzen Sie das Aufnehmenbutton um die Aufnahme zu starten / stoppen. Klicken Sie auf eine Aufnahme um es abzuhören. Langdrücken Sie um den Name der Aufnahme zu bearbeiten, um es per E-Mail senden, oder um es zu löschen.\n\nBenutzen Sie das MENÜ um alle Aufnahmen per E-Mail zu senden oder den Projektmanager abzurufen.</string><string name="simple_no_annotations_instructions">Klicken Sie unten um die Aufnahme zu starten / stoppen.\n\nBenutzen Sie das menü um die Anleitungen, Einstellungen, oder den Projektmanager abzurufen.</string><string name="start_session">Klicken Sie um die Sitzung zu starten</string>
-	
-	<string name="stop_recording">Klicken Sie um die Aufnahme zu stoppen</string>
-	
-	
-	
-
-
-
-
-
-
-
-
-
+<string name="app_name">Rehearsal Assistant</string><string name="help">Anleitungen</string>    
+<string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
+<string name="project_manager_instructions">Der Projektmanager ermöglicht Ihnen Projekte zu öffnen, erstellen, und verwalten, welchen Sie zum ordnen der Aufzeichnungen einwenden können. Zwei Projektentypen werden unterstützt - Gesprächsnotiz und Sitzung.\n\nGesprächsnotiz Projekten:\n* haben eine einfache Aufnahme-/Wiedergabeoberfläche\n*ideal für Notizen, Abmahnungen, usw.\n*für den Einsatz mit dem Sound Recorder Widget geeignet\n\nSitzungprojekte:\n* ordnen die Aufzeichnungen in Sitzungen\n*markiert relativ zur Anfangszeit der Sitzung.\n* für die Notierung von Erreignissen wie z.B.: Proben, oder Experimenten vorgesehen.\n\nKlicken Sie auf ein Projekt um es zu öffnen. Klicken Sie länger um das Projekt zu löschen oder es für Sound Recorder Widget Aufnahmen zu bestimmen (nur bei Gesprächsnotizprojekten).\n\nZurzeit ist es nicht möglich Projekte umbenennen, oder Aufnahmen zwischen Projekten zu bewegen.\n\nSie können das Menü nutzen um neue Projekte zu erstellen, das Sound Recorder Widget herunterladen, oder diese Anleitungen nochmal durchsehen.\n\n</string>
+<string name="record">Klicken Sie für Aufnahme</string>
+<string name="recording_instructions">Klicken Sie das Button um die Sitzung zu starten. Klicken Sie nochmal um die Aufnahme zu starten/stoppen. Benutzen Sie das MENÜ um die Sitzung zu stoppen.</string>
+<string name="recording_instructions_started">Klicken Sie auf das Button um die Aufnahme zu starten/stoppen. Benutzen Sie das MENÜ um die Sitzung zu stoppen.</string>
+<string name="session_instructions">Das Sitzungprojekt ermöglicht Stimmen-/Tonannotationen in Sitzungen aufzunehmen, und markiert sie relativ zum Sitzungbeginn.\n\nKlicken Sie\'Neuen Sitzung dokumentieren\' um einen neuen Sitzung zu erstellen und Annotationen aufzunehmen. Sie können auch auf einen schon existierenden Sitzung klicken um seine Annotationen durchzusehen, oder drücken Sie länger für mehrere Optione.\n\nSie können das Projektmanager durch das MENÜ abrufen.</string>
+<string name="session_no_session_instructions">Klicken Sie unten um einen neuen Sitzung zu dokumentieren.\n\nBenutzen Sie das menü um die Anleitungen, Einstellungen, oder den Projektmanager abzurufen.</string>
+<string name="settings">Einstellungen</string>
+<string name="simple_instructions">Das Gesprächsnotizprojekt ermöglicht eine einfache Aufnahme und Wiedergabe der Tondatein.\n\nBenutzen Sie das Aufnehmenbutton um die Aufnahme zu starten / stoppen. Klicken Sie auf eine Aufnahme um es abzuhören. Langdrücken Sie um den Name der Aufnahme zu bearbeiten, um es per E-Mail senden, oder um es zu löschen.\n\nBenutzen Sie das MENÜ um alle Aufnahmen per E-Mail zu senden oder den Projektmanager abzurufen.</string>
+<string name="simple_no_annotations_instructions">Klicken Sie unten um die Aufnahme zu starten / stoppen.\n\nBenutzen Sie das menü um die Anleitungen, Einstellungen, oder den Projektmanager abzurufen.</string>
+<string name="start_session">Klicken Sie um die Sitzung zu starten</string>	
+<string name="stop_recording">Klicken Sie um die Aufnahme zu stoppen</string>
 <string name="playback_instructions">Klicken zu auf eine Annotation unten um es abzuhören. Langdrücken Sie um den Name der Annotation zu bearbeiten, um es per E-Mail senden, oder um es zu löschen. Benutzen Sie das MENÜ um die Sitzung per E-Mail zu senden.</string>
 <string name="annotation_label_text">Geben Sie einen neuen Titel für die Annotation ein</string>
 <string name="no_annotations">Keine Annotationen waren aufgenommen für diese Sitzung.</string>
-
-<string name="license">Wilkommen zum Rehearsal Assistant!\n\nDurch die Nutzung dieser Software verpflichten Sie sich zur Einhaltung der Bestimmungen und Bedingungen dieses Vertrags:\n\nAndroid
-Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nDieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version. Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License. Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe http://www.gnu.org/licenses/.\n\nSiehe 
-http://urbanstew.org/rehearsalassistant/ für Links zum Quellcode 
-und Dokumentation.\n\n</string>
-
-<string name="beta_warning">Diese Software ist im BETA Status, welcher bedeutet das Sie werden wahrscheinlich auf Problemen stoßen während die Benutzung der Software.\n\nWenn Sie Probleme erfahren oder Sie einen Vorschlag haben, dann schicken sie uns bitte eine E-Mail auf die Adresse comments@urbanstew.org
- und wir werden versuchen das Problem zu lösen /  Ihren Vorschlag einbauen.\n\nDanke!\n\n</string>
-
+<string name="license">Wilkommen zum Rehearsal Assistant!\n\nDurch die Nutzung dieser Software verpflichten Sie sich zur Einhaltung der Bestimmungen und Bedingungen dieses Vertrags:\n\nAndroid Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nDieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version. Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License. Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe http://www.gnu.org/licenses/.\n\nSiehe http://urbanstew.org/rehearsalassistant/ für Links zum Quellcode und Dokumentation.\n\n</string>
+<string name="beta_warning">Diese Software ist im BETA Status, welcher bedeutet das Sie werden wahrscheinlich auf Problemen stoßen während die Benutzung der Software.\n\nWenn Sie Probleme erfahren oder Sie einen Vorschlag haben, dann schicken sie uns bitte eine E-Mail auf die Adresse comments@urbanstew.org und wir werden versuchen das Problem zu lösen /  Ihren Vorschlag einbauen.\n\nDanke!\n\n</string>
 <string name="memo">Gesprächsnotiz</string>
 <string name="my_memo_project">Mein Gesprächsnotizprojekt</string>
 <string name="memo_project">Gesprächsnotizprojekt</string>
@@ -51,9 +25,7 @@ und Dokumentation.\n\n</string>
 <string name="session_project">Sitzungprojekt</string>
 <string name="my_session_project">Mein Sitzungprojekt</string>
 <string name="project_type">Projekttyp:</string>
-
 <string name="error_project_does_not_exist">FEHLER: Rehearsal Assistant hatte versucht auf ein nicht vorhandenes Projekt zuzugreifen.</string> 
-
 <string name="doc_new_session">Neue Sitzung Dokumentieren</string>
 <string name="create_session">Sitzung erstellen</string>
 <string name="create_and_start_session">Sitzung erstellen und starten</string>
@@ -82,7 +54,6 @@ und Dokumentation.\n\n</string>
 <string name="use_for_sound_widget">für Sound Recorder Widget Aufnahmen benutzen</string>
 <string name="warning_erase_project_recordings">Alle Aufnahmen des aktuellen Projekts werden gelöscht.\n\nSIND SIE SICHER DAS SIE ES TUN MÖCHTEN?</string>
 <string name="instructions">Anleitungen</string>
-
 <string name="my_new_project">mein neues Projekt</string>
 <string name="new_project">neues Projekt</string>
 <string name="download_widget">Widget herunterladen</string>
