@@ -186,7 +186,7 @@ public class SessionPlayback
 
         AudioManager audioManager = (AudioManager) mActivity.getApplication().getSystemService(Context.AUDIO_SERVICE);
         if (audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) == 0)
-      		Toast.makeText(mActivity, "Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.", Toast.LENGTH_LONG).show();
+      		Toast.makeText(mActivity, R.string.warning_mute, Toast.LENGTH_LONG).show();
         
         mCurrentTime = (TextView) mActivity.findViewById(R.id.playback_time);
         mPlayTimeFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -417,7 +417,7 @@ public class SessionPlayback
             archive.close();
         } catch (IOException e)
         {
-    		Toast.makeText(mActivity, "Problem creating ZIP archive: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+    		Toast.makeText(mActivity, mActivity.getResources().getString(R.string.error_zip) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
         	return false;
         }
         return true;
@@ -425,10 +425,10 @@ public class SessionPlayback
     String annotationTextInfo(String label)
     {
         String text = label + " " + (mAnnotationsCursor.getPosition() + 1) + "\n";
-        text += " label: " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
-        text += " start time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
-        text += " end time: " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
-        text += " filename: " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
+        text += " " +mActivity.getResources().getString(R.string.label) + " " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
+        text += " " +mActivity.getResources().getString(R.string.start_time) + " " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
+        text += " " +mActivity.getResources().getString(R.string.end_time) + " " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
+        text += " " +mActivity.getResources().getString(R.string.filename) + " " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
 
         return text;
     }
@@ -436,16 +436,16 @@ public class SessionPlayback
     {
         Intent emailSession = new Intent(Intent.ACTION_SEND);
         if(wholeSession)
-        	emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant session \"" + mSessionCursor.getString(1) + "\"");
+        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getResources().getString(R.string.rehearsal_assistant_session) +" \"" + mSessionCursor.getString(1) + "\"");
         else
-        	emailSession.putExtra(Intent.EXTRA_SUBJECT, "Rehearsal Assistant recording \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
+        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getResources().getString(R.string.rehearsal_assistant_recording)+ " \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
         
     	String messageText = new String();
     	if(wholeSession && mEmailDetail)
     	{
-	    	messageText += "Session title: " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
-	    	messageText += "Session start time: " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_START_TIME))) + "\n";
-	    	messageText += "Session end time: " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_END_TIME))) + "\n\n";
+	    	messageText += mActivity.getResources().getString(R.string.session_title) + " " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
+	    	messageText += mActivity.getResources().getString(R.string.session_start_time) + " " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_START_TIME))) + "\n";
+	    	messageText += mActivity.getResources().getString(R.string.session_end_time) + " " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_END_TIME))) + "\n\n";
     	}
     	if(wholeSession)
     	{
@@ -468,7 +468,7 @@ public class SessionPlayback
         	// Add annotation information
             if(mEmailDetail)
 	            for(mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext())
-	            	messageText += annotationTextInfo("Annotation");
+	            	messageText += annotationTextInfo(mActivity.getResources().getString(R.string.annotation));
     	}
     	else
     	{
@@ -476,12 +476,12 @@ public class SessionPlayback
 	    	emailSession.setType("audio/3gpp");
 
     		if(mEmailDetail)
-    			messageText += annotationTextInfo("Recording");
+    			messageText += annotationTextInfo(mActivity.getResources().getString(R.string.recording));
     	}
-    	messageText += "\n\nRecorded using Rehearsal Assistant.  http://urbanstew.org/rehearsalassistant/";
+    	messageText += "\n\n" + mActivity.getResources().getString(R.string.recorded_with_rehearsal_assistant);
         emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
     	
-      	emailSession = Intent.createChooser(emailSession, wholeSession ? "E-Mail Session" : "E-Mail Recording");
+      	emailSession = Intent.createChooser(emailSession, wholeSession ? mActivity.getResources().getString(R.string.email_session) : mActivity.getResources().getString(R.string.email_recording));
       	
       	try
       	{
@@ -489,7 +489,7 @@ public class SessionPlayback
       	}
       	catch (ActivityNotFoundException e)
       	{
-      		Toast.makeText(mActivity, "Unable to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+      		Toast.makeText(mActivity, mActivity.getResources().getString(R.string.error_send) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
       	}
     }
     
@@ -510,11 +510,11 @@ public class SessionPlayback
 		public void onCreateContextMenu(ContextMenu menu, View v,
 				ContextMenuInfo menuInfo)
 		{
-			menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, "play");
-			menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, "edit label");
-			menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, "e-mail");
-			menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, "delete");
-			menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, "open with Ringdroid");
+			menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getResources().getString(R.string.play));
+			menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getResources().getString(R.string.edit_label));
+			menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getResources().getString(R.string.e_mail));
+			menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getResources().getString(R.string.delete));
+			menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, mActivity.getResources().getString(R.string.open_ringdroid));
 		}
     	
     };
@@ -526,7 +526,7 @@ public class SessionPlayback
         final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
         mAnnotationLabelDialog = new AlertDialog.Builder(mActivity)
             .setView(textEntryView)
-            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            .setPositiveButton(mActivity.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
 
@@ -536,7 +536,7 @@ public class SessionPlayback
             		mAnnotationLabelDialog = null;
                 }
             })
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(mActivity.getResources().getString(R.string.cancel), null)
             .create();
         mAnnotationLabelDialog.show();
     	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
@@ -585,8 +585,8 @@ public class SessionPlayback
 	        	Request.cancellable_confirmation
 	        	(
 	        		mActivity,
-	        		"Warning",
-	        		"This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+	        		mActivity.getResources().getString(R.string.warning),
+	        		mActivity.getResources().getString(R.string.warning_erase_recording),
 	        		delete
 	        	);
     		else
@@ -609,8 +609,8 @@ public class SessionPlayback
           		Request.confirmation
           		(
           			mActivity,
-          			"Ringdroid not installed",
-          			"Click OK to donwload Ringdroid now.",
+          			mActivity.getResources().getString(R.string.ringdroid_not_installed),
+          			mActivity.getResources().getString(R.string.ringdroid_dl_confirm),
           			new DialogInterface.OnClickListener()
           			{
 						public void onClick(DialogInterface dialog, int which)
@@ -627,7 +627,7 @@ public class SessionPlayback
 					            );
 							} catch (ActivityNotFoundException e)
 							{
-					      		Toast.makeText(mActivity, "Sorry, I could not start the Market app to download Ringdroid.", Toast.LENGTH_SHORT).show();
+					      		Toast.makeText(mActivity, R.string.ringdroid_dl_error, Toast.LENGTH_SHORT).show();
 							}
 						}
           			}
@@ -694,8 +694,8 @@ public class SessionPlayback
     			&& !state.equals(android.os.Environment.MEDIA_MOUNTED_READ_ONLY))
     	{
         	Request.notification(mActivity,
-            		"Media Missing",
-            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant cannot access the saved file."
+            		mActivity.getResources().getString(R.string.media_missing),
+            		mActivity.getResources().getString(R.string.media_missing_msg01) + " " + state + ").  " + mActivity.getResources().getString(R.string.media_missing_msg02)
             	);
         	return;
     	}
@@ -718,7 +718,7 @@ public class SessionPlayback
             	setPlayPauseButton(android.R.drawable.ic_media_pause);
         		mListView.setIndication(position);
         	}
-        	mActivity.setTitle("Rehearsal Assistant - " + makeAnnotationText(mAnnotationsCursor));
+        	mActivity.setTitle(mActivity.getResources().getString(R.string.app_name)+ " - " + makeAnnotationText(mAnnotationsCursor));
         	updateProgressDisplay();
         }
         catch(java.io.IOException e)

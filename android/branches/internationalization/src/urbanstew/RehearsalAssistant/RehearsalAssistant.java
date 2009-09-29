@@ -82,8 +82,8 @@ public class RehearsalAssistant extends RehearsalActivity
     	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
     	{
         	Request.notification(context,
-            		"Media Missing",
-            		"Your external media (e.g., sdcard) is not mounted (it is " + state + ").  Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files."
+            		context.getResources().getString(R.string.media_missing),
+            		context.getResources().getString(R.string.media_missing_msg01) + " " + state + ").  " + context.getResources().getString(R.string.media_missing_msg02)
             	);
     	}
     }

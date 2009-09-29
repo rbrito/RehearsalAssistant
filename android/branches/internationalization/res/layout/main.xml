@@ -14,7 +14,7 @@
 	<Button android:id="@+id/new_run"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="?android:attr/listPreferredItemHeight"
-	    android:text="Document New Session"
+	    android:text="@string/doc_new_session"
 	    android:textAppearance="?android:attr/textAppearanceMedium"	    
 	    />
 </LinearLayout>

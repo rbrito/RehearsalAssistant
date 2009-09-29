@@ -106,7 +106,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) 
     {
     	if(!super.onOptionsItemSelected(item))
-    		Request.notification(this, "Instructions", getResources().getString(R.string.session_instructions));
+    		Request.notification(this, getResources().getString(R.string.help), getResources().getString(R.string.session_instructions));
 		return true;
     }
     
@@ -171,8 +171,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             		Request.cancellable_confirmation
             		(
             			this,
-            			"Warning",
-            			"This will erase all recordings made the previous time session was recorded.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+            			getResources().getString(R.string.warning),
+            			getResources().getString(R.string.warning_erase_previous_recordings),
             			new OnClickListener()
             			{
 							public void onClick(DialogInterface arg0, int arg1)
@@ -189,8 +189,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             	Request.cancellable_confirmation
         		(
         			this,
-        			"Warning",
-        			"This will erase all recordings in the session.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+        			getResources().getString(R.string.warning),
+        			getResources().getString(R.string.warning_erase_current_recordings),
         			new OnClickListener()
         			{
 						public void onClick(DialogInterface arg0, int arg1)

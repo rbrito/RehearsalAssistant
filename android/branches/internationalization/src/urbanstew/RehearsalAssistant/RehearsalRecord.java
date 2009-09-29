@@ -71,11 +71,11 @@ public class RehearsalRecord extends RehearsalActivity
         bindService(new Intent(IRecordService.class.getName()),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
         
-        setTitle("Rehearsal Assistant - Recording Session");
+        setTitle(this.getResources().getString(R.string.app_name) + " - " + this.getResources().getString(R.string.recording_session));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {        
-      	menu.add("Stop Session").setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+      	menu.add(this.getResources().getString(R.string.stop_session)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
         //super.onCreateOptionsMenu(menu);
 
         return true;
