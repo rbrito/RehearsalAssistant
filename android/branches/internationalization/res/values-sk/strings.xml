@@ -5,32 +5,18 @@
     <string name="app_name">Rehearsal Assistant</string><string name="help">Pokyny</string>
     
 
-    <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string><string name="project_manager_instructions">The Project Manager allows you to open,
-create, and manage projects, which you can use to organize your recordings. Two
-types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*
-ideal for memos, reminders, etc.\n*
-can be designated for use with the Sound Recorder Widget\n\nSession
-projects:\n* organize recordings into sessions\n*
-timestamp relative to the
-beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick
-on a project to open it. Long-press to delete or designate for
-Sound Recorder Widget recordings (Memo projects only).\n\nAt
-this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou
-can use the menu to create a new project, download the Sound Recorder Widget,
-or to review these instructions again.\n\n</string><string name="record">Click to Record</string><string name="recording_instructions">Click the button to start the session. Click again to start/stop each recording. Use the MENU to stop the session.</string><string name="recording_instructions_started">Click the button to start/stop each recording. Use the MENU to stop the session.</string><string name="session_instructions">A Session
-Project allows you to record voice/audio annotations in sessions, and time-stamps relative to the beginning of the session.\n\nClick
-\'Document New Session\' to create a new session and record annotations.
-You may also click on an existing session to review its annotations, or long-press
-for more options.\n\nYou can use the MENU to access the Project Manager.</string><string name="session_no_session_instructions">Click below to document a new session.\n\n
-Use the menu to access instructions, adjust settings, or to access the Project Manager.</string><string name="settings">Settings</string>
+    <string name="new_session_title">Zadajte titul pre sedenie a kliknite na jeden z \'Vytvoriť\' tlačítkov.</string><string name="project_manager_instructions">Projekt Manager umožní vám vytvoriť, otvoriť, a spravovať projekty, ktorých môžete použiť na usporiadanie záznamou. Dve typy projektov sú podporovaný - Memo a Sedenie.\n\nMemo projekty:\n* majú jednoduché rozhranie pre nahrávanie/prehrávanie \n*
+ideálné pre poznámky, pripomienky, atď.\n*je možnosť určiť ich na používanie so Sound Recorder Widget-om\n\nSedenie projekty:\n* usporiadá záznamy do sedení\n*
+poznačí čas relatívne ku začiatku sedenia.\n* určený na kommentovanie údalostí ako napr. skúšky v divadle, experimenty, a cvičenia.\n\nAby ste otvorili projekt, kliknite na projekt. Kliknite dlho aby ste odstránili ho alebo nastivily na použitie so 
+Sound Recorder Widget-om (len v prípade Memo projektov).\n\nV tomto čase, nie je možné premenovať projekty, alebo sťahovať záznamy medzi projektmi.\n\nPoužívajte menu na vytvorenie nových projektov, na sťiahnutie Sound Recorder Widgetu,
+alebo aby ste prečítaly tieto pokyny znova.\n\n</string><string name="record">Kliknite aby ste začali záznam</string><string name="recording_instructions">Klikni na tlačítko na začanie sedenia. Klikni znova na začanie/ukončenie jednotlivých záznamov. Používaj MENU na ukončenie sedenia.</string><string name="recording_instructions_started">Klikni tlačítko na začanie/ukončenie jednotlivých záznamov. Používaj MENU na ukončenie sedenia.</string><string name="session_instructions">Sedenie-projekt vám umožní nahrávať zvukové poznámky usporiadane do sedení, a poznačiť ich časovo relatívne k začiatku sedenia.\n\nKlikni
+\'Dokumentovať Nové Sedenie\' na začatie nového sedenie a nahrávanie zvukových poznámok.Môžete aj kliknút na už existujúcich sedení aby prezerali záznamy v ňom, alebo tlačte dlho pre viaceré voľby.\n\nPoužívaj MENU na prístup k Projekt Manageru.</string><string name="session_no_session_instructions">Klikni dole pre dokumentovanie nového sedenia.\n\n
+Používaj menu na prístup k pokynám, nastaveniam, alebo Projekt Manageru.</string><string name="settings">Nastavenia</string>
 
-	<string name="simple_instructions">A Memo Project offers easy recording and playback of sound files.\n\nUse
-the record button to start / stop recording. Click
-on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it.\n\nUse
-the MENU to e-mail all of the recordings or to access the Project Manager.</string><string name="simple_no_annotations_instructions">Click below to start / stop recording.\n\n
-Use the menu to access instructions, adjust settings, or to access the Project Manager.</string><string name="start_session">Click to Start Session</string>
+	<string name="simple_instructions">Memo Projekt ponukne jednoduché nahranie/prehranie zvukových záznam.\n\nPoužívaj tlačítko \'Nahrávaj'\ na začanie/ukončenie nahrávania. Klikni na záznam aby si ho počúval. Tlač dlho aby si upravil meno záznamu, pošlal ho cez e-mail, alebo aby si ho odstránil.\n\nPoužívaj MENU na poslanie každých záznam cez e-mail a na prístup k Projekt Manageru.</string><string name="simple_no_annotations_instructions">Klikni dole na začanie/ukončenie nahrávania.\n\n
+Používaj menu na prístup k pokynám, nastaveniam, alebo Projekt Manageru.</string><string name="start_session">Klikni pre začanie sedenia</string>
 	
-	<string name="stop_recording">Click to Stop Recording</string>
+	<string name="stop_recording">Klikni pre ukončenie sedenia</string>
 	
 	
 	
@@ -43,24 +29,12 @@ Use the menu to access instructions, adjust settings, or to access the Project M
 
 
 
-<string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
-<string name="annotation_label_text">Enter a new label for the annotation</string>
-<string name="no_annotations">No annotations were recorded for this session.</string>
+<string name="playback_instructions">Klikni na poznámku aby si ho počúval. Tlač dlho aby si upravil meno poznámky, pošlal ho cez e-mail, alebo aby si ho odstránil. Používaj MENU aby si pošlal sedenie cez e-mail.</string>
+<string name="annotation_label_text">Zadajte nový titul pre poznámku</string>
+<string name="no_annotations">Žiadné poznámky neboli nahrávané v sedeniu.</string>
 
-<string name="license">Welcome to Rehearsal Assistant!\n\nBy
-using this application, you agree to the following license:\n\nAndroid
-Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nThis
-program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.\n\nThis
-program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.\n\nSee
-http://www.gnu.org/licenses/ for a full text of the license.\n\nSee
-http://urbanstew.org/rehearsalassistant/ for links to source code
-and documentation.\n\n</string>
+<string name="license">Vítame vás v Rehearsal Assistante!\n\nPoužitím tejto aplikácie, súhlasíte s následovým licenciou:\n\nAndroid
+Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nTento program je slobodný softvér: môžete ho šíriť a upravovať podľa ustanovení Všeobecnej zverejňovacej licencie GNU (GNU General Public Licence), vydávanej nadáciou Free Software Foundation a to buď podľa 3. verzie tejto Licencie, alebo (podľa vášho uváženia) ktorejkoľvek neskoršej verzie.\n\nTento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo VHODNOSTI PRE URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte vo Všeobecnej zverejňovacej licencii GNU.\n\nKópiu Všeobecnej zverejňovacej licencie GNU ste mali dostať spolu s týmto programom. Ak sa tak nestalo, nájdete ju tu: http://www.gnu.org/licenses/.\n\nZdrojový kód a dokumentáciu nájdete na http://urbanstew.org/rehearsalassistant/.\n\n</string>
 
 <string name="beta_warning">This software is in BETA status, which means
 you are likely to encounter problems during use.\n\nIf you experience
@@ -69,25 +43,25 @@ please e-mail us at comments@urbanstew.org
 and we will try to fix the problem / incorporate your suggestions.\n\nThank you!\n\n</string>
 
 <string name="memo">Memo</string>
-<string name="my_memo_project">My Memo Project</string>
-<string name="memo_project">Memo Project</string>
-<string name="session">Session</string>
-<string name="session_project">Session Project</string>
-<string name="my_session_project">My Session Project</string>
-<string name="project_type">project type:</string>
+<string name="my_memo_project">Môj Memo Projekt</string>
+<string name="memo_project">Memo Projekt</string>
+<string name="session">Sedenie</string>
+<string name="session_project">Sedenie Projekt</string>
+<string name="my_session_project">Môj Sedenie Projekt</string>
+<string name="project_type">typ projektu:</string>
 
-<string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string> 
+<string name="error_project_does_not_exist">CHYBA: Rehearsal Assistant chcel pristúpiť k neexistujúcim projektom.</string> 
 
-<string name="doc_new_session">Document New Session</string>
-<string name="create_session">Create Session</string>
-<string name="create_and_start_session">Create and Start Session</string>
-<string name="memo_error">There was a problem opening a Memo Project.</string>
+<string name="doc_new_session">Dokumentovať Nové Sedenie</string>
+<string name="create_session">Vytvoriť Sedenie</string>
+<string name="create_and_start_session">Vytvoriť a začať sedenie</string>
+<string name="memo_error">Nemohol som otvoriť Memo Projekt.</string>
 <string name="warning">Upozornenie</string>
-<string name="warning_erase_previous_recordings">This will erase all recordings made the previous time session was recorded.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
-<string name="warning_erase_current_recordings">&quot;This will erase all recordings in the session.\n\nARE YOU SURE YOU WANT TO DO THIS?&quot;</string>
-<string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
-<string name="error_zip">Problem creating ZIP archive:</string>
-<string name="error_send">Unable to send message:</string>
+<string name="warning_erase_previous_recordings">Každý záznam v poslednom sedení bude odstránený.\n\nSTE SI ISTÝ ŽE CHCETE TO UROBIŤ?</string>
+<string name="warning_erase_current_recordings">Každý záznam v aktuálnom sedení bude odstránený.\n\nSTE SI ISTÝ ŽE CHCETE TO UROBIŤ?</string>
+<string name="warning_mute">Upozornenie: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
+<string name="error_zip">Nemohol som vytvoriť archív ZIP:</string>
+<string name="error_send">Nemohol som pošlať správu:</string>
 <string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone's home screen.</string>
 <string name="download_it">Stiahni to!</string>
 <string name="market_start_error">Could not start the Market app to download.</string>
