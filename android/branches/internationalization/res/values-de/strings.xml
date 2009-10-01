@@ -66,7 +66,7 @@
 <string name="ringdroid_dl_error">Die Anwendung Market könnte nicht gestartet werden um Ringdroid herunter zu laden.</string>
 <string name="ringdroid_not_installed">Ringdroid ist nicht installiert</string>
 <string name="ringdroid_dl_confirm">Klicken Sie OK um Ringdroid jetzt herunter zu laden.</string>
-<string name="warning_erase_recording">Alle Aufnahmen werden gelöscht.\n\nSIND SIE SICHER DAS SIE ES TUN MÖCHTEN?</string>
+<string name="warning_erase_recording">Die ausgevählte Aufnahme wird gelöscht.\n\nSIND SIE SICHER DAS SIE ES TUN MÖCHTEN?</string>
 <string name="play">abspielen</string>
 <string name="edit_label">Titel bearbeiten</string>
 <string name="e_mail">per E-Mail senden</string>
