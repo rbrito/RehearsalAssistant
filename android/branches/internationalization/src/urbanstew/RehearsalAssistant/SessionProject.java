@@ -106,7 +106,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) 
     {
     	if(!super.onOptionsItemSelected(item))
-    		Request.notification(this, getResources().getString(R.string.help), getResources().getString(R.string.session_instructions));
+    		Request.notification(this, getString(R.string.help), getString(R.string.session_instructions));
 		return true;
     }
     
@@ -132,17 +132,17 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
    			//menu.add(Menu.NONE, MENU_ITEM_RENAME, 0, "rename");
    			cursor.moveToPosition(info.position);
 
-   			menu.add(0, MENU_ITEM_PLAYBACK, 0, "playback");
+   			menu.add(0, MENU_ITEM_PLAYBACK, 0, getString(R.string.session_playback));
    			String recordAction;
    			if(cursor.isNull(SESSIONS_START_TIME))
-   				recordAction = "record";
+   				recordAction = getString(R.string.session_record);
    			else if(cursor.isNull(SESSIONS_END_TIME))
-   				recordAction = "continue recording";
+   				recordAction = getString(R.string.session_continue);
    			else
-   				recordAction = "overwrite";
+   				recordAction = getString(R.string.session_overwrite);
    				
 			menu.add(0, MENU_ITEM_RECORD, 1, recordAction);
-			menu.add(0, MENU_ITEM_DELETE, 2, "delete");
+			menu.add(0, MENU_ITEM_DELETE, 2, getString(R.string.delete));
 		}
     };
     
@@ -171,8 +171,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             		Request.cancellable_confirmation
             		(
             			this,
-            			getResources().getString(R.string.warning),
-            			getResources().getString(R.string.warning_erase_previous_recordings),
+            			getString(R.string.warning),
+            			getString(R.string.warning_erase_previous_recordings),
             			new OnClickListener()
             			{
 							public void onClick(DialogInterface arg0, int arg1)
@@ -189,8 +189,8 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
             	Request.cancellable_confirmation
         		(
         			this,
-        			getResources().getString(R.string.warning),
-        			getResources().getString(R.string.warning_erase_current_recordings),
+        			getString(R.string.warning),
+        			getString(R.string.warning_erase_current_recordings),
         			new OnClickListener()
         			{
 						public void onClick(DialogInterface arg0, int arg1)
@@ -216,7 +216,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener
     	TextView noSessions = (TextView)findViewById(R.id.no_sessions);
         if(cursor.getCount() == 0)
         {
-        	noSessions.setText(getResources().getString(R.string.session_no_session_instructions));
+        	noSessions.setText(getString(R.string.session_no_session_instructions));
         	noSessions.setVisibility(View.VISIBLE);
         }
         else

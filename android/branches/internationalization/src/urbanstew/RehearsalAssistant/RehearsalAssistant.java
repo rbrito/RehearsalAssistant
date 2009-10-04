@@ -82,8 +82,8 @@ public class RehearsalAssistant extends RehearsalActivity
     	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
     	{
         	Request.notification(context,
-            		context.getResources().getString(R.string.media_missing),
-            		context.getResources().getString(R.string.media_missing_msg01) + " " + state + ").  " + context.getResources().getString(R.string.media_missing_msg02)
+            		context.getString(R.string.media_missing),
+            		context.getString(R.string.media_missing_msg01) + " " + state + ").  " + context.getString(R.string.media_missing_msg02)
             	);
     	}
     }

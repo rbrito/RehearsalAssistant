@@ -25,11 +25,11 @@ public class Request
 	public static void contribution(final Context context)
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-    	.setTitle(context.getResources().getString(R.string.contribute))
-    	.setMessage(context.getResources().getString(R.string.thank_using))
+    	.setTitle(context.getString(R.string.contribute))
+    	.setMessage(context.getString(R.string.thank_using))
     	.setPositiveButton
     	(
-    		context.getResources().getString(R.string.find_how),
+    		context.getString(R.string.find_how),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -40,7 +40,7 @@ public class Request
     	)
     	.setNegativeButton
     	(
-    		context.getResources().getString(R.string.not_now),
+    		context.getString(R.string.not_now),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -57,10 +57,10 @@ public class Request
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
     	.setTitle("Sound Recorder Widget")
-    	.setMessage(context.getResources().getString(R.string.try_widget))
+    	.setMessage(context.getString(R.string.try_widget))
     	.setPositiveButton
     	(
-    		context.getResources().getString(R.string.download_it),
+    		context.getString(R.string.download_it),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -84,7 +84,7 @@ public class Request
     	)
     	.setNegativeButton
     	(
-    		context.getResources().getString(R.string.dont_download),
+    		context.getString(R.string.dont_download),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -106,11 +106,11 @@ class Dialog
     	.setMessage(content)
     	.setPositiveButton
     	(
-    		context.getResources().getString(R.string.ok),
+    		context.getString(R.string.ok),
     		confirmation
     	);
 		if(cancellable)
-			dialog.setNegativeButton(context.getResources().getString(R.string.cancel), null);
+			dialog.setNegativeButton(context.getString(R.string.cancel), null);
         dialog.show();
 	}
 }

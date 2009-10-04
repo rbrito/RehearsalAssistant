@@ -60,7 +60,7 @@ public class ProjectBase extends RehearsalActivity
     		Request.confirmation
     		(
 				this,
-				getResources().getString(R.string.license2),
+				getString(R.string.license2),
 				getString(R.string.license),
 				new DialogInterface.OnClickListener()
 	    		{
@@ -75,7 +75,7 @@ public class ProjectBase extends RehearsalActivity
         {
     		//Request.contribution(this);
 //    		Request.recordWidget(this);
-    		Request.notification(this, this.getResources().getString(R.string.uncompressed_recording), this.getResources().getString(R.string.uncompressed_recording2));
+    		Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
     		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }
@@ -96,7 +96,7 @@ public class ProjectBase extends RehearsalActivity
     {
         mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
         String switchText;
-        switchText = this.getResources().getString(R.string.project_manager);
+        switchText = this.getString(R.string.project_manager);
         mSwitchMenuItem = menu.add(switchText).setIcon(android.R.drawable.ic_menu_more);
         super.onCreateOptionsMenu(menu);
         return true;

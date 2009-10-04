@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">Rehearsal Assistant</string><string name="help">Instructions</string>
+<string name="app_name">Rehearsal Assistant</string>
+<string name="help">Instructions</string>
 <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 <string name="project_manager_instructions">The Project Manager allows you to open, create, and manage projects, which you can use to organize your recordings. Two types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*ideal for memos, reminders, etc.\n*can be designated for use with the Sound Recorder Widget\n\nSessionprojects:\n* organize recordings into sessions\n*timestamp relative to the beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick on a project to open it. Long-press to delete or designate for Sound Recorder Widget recordings (Memo projects only).\n\nAt this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou can use the menu to create a new project, download the Sound Recorder Widget,or to review these instructions again.\n\n</string>
 <string name="record">Click to Record</string>
@@ -86,4 +87,22 @@
 <string name="filename">filename:</string>
 <string name="email_session">E-Mail Session</string>
 <string name="email_recording">E-Mail Recording</string>
+<string name="launch_with_last_project">Launch with Last Project</string>
+<string name="launch_with_last_project_sum">Launch the last opened project (as opposed to the Project Manager)</string>
+<string name="confirm_individual_deletion">Confirm Recording Deletion</string>
+<string name="confirm_individual_deletion_sum">Request confirmation for deletion of individual recordings.</string>
+<string name="recording_waveform">Recorded Audio Waveform</string>
+<string name="recording_waveform_sum">Show audio waveform outline while recording in a Memo project</string>
+<string name="playback_panel_enabled">Playback panel</string>
+<string name="playback_panel_enabled_sum">Show the playback panel when playing back a recording</string>
+<string name="playback_panel_disappears">Auto-close playback panel</string>
+<string name="playback_panel_disappears_sum">Automatically close the playback panel after playback has finished</string>
+<string name="email_detail">E-mail details</string>
+<string name="email_detail_sum">Include recording details (timestamps etc.) when e-mailing recordings</string>
+<string name="set_uncompressed_recording">Record Uncompressed Audio</string>
+<string name="set_uncompressed_recording_sum">Save recordings in uncompressed WAV format.  This takes much more space but provides higher audio quality.  (EXPERIMENTAL FEATURE)</string>
+<string name="session_record">record</string>
+<string name="session_continue">continue recording</string>
+<string name="session_overwrite">overwrite</string>
+<string name="session_playback">playback</string>
 </resources>

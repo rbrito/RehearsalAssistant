@@ -196,7 +196,7 @@ public class SimpleProject extends ProjectBase
     	{
 			if(item == mHelpMenuItem)
 			{
-				Request.notification(this, getResources().getString(R.string.help), getResources().getString(R.string.simple_instructions));
+				Request.notification(this, getString(R.string.help), getString(R.string.simple_instructions));
 				return true;
 			}
 			else
@@ -230,7 +230,7 @@ public class SimpleProject extends ProjectBase
     	TextView noAnnotations = (TextView)findViewById(R.id.no_annotations);
         if(mSessionPlayback.annotationsCursor().getCount() == 0)
         {
-        	noAnnotations.setText(getResources().getString(R.string.simple_no_annotations_instructions));
+        	noAnnotations.setText(getString(R.string.simple_no_annotations_instructions));
         	noAnnotations.setVisibility(View.VISIBLE);
         }
         else
