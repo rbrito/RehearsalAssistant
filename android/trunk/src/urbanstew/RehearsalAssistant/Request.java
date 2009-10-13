@@ -25,11 +25,11 @@ public class Request
 	public static void contribution(final Context context)
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-    	.setTitle("Contribute")
-    	.setMessage("Thank you for using Reherasal Assistant!  If you are finding it useful, please consider contributing to the project.")
+    	.setTitle(context.getString(R.string.contribute))
+    	.setMessage(context.getString(R.string.thank_using))
     	.setPositiveButton
     	(
-    		"Find out how",
+    		context.getString(R.string.find_how),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -40,7 +40,7 @@ public class Request
     	)
     	.setNegativeButton
     	(
-    		"Not right now",
+    		context.getString(R.string.not_now),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -57,10 +57,10 @@ public class Request
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context)
     	.setTitle("Sound Recorder Widget")
-    	.setMessage("Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone's home screen.")
+    	.setMessage(context.getString(R.string.try_widget))
     	.setPositiveButton
     	(
-    		"Download it!",
+    		context.getString(R.string.download_it),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -77,14 +77,14 @@ public class Request
     			        );
     				} catch (ActivityNotFoundException e)
     				{
-        		    	Toast.makeText(context, "Could not start the Market app to download.", Toast.LENGTH_LONG).show();
+        		    	Toast.makeText(context, R.string.market_start_error, Toast.LENGTH_LONG).show();
     				}
     		    }
     		}
     	)
     	.setNegativeButton
     	(
-    		"Don't download",
+    		context.getString(R.string.dont_download),
     		new DialogInterface.OnClickListener()
     		{
     		    public void onClick(DialogInterface dialog, int whichButton)
@@ -106,11 +106,11 @@ class Dialog
     	.setMessage(content)
     	.setPositiveButton
     	(
-    		"OK",
+    		context.getString(R.string.ok),
     		confirmation
     	);
 		if(cancellable)
-			dialog.setNegativeButton("Cancel", null);
+			dialog.setNegativeButton(context.getString(R.string.cancel), null);
         dialog.show();
 	}
 }

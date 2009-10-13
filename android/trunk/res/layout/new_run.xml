@@ -32,14 +32,14 @@
 	   	<Button android:id="@+id/create_and_start"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		   	android:text="Create and Start Session"
+		   	android:text="@string/create_and_start_session"
 		    android:textAppearance="?android:attr/textAppearanceMedium"
 		    android:minHeight="?android:attr/listPreferredItemHeight"
 		    />
 	   	<Button android:id="@+id/create"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:text="Create Session"
+		    android:text="@string/create_session"
 		    android:textAppearance="?android:attr/textAppearanceMedium"	    
 		    android:minHeight="?android:attr/listPreferredItemHeight"
 		    />

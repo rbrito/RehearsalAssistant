@@ -54,13 +54,13 @@ public class ProjectBase extends RehearsalActivity
     		Request.notification
     		(
 				this,
-				"Warning",
+				this.getResources().getString(R.string.warning),
 				getString(R.string.beta_warning)
 			);
     		Request.confirmation
     		(
 				this,
-				"License",
+				getString(R.string.license2),
 				getString(R.string.license),
 				new DialogInterface.OnClickListener()
 	    		{
@@ -75,7 +75,7 @@ public class ProjectBase extends RehearsalActivity
         {
     		//Request.contribution(this);
 //    		Request.recordWidget(this);
-    		Request.notification(this, "Recent Updates", "0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!");
+    		Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
     		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }
@@ -96,7 +96,7 @@ public class ProjectBase extends RehearsalActivity
     {
         mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
         String switchText;
-        switchText = "Project Manager";
+        switchText = this.getString(R.string.project_manager);
         mSwitchMenuItem = menu.add(switchText).setIcon(android.R.drawable.ic_menu_more);
         super.onCreateOptionsMenu(menu);
         return true;

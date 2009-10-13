@@ -63,7 +63,7 @@ public class RehearsalData extends ContentProvider {
 	static ContentValues valuesForMemoProject(Context context)
 	{
 		ContentValues values = new ContentValues();
-		values.put(Projects.TITLE, context.getResources().getString(R.string.my_memo_project));
+		values.put(Projects.TITLE, context.getString(R.string.my_memo_project));
 		values.put(Projects.IDENTIFIER, "memo_project");
 		values.put(Projects.TYPE, Projects.TYPE_SIMPLE);
 		return values;
@@ -77,7 +77,7 @@ public class RehearsalData extends ContentProvider {
 	static void addSessionProject(SQLiteDatabase db, Context context)
 	{
 		ContentValues values = new ContentValues();
-		values.put(Projects.TITLE, context.getResources().getString(R.string.my_session_project));
+		values.put(Projects.TITLE, context.getString(R.string.my_session_project));
 		values.put(Projects.IDENTIFIER, "session_project");
 		values.put(Projects.TYPE, Projects.TYPE_SESSION);
 		db.insert("projects", "identifier", values);

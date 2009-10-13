@@ -39,7 +39,7 @@ public class ProjectManager extends ListActivity
 
 		super.onCreate(savedInstanceState);
 		
-		setTitle("Rehearsal Assistant - Project Manager");
+		setTitle(this.getString(R.string.app_name) + " - " + this.getString(R.string.project_manager));
 
 	    String[] projectProjection =
 	    {
@@ -66,7 +66,7 @@ public class ProjectManager extends ListActivity
 				if(view.getId() == android.R.id.text1)
 					return false;
 				if(view.getId() == android.R.id.text2)
-					((TextView)view).setText(ProjectManager.this.getResources().getString(R.string.project_type) + " " + ProjectManager.this.getResources().getString(cursor.getLong(2) == Projects.TYPE_SESSION ? R.string.session : R.string.memo));
+					((TextView)view).setText(ProjectManager.this.getString(R.string.project_type) + " " + ProjectManager.this.getString(cursor.getLong(2) == Projects.TYPE_SESSION ? R.string.session : R.string.memo));
 				else if (view.getId() == R.id.recorder_widget_icon)
 					((ImageView)view).setVisibility(cursor.getLong(0) == mRecorderWidgetProjectId ? View.VISIBLE : View.INVISIBLE);
 					
@@ -79,7 +79,7 @@ public class ProjectManager extends ListActivity
         // **
         // Project Manager was introduced at version 0.8.0
         if(appData.lastVisitedVersionOlderThan("project_manager", 0.8f))
-        	Request.notification(this, "Instructions", getResources().getString(R.string.project_manager_instructions));
+        	Request.notification(this, getString(R.string.instructions), getString(R.string.project_manager_instructions));
 
         // ***
         // * Creation of project context menus 
@@ -90,7 +90,7 @@ public class ProjectManager extends ListActivity
        		{
        			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo; 
        			//menu.add(Menu.NONE, MENU_ITEM_RENAME, 0, "rename");
-   				menu.add(Menu.NONE, MENU_ITEM_DELETE, 1, "delete");
+   				menu.add(Menu.NONE, MENU_ITEM_DELETE, 1, getString(R.string.delete));
        			mProjectCursor.moveToPosition(info.position);
        			long project_type = mProjectCursor.getLong(2);
        			if(project_type == Projects.TYPE_SIMPLE)
@@ -98,7 +98,7 @@ public class ProjectManager extends ListActivity
        				(
        					Menu.NONE, MENU_ITEM_RECORDER_WIDGET,
        					2,
-       					"use for Sound Recorder Widget recordings"
+       					R.string.use_for_sound_widget
        				);
        		}
        	});
@@ -166,7 +166,7 @@ public class ProjectManager extends ListActivity
         	break;
         	
         case MENU_ITEM_DELETE:
-        	Request.cancellable_confirmation(this, "Warning", "This will delete of all of the recordings in the project.\n\nARE YOU SURE YOU WANT TO DO THIS?",
+        	Request.cancellable_confirmation(this, this.getString(R.string.warning), this.getString(R.string.warning_erase_project_recordings),
         		new OnClickListener()
         		{
 					public void onClick(DialogInterface dialog, int which)
@@ -201,9 +201,9 @@ public class ProjectManager extends ListActivity
 	
     public boolean onCreateOptionsMenu(Menu menu)
     {
-    	mNewProjectItem = menu.add("New Project").setIcon(android.R.drawable.ic_menu_add);
+    	mNewProjectItem = menu.add(this.getString(R.string.new_project)).setIcon(android.R.drawable.ic_menu_add);
     	mInstructionsItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
-    	mDownloadWidgetItem = menu.add("Download Widget").setIcon(R.drawable.recorder_widget_icon);
+    	mDownloadWidgetItem = menu.add(this.getString(R.string.download_widget)).setIcon(R.drawable.recorder_widget_icon);
         super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -212,12 +212,12 @@ public class ProjectManager extends ListActivity
     {
 		if(item == mNewProjectItem)
 		{
-			displayNewProjectDialog("My New Project", R.id.project_type_simple);
+			displayNewProjectDialog(this.getString(R.string.my_new_project), R.id.project_type_simple);
 			return true;
 		}
 		if(item == mInstructionsItem)
 		{
-			Request.notification(this, "Instructions", getResources().getString(R.string.project_manager_instructions));
+			Request.notification(this, this.getString(R.string.instructions), this.getString(R.string.project_manager_instructions));
 			return true;
 		}
 		if(item == mDownloadWidgetItem)
@@ -234,7 +234,7 @@ public class ProjectManager extends ListActivity
 	            );
 			} catch (ActivityNotFoundException e)
 			{
-		    	Toast.makeText(this, "Could not open the Market to download the Sound Recorder Widget.", Toast.LENGTH_LONG).show();
+		    	Toast.makeText(this, R.string.error_market, Toast.LENGTH_LONG).show();
 			}
 			return true;
 		}
@@ -248,7 +248,7 @@ public class ProjectManager extends ListActivity
         final View dialogView = factory.inflate(R.layout.new_project_dialog, null);
         mNewProjectDialog = new AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("OK", new DialogInterface.OnClickListener()
+            .setPositiveButton(this.getString(R.string.ok), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {
@@ -259,7 +259,7 @@ public class ProjectManager extends ListActivity
                 	mNewProjectDialog = null;
                 }
             })
-            .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+            .setNegativeButton(this.getString(R.string.cancel), new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
                 {

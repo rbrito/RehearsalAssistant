@@ -75,7 +75,7 @@ public class SimpleProject extends ProjectBase
         mSessionId = getSessionId(getContentResolver(), projectId());
         if(mSessionId < 0)
         {
-    		Toast.makeText(this, "There was a problem opening a Memo Project.", Toast.LENGTH_LONG).show();
+    		Toast.makeText(this, R.string.memo_error, Toast.LENGTH_LONG).show();
         	finish();
         }
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
@@ -203,7 +203,7 @@ public class SimpleProject extends ProjectBase
     	{
 			if(item == mHelpMenuItem)
 			{
-				Request.notification(this, "Instructions", getResources().getString(R.string.simple_instructions));
+				Request.notification(this, getString(R.string.help), getString(R.string.simple_instructions));
 				return true;
 			}
 			else
@@ -237,7 +237,7 @@ public class SimpleProject extends ProjectBase
     	TextView noAnnotations = (TextView)findViewById(R.id.no_annotations);
         if(mSessionPlayback.annotationsCursor().getCount() == 0)
         {
-        	noAnnotations.setText(getResources().getString(R.string.simple_no_annotations_instructions));
+        	noAnnotations.setText(getString(R.string.simple_no_annotations_instructions));
         	noAnnotations.setVisibility(View.VISIBLE);
         }
         else
