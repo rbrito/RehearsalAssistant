@@ -75,7 +75,7 @@ public class ProjectBase extends RehearsalActivity
         {
     		//Request.contribution(this);
 //    		Request.recordWidget(this);
-    		Request.notification(this, "Uncompressed Recording", "This version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and thank you for all the feedback so far!");
+    		Request.notification(this, "Recent Updates", "0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!");
     		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="urbanstew.RehearsalAssistant" android:versionName="0.8.2" android:versionCode="22">
+      package="urbanstew.RehearsalAssistant" android:versionCode="23" android:versionName="0.8.3">
 <uses-sdk android:minSdkVersion="3"/>
 <application
 	android:icon="@drawable/icon"
 	android:label="Rehearsal Assistant"
-	android:allowClearUserData="true"
-	android:debuggable="false"
->
+	android:allowClearUserData="true" android:debuggable="false">
 
 <activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">
 	<intent-filter>
@@ -30,20 +28,35 @@
 	</intent-filter>
 </activity>
 
-<activity android:name="SimpleProject" android:launchMode="singleTask" android:allowTaskReparenting="true">
+<activity
+	android:name="SimpleProject"
+	android:launchMode="singleTask"
+	android:allowTaskReparenting="true"
+	android:configChanges="keyboardHidden|orientation"
+>
 </activity>
 
 <activity android:name="SessionProject" android:launchMode="singleTask"></activity>
 
-    <activity android:name="RehearsalPlayback"><intent-filter><action android:name="android.intent.action.VIEW"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
-</intent-filter>
+   	<activity
+   		android:name="RehearsalPlayback"
+   		android:configChanges="keyboardHidden|orientation"
+   		>
+   		<intent-filter>
+   			<action android:name="android.intent.action.VIEW"></action>
+			<category android:name="android.intent.category.DEFAULT"></category>
+			<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
+		</intent-filter>
 	</activity>
-	<activity android:name="RehearsalRecord"><intent-filter><action android:name="android.intent.action.EDIT"></action>
-<category android:name="android.intent.category.DEFAULT"></category>
-<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
-</intent-filter>
+	<activity
+		android:name="RehearsalRecord"
+		android:configChanges="keyboardHidden|orientation"	
+		>
+		<intent-filter>
+			<action android:name="android.intent.action.EDIT"></action>
+			<category android:name="android.intent.category.DEFAULT"></category>
+			<data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
+		</intent-filter>
 	</activity>
 	<activity android:name="NewRun"><intent-filter>
 <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.session"></data>

@@ -14,19 +14,16 @@ public class IndicatingListView extends ListView
 	public IndicatingListView(Context context)
 	{
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	public IndicatingListView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
 	}
 
 	public IndicatingListView(Context context, AttributeSet attrs, int defStyle)
 	{
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void setIndication(int position)
@@ -46,6 +43,13 @@ public class IndicatingListView extends ListView
 		mPosition = -1;
 
     	invalidate();
+	}
+	
+	protected void  onSizeChanged  (int w, int h, int oldw, int oldh)
+	{
+		super.onSizeChanged(w, h, oldw, oldh);
+		if(mPosition != -1)
+			setIndication(mPosition);
 	}
 	
 	protected void  onDraw  (Canvas canvas)
@@ -71,11 +75,7 @@ public class IndicatingListView extends ListView
 			mSelectedView.setBackgroundDrawable(mSelectedViewOldDrawable);
 		mSelectedView = null;		
 	}
-	
-	void highlightListItem(int position, boolean doItAgain)
-	{
-	}
-	
+		
 	int mPosition = -1;
     View mSelectedView = null;
     Drawable mSelectedViewOldDrawable;

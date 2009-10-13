@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ public class SimpleProject extends ProjectBase
         // add the session if it is not there
         if(cursor.getCount() < 1)
         {
-        	Log.d("Rehearsal Assistant", "Inserting Session for Simple Project ID: " + projectId);
+        	Log.d("Rehearsal Assistant", "Inserting Session for Memo Project ID: " + projectId);
         	ContentValues values = new ContentValues();
         	values.put(Sessions.PROJECT_ID, projectId);
         	values.put(Sessions.TITLE, "Simple Session");
@@ -48,7 +49,7 @@ public class SimpleProject extends ProjectBase
         long sessionId;
         if(cursor.getCount() < 1)
         {
-        	Log.w("Rehearsal Assistant", "Can't create session for simple project ID: " + projectId);
+        	Log.w("Rehearsal Assistant", "Can't create session for memo project ID: " + projectId);
         	sessionId=-1;
         }
         else
@@ -79,7 +80,7 @@ public class SimpleProject extends ProjectBase
         }
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
         scrollToEndOfList();
-        
+                
         bindService(new Intent(IRecordService.class.getName()),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
         
@@ -182,6 +183,12 @@ public class SimpleProject extends ProjectBase
     {
     	super.onSaveInstanceState(outState);
     	mSessionPlayback.onSaveInstanceState(outState);
+    }
+    
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+    	super.onConfigurationChanged(newConfig);
+    	mSessionPlayback.updateListIndication();
     }
     
     public boolean onCreateOptionsMenu(Menu menu)

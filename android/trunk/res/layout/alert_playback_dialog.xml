@@ -32,10 +32,42 @@
 		    android:paddingRight="0.15in"
 		/>
 	</LinearLayout>
-	<SeekBar
-		android:id="@+id/playback_seek"
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="3dip"
+	    android:paddingRight="3dip"
+	    	
+	>
+		<TextView
+			android:id="@+id/playback_current_time"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		/>
+		<TextView
+			android:id="@+id/playback_file_size"
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:max="1024"
-			style="android:progressBarStyleHorizontal"/>
+		    android:layout_alignParentTop="true"
+			android:gravity="center"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		/>
+		<TextView
+			android:id="@+id/playback_length"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		/>
+	</RelativeLayout>
+	<SeekBar
+		android:id="@+id/playback_seek"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:paddingLeft="3dip"
+	    android:paddingRight="3dip"
+	    android:max="1024"
+		style="android:progressBarStyleHorizontal"/>
 </LinearLayout>

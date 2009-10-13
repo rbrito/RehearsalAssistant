@@ -25,6 +25,7 @@
 package urbanstew.RehearsalAssistant;
 
 
+import android.content.res.Configuration;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.Menu;
@@ -79,6 +80,12 @@ public class RehearsalPlayback extends RehearsalActivity
     {
     	mSessionPlayback.onDestroy();
     	super.onDestroy();
+    }
+    
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+    	super.onConfigurationChanged(newConfig);
+    	mSessionPlayback.updateListIndication();
     }
     
     protected void onRestoreInstanceState(Bundle savedInstanceState)

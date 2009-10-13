@@ -25,6 +25,7 @@
 package urbanstew.RehearsalAssistant;
 
 import java.util.Date;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -174,13 +175,7 @@ public class SessionPlayback
         {
         	public void onChange(boolean selfChange)
         	{
-                if(mPlaybackDialog != null && mPlaybackDialog.isShowing())
-                {
-                	if(mPlayingPosition == -1)
-                		return;
-                	
-                	mListView.setIndication(mPlayingPosition);
-                }
+        		updateListIndication();
         	}
         });
 
@@ -219,6 +214,9 @@ public class SessionPlayback
             })
             .create();
         mPlayPauseButton = (ImageButton)playbackView.findViewById(R.id.playback_pause);
+        mPlaybackCurrentTime = (TextView)playbackView.findViewById(R.id.playback_current_time);
+        mPlaybackFileSize = (TextView)playbackView.findViewById(R.id.playback_file_size);
+        mPlaybackDuration  = (TextView)playbackView.findViewById(R.id.playback_length);
         mSeekBar = (SeekBar)playbackView.findViewById(R.id.playback_seek);
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 
@@ -376,6 +374,18 @@ public class SessionPlayback
     {
     	mOldTitle = title;
     }
+    
+    public void updateListIndication()
+    {
+        if(mPlaybackDialog != null && mPlaybackDialog.isShowing())
+        {
+        	if(mPlayingPosition == -1)
+        		return;
+        	
+        	mListView.setIndication(mPlayingPosition);
+        }
+    }
+    
     String makeAnnotationText(Cursor cursor)
     {
 		String text = formatter.format(new Date(cursor.getLong(ANNOTATIONS_START_TIME)));
@@ -672,7 +682,6 @@ public class SessionPlayback
     	{
     		onPlayItemLostFocus();
     	}
-    	
     }
     
 	void playItem(int position)
@@ -717,6 +726,10 @@ public class SessionPlayback
         		displayPlaybackDialog();
             	setPlayPauseButton(android.R.drawable.ic_media_pause);
         		mListView.setIndication(position);
+        		
+        		File audio = new File(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
+        		mPlaybackFileSize.setText(String.valueOf(audio.length()/1024) + " kB");
+        		mPlaybackDuration.setText(mPlayTimeFormatter.format(mPlayer.getDuration()+ (mSessionTiming ? mActiveAnnotationStartTime : 0)));
         	}
         	mActivity.setTitle("Rehearsal Assistant - " + makeAnnotationText(mAnnotationsCursor));
         	updateProgressDisplay();
@@ -746,10 +759,10 @@ public class SessionPlayback
     
     void updateProgressDisplay()
     {
-		if(mSessionTiming)
-			mCurrentTime.setText(formatter.format(mPlayer.getCurrentPosition() + mActiveAnnotationStartTime));
-		else
-			mCurrentTime.setText(mPlayTimeFormatter.format(mPlayer.getCurrentPosition()));
+    	String timeText;
+		timeText = mPlayTimeFormatter.format(mPlayer.getCurrentPosition() + (mSessionTiming ? mActiveAnnotationStartTime : 0));
+		mCurrentTime.setText(timeText);
+		mPlaybackCurrentTime.setText(timeText);
 
 		mSeekBar.setProgress((1024 * mPlayer.getCurrentPosition()) / mPlayer.getDuration());
     }
@@ -769,7 +782,11 @@ public class SessionPlayback
 	RehearsalActivity mActivity;
 	
     TextView mCurrentTime;
+    
+    // Playback dialog views
     SeekBar mSeekBar;
+    TextView mPlaybackCurrentTime, mPlaybackDuration, mPlaybackFileSize;
+    
     IndicatingListView mListView;
     SimpleCursorAdapter mListAdapter;
     
