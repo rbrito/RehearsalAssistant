@@ -1,4 +1,4 @@
-package urbanstew.RehearsalAssistant;
+package org.urbanstew;
 
 import java.util.LinkedList;
 
@@ -33,12 +33,12 @@ public class VolumeEnvelopeView extends View
         initVolumeEnvelopeView();
 
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.VolumeEnvelopeView);
+                urbanstew.RehearsalAssistant.R.styleable.VolumeEnvelopeView);
 
         // Retrieve the color(s) to be used for this view and apply them.
         // Note, if you only care about supporting a single color, that you
         // can instead call a.getColor() and pass that to setTextColor().
-        setColor(a.getColor(R.styleable.VolumeEnvelopeView_color, 0xFF000000));
+        setColor(a.getColor(urbanstew.RehearsalAssistant.R.styleable.VolumeEnvelopeView_color, 0xFF000000));
 
         a.recycle();
     }
@@ -66,7 +66,7 @@ public class VolumeEnvelopeView extends View
     	mSize = (w - this.getPaddingLeft() - this.getPaddingRight()) / 2;
     }
         
-    void setNewVolume(int value)
+    public void setNewVolume(int value)
     {
     	if(value!=0)
     		mEnvelope.add((float) Math.sqrt(value) / 164.31981f);
@@ -78,7 +78,7 @@ public class VolumeEnvelopeView extends View
     	invalidate();
     }
     
-    void clearVolume()
+    public void clearVolume()
     {
     	mEnvelope.clear();
     	invalidate();

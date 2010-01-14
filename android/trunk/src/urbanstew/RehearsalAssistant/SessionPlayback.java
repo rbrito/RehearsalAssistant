@@ -213,6 +213,8 @@ public class SessionPlayback
 				}
             })
             .create();
+        mPlaybackDialog.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
         mPlayPauseButton = (ImageButton)playbackView.findViewById(R.id.playback_pause);
         mPlaybackCurrentTime = (TextView)playbackView.findViewById(R.id.playback_current_time);
         mPlaybackFileSize = (TextView)playbackView.findViewById(R.id.playback_file_size);
@@ -297,6 +299,8 @@ public class SessionPlayback
     	mPlaybackPanelEnabled = preferences.getBoolean("playback_panel_enabled", true);
     	mPlaybackPanelDisappears = preferences.getBoolean("playback_panel_disappears", false);
     	mEmailDetail = preferences.getBoolean("email_detail", true);
+    	mEmailTo = preferences.getString("email_to", null);
+    	mEmailSubject = preferences.getString("email_subject", null);
     	mConfirmIndividualDeletion = preferences.getBoolean("confirm_individual_deletion", true);
     	
     	mCurrentTimeTask = new TimerTask()
@@ -445,10 +449,13 @@ public class SessionPlayback
     void sendEmail(boolean wholeSession)
     {
         Intent emailSession = new Intent(Intent.ACTION_SEND);
-        if(wholeSession)
-        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getString(R.string.rehearsal_assistant_session) +" \"" + mSessionCursor.getString(1) + "\"");
+        if(mEmailSubject == null || mEmailSubject.length()==0)
+	        if(wholeSession)
+	        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getString(R.string.rehearsal_assistant_session) +" \"" + mSessionCursor.getString(1) + "\"");
+	        else
+	        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getString(R.string.rehearsal_assistant_recording)+ " \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
         else
-        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mActivity.getString(R.string.rehearsal_assistant_recording)+ " \"" + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\"");
+        	emailSession.putExtra(Intent.EXTRA_SUBJECT, mEmailSubject);        	
         
     	String messageText = new String();
     	if(wholeSession && mEmailDetail)
@@ -483,6 +490,7 @@ public class SessionPlayback
     	else
     	{
 	    	emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse ("file://" + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME)));
+	    	// TODO: this can sometimes be audio/wav
 	    	emailSession.setType("audio/3gpp");
 
     		if(mEmailDetail)
@@ -491,7 +499,9 @@ public class SessionPlayback
     	messageText += "\n\n" + mActivity.getString(R.string.recorded_with_rehearsal_assistant);
         emailSession.putExtra(Intent.EXTRA_TEXT, messageText);
     	
-      	emailSession = Intent.createChooser(emailSession, wholeSession ? mActivity.getString(R.string.email_session) : mActivity.getString(R.string.email_recording));
+        if(mEmailTo != null)
+        	emailSession.putExtra(Intent.EXTRA_EMAIL, mEmailTo.split(","));
+      	emailSession = Intent.createChooser(emailSession, mActivity.getString(R.string.e_mail));
       	
       	try
       	{
@@ -541,8 +551,42 @@ public class SessionPlayback
                 	EditText label = (EditText)mAnnotationLabelDialog.findViewById(R.id.annotation_label_text);
 
                 	ContentValues values = new ContentValues();
-                	values.put(Annotations.LABEL, label.getText().toString());
-                	mActivity.getContentResolver().update(ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationLabelId), values, null, null);
+                	String labelText = label.getText().toString();
+                	values.put(Annotations.LABEL, labelText);
+                	ContentResolver resolver = mActivity.getContentResolver();
+                	Uri renamedAnnotationUri = ContentUris.withAppendedId(Annotations.CONTENT_URI,mAnnotationLabelId);
+                	resolver.update(renamedAnnotationUri, values, null, null);
+                	
+                    String[] projection =
+                    {
+                    	Annotations._ID,
+                    	Annotations.FILE_NAME
+                    };
+                	Cursor renamedAnnotationCursor = resolver.query(renamedAnnotationUri, projection, null, null,
+                            Annotations.DEFAULT_SORT_ORDER);
+                	if(renamedAnnotationCursor.getCount() >= 1)
+                	{
+                		renamedAnnotationCursor.moveToFirst();
+                    	String oldFileName = renamedAnnotationCursor.getString(1);
+                    	File oldFile = new File(oldFileName);
+                    	String newFileName =
+                    		oldFile.getParent()
+                    		+ "/audio_" + mAnnotationLabelId
+                    		+ "_" + labelText.replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_]", "")
+                    		+ oldFileName.substring(oldFileName.length()-4);
+
+                    	Log.d(SessionPlayback.class.getName(), "renaming file " + oldFileName + " to " + newFileName);
+                    	File newFile = new File(newFileName);
+                    	boolean success = oldFile.renameTo(newFile);
+                    	if(success)
+                    	{
+                    		ContentValues renamedValues = new ContentValues();
+                    		renamedValues.put(Annotations.FILE_NAME, newFileName);
+                        	resolver.update(renamedAnnotationUri, renamedValues, null, null);
+                    	}
+                	}
+                	renamedAnnotationCursor.close();
+                	
             		mAnnotationLabelDialog = null;
                 }
             })
@@ -809,6 +853,7 @@ public class SessionPlayback
     boolean mSessionTiming;
     
     boolean mPlaybackPanelEnabled, mPlaybackPanelDisappears, mEmailDetail, mConfirmIndividualDeletion;
+    String mEmailTo, mEmailSubject;
     
     Handler mHandler = new Handler();
     CharSequence mOldTitle;

@@ -32,7 +32,7 @@
 	    android:layout_marginTop="5dip"
 	    android:layout_marginBottom="8dip"
 	    />
-	<urbanstew.RehearsalAssistant.VolumeEnvelopeView
+	<org.urbanstew.VolumeEnvelopeView
 		xmlns:app="http://schemas.android.com/apk/res/urbanstew.RehearsalAssistant"
 		android:id="@+id/volume_envelope"
 	    android:layout_width="fill_parent"

@@ -48,8 +48,8 @@
 <string name="find_how">Tudja meg hogyan</string>
 <string name="not_now">Nem most rögtön</string>
 <string name="license2">Licensz</string>
-<string name="uncompressed_recording">Tömörítetlen felvétel</string>
-<string name="uncompressed_recording2">Ez a verzió kísérleti fázisú támogatást nyújt a tömörítetlen felvételhez (jobb minőség, de sokkal nagyobb fájl méret).  A tömörítetlen felvételt a menüben a beállítások-ban kapcsolhatja be. Kihatással lesz az új felvételekre az összes projektben.\n\nKérem tudassa velünk visszajelzését, és köszönjük az összes ezidáig kapott visszajelzést is!</string>
+<string name="uncompressed_recording">Legfrissebb</string>
+<string name="uncompressed_recording2">0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate something untranslated (like this), or improve a translation, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nEz a verzió kísérleti fázisú támogatást nyújt a tömörítetlen felvételhez (jobb minőség, de sokkal nagyobb fájl méret).  A tömörítetlen felvételt a menüben a beállítások-ban kapcsolhatja be. Kihatással lesz az új felvételekre az összes projektben.\n\nKérem tudassa velünk visszajelzését, és köszönjük az összes ezidáig kapott visszajelzést is!</string>
 <string name="project_manager">Projekt Vezérlő</string>
 <string name="new_session">Új munkamenet</string>
 <string name="use_for_sound_widget">használja a Sound Recorder Widget felvételekhez</string>
@@ -70,7 +70,7 @@
 <string name="warning_erase_recording">A kiválasztott felvétel törlésre kerül.\n\nBIZTOS EZT SZERETNÉ TENNI?</string>
 <string name="play">lejátszás</string>
 <string name="edit_label">cím megváltoztatása</string>
-<string name="e_mail">e-mail</string>
+<string name="e_mail">e-mail / elküld</string>
 <string name="delete">törlés</string>
 <string name="open_ringdroid">megnyitás Ringdroid-al</string>
 <string name="recorded_with_rehearsal_assistant">A felvétel Rehearsal Assistant-al készült.  http://urbanstew.org/rehearsalassistant/</string>
@@ -85,8 +85,6 @@
 <string name="start_time">megkezdési idő:</string>
 <string name="end_time">befejezési idő:</string>
 <string name="filename">fájlnév:</string>
-<string name="email_session">Munkamenet küldése E-Mail-ben</string>
-<string name="email_recording">Felvétel küldése E-Mail-ben</string>
 <string name="launch_with_last_project">Indítás Utolsó Projekttel</string>
 <string name="launch_with_last_project_sum">Indítás az utolsó projekttel(a Projekt Vezerlő helyett)</string>
 <string name="confirm_individual_deletion">Megerősítés kérése</string>

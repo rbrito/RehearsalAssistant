@@ -7,6 +7,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioFormat;
@@ -14,6 +15,7 @@ import android.media.MediaRecorder.AudioSource;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -36,6 +38,10 @@ public class RecordService extends Service
 	{
 		mSessionId = -1;
 		mState = State.INITIALIZING;
+		
+		mWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE))
+			.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, RecordService.class.getName());
+
 	}
 
 	public void onDestroy()
@@ -45,6 +51,8 @@ public class RecordService extends Service
 			stopRecording();
 			updateViews();
 		}
+		if(mWakeLock.isHeld())
+			mWakeLock.release();
 	}
 	
 	/**
@@ -245,6 +253,7 @@ public class RecordService extends Service
 			mTimeAtAnnotationStart = System.currentTimeMillis() - mTimeAtStart;
 		}
 	    mState = State.RECORDING;
+	    mWakeLock.acquire();
 	    updateViews();
 	}
 	
@@ -307,6 +316,9 @@ public class RecordService extends Service
 
         mState = State.STARTED;
         updateViews();
+
+		if(mWakeLock.isHeld())
+			mWakeLock.release();
 	}
 	
 	void updateViews()
@@ -359,6 +371,8 @@ public class RecordService extends Service
     String mOutputFile;
     String mTitle;
 
+    PowerManager.WakeLock mWakeLock;
+    
     /**
      * A secondary interface to the service.
      */

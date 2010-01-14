@@ -49,7 +49,7 @@
 <string name="not_now">Not right now</string>
 <string name="license2">License</string>
 <string name="uncompressed_recording">Recent Updates</string>
-<string name="uncompressed_recording2">0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
+<string name="uncompressed_recording2">0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate to another language, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
 <string name="project_manager">Project Manager</string>
 <string name="new_session">New Session</string>
 <string name="use_for_sound_widget">use for Sound Recorder Widget recordings</string>
@@ -66,11 +66,11 @@
 <string name="recording_session">Recording Session</string>
 <string name="ringdroid_dl_error">Sorry, I could not start the Market app to download Ringdroid.</string>
 <string name="ringdroid_not_installed">Ringdroid not installed</string>
-<string name="ringdroid_dl_confirm">Click OK to donwload Ringdroid now.</string>
+<string name="ringdroid_dl_confirm">Click OK to download Ringdroid now.</string>
 <string name="warning_erase_recording">This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
 <string name="play">play</string>
 <string name="edit_label">edit label</string>
-<string name="e_mail">e-mail</string>
+<string name="e_mail">e-mail / send</string>
 <string name="delete">delete</string>
 <string name="open_ringdroid">open with Ringdroid</string>
 <string name="recorded_with_rehearsal_assistant">Recorded using Rehearsal Assistant.  http://urbanstew.org/rehearsalassistant/</string>
@@ -85,8 +85,6 @@
 <string name="start_time">start time:</string>
 <string name="end_time">end time:</string>
 <string name="filename">filename:</string>
-<string name="email_session">E-Mail Session</string>
-<string name="email_recording">E-Mail Recording</string>
 <string name="launch_with_last_project">Launch with Last Project</string>
 <string name="launch_with_last_project_sum">Launch the last opened project (as opposed to the Project Manager)</string>
 <string name="confirm_individual_deletion">Confirm Recording Deletion</string>
@@ -105,4 +103,15 @@
 <string name="session_continue">continue recording</string>
 <string name="session_overwrite">overwrite</string>
 <string name="session_playback">playback</string>
+
+<!-- untranslated -->
+<string name="email_settings">E-mail Settings</string>
+<string name="email_to_setting">Default Recipient(s)</string>
+<string name="email_to_setting_summary">Default recipient(s) when sending recordings via e-mail. Separate with commas.</string>
+<string name="email_subject_setting">Default Subject</string>
+<string name="email_subject_setting_summary">Default subject when sending recordings via e-mail.</string>
+
+<!-- obsolete -->
+<string name="email_session">E-Mail Session</string>
+<string name="email_recording">E-Mail Recording</string>
 </resources>
