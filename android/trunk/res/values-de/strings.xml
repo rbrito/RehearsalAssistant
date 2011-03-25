@@ -39,7 +39,7 @@
 <string name="error_send">die Mitteilung könnte nicht abgeschickt werden:</string>
 <string name="try_widget">Haben Sie schon das neu Sound Recorder Widget ausprobiert?  Es ermöglicht Ihnen aufnahmen zu machen aus der Startseite.</string>
 <string name="download_it">Herunterlade es!</string>
-<string name="market_start_error">Die Anwendung 'Market' könnte nicht gestartet werden.</string>
+<string name="market_start_error">Die Anwendung \'Market\' könnte nicht gestartet werden.</string>
 <string name="cancel">Abbrechen</string>
 <string name="ok">OK</string>
 <string name="dont_download">Nicht herunterladen</string>
@@ -58,7 +58,7 @@
 <string name="my_new_project">mein neues Projekt</string>
 <string name="new_project">neues Projekt</string>
 <string name="download_widget">Widget herunterladen</string>
-<string name="error_market">Die Anwendung 'Market' könnte nicht gestartet werden um das Widget herunter zu laden.</string>
+<string name="error_market">Die Anwendung \'Market\' könnte nicht gestartet werden um das Widget herunter zu laden.</string>
 <string name="media_missing">fehlender Datenträger</string>
 <string name="media_missing_msg01">Ihr externer Datenträger (z.B., sdcard) ist nicht montiert (es ist</string>
 <string name="media_missing_msg02">Rehearsal Assistant wird nicht richtig funktionieren, da es den externen Datenträger als Speicher benutzt.</string>

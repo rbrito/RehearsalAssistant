@@ -37,12 +37,12 @@
 <string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
 <string name="error_zip">Problem creating ZIP archive:</string>
 <string name="error_send">Unable to send message:</string>
-<string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone's home screen.</string>
+<string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone\'s home screen.</string>
 <string name="download_it">Download it!</string>
 <string name="market_start_error">Could not start the Market app to download.</string>
 <string name="cancel">Cancel</string>
 <string name="ok">OK</string>
-<string name="dont_download">Don't download</string>
+<string name="dont_download">Don\'t download</string>
 <string name="contribute">Contribute</string>
 <string name="thank_using">Thank you for using Reherasal Assistant!  If you are finding it useful, please consider contributing to the project.</string>
 <string name="find_how">Find out how</string>

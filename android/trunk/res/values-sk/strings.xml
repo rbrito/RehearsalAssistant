@@ -10,7 +10,7 @@
 <string name="session_instructions">Sedenie-projekt vám umožní nahrávať zvukové poznámky usporiadane do sedení, a poznačiť ich časovo relatívne k začiatku sedenia.\n\nKlikni\'Dokumentovať Nové Sedenie\' na začatie nového sedenie a nahrávanie zvukových poznámok.Môžete aj kliknút na už existujúcich sedení aby prezerali záznamy v ňom, alebo tlačte dlho pre viaceré voľby.\n\nPoužívaj MENU na prístup k Projekt Manageru.</string>
 <string name="session_no_session_instructions">Klikni dole pre dokumentovanie nového sedenia.\n\nPoužívaj menu na prístup k pokynám, nastaveniam, alebo Projekt Manageru.</string>
 <string name="settings">Nastavenia</string>
-<string name="simple_instructions">Memo Projekt ponukne jednoduché nahranie/prehranie zvukových záznam.\n\nPoužívaj tlačítko \'Nahrávaj'\ na začanie/ukončenie nahrávania. Klikni na záznam aby si ho počúval. Tlač dlho aby si upravil meno záznamu, pošlal ho cez e-mail, alebo aby si ho odstránil.\n\nPoužívaj MENU na poslanie každých záznam cez e-mail a na prístup k Projekt Manageru.</string>
+<string name="simple_instructions">Memo Projekt ponukne jednoduché nahranie/prehranie zvukových záznam.\n\nPoužívaj tlačítko \'Nahrávaj\' na začanie/ukončenie nahrávania. Klikni na záznam aby si ho počúval. Tlač dlho aby si upravil meno záznamu, pošlal ho cez e-mail, alebo aby si ho odstránil.\n\nPoužívaj MENU na poslanie každých záznam cez e-mail a na prístup k Projekt Manageru.</string>
 <string name="simple_no_annotations_instructions">Klikni dole na začanie/ukončenie nahrávania.\n\nPoužívaj menu na prístup k pokynám, nastaveniam, alebo Projekt Manageru.</string>
 <string name="start_session">Klikni pre začanie sedenia</string>	
 <string name="stop_recording">Klikni pre ukončenie sedenia</string>
