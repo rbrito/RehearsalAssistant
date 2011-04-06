@@ -2,10 +2,13 @@ package urbanstew.RehearsalAssistant;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,14 +52,62 @@ public class ProjectBase extends RehearsalActivity
         
         // Display license if this is the first time running this version.
         float visitedVersion = mAppData.getVisitedVersion();
+        if (visitedVersion < RehearsalAssistant.currentVersion)
+        {
+            Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+        	.setTitle(getString(R.string.upload_to_soundcloud))
+        	.setMessage(getString(R.string.soundcloud_droid))
+        	.setPositiveButton
+        	(
+        		getString(R.string.download_it),
+        		new DialogInterface.OnClickListener()
+        		{
+        		    public void onClick(DialogInterface dialog, int whichButton)
+        		    {
+        				try
+        				{
+        					startActivity
+        			        (
+        			        	new Intent
+        			        	(
+        			        		Intent.ACTION_VIEW,
+        			        		Uri.parse("market://search?q=pname:org.urbanstew.soundclouddroid")
+        			        	).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        			        );
+        				} catch (ActivityNotFoundException e)
+        				{
+        					try
+        					{
+	        					startActivity
+	        			        (
+	        			        	new Intent
+	        			        	(
+	        			        		Intent.ACTION_VIEW,
+	        			        		Uri.parse("http://urbanstew.org/soundclouddroid/")
+	        			        	)
+	        			        );
+        					}
+        					catch (ActivityNotFoundException e2)
+        					{
+        					}
+        				}
+        		    }
+        		}
+        	)
+        	.setNegativeButton
+        	(
+        		getString(R.string.dont_download),
+        		null
+        	);
+            dialog.show();
+        	
+            if(visitedVersion >= 0.5f)
+            	mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
+        }
         if (visitedVersion < 0.5f)
         {
-    		Request.notification
-    		(
-				this,
-				this.getResources().getString(R.string.warning),
-				getString(R.string.beta_warning)
-			);
     		Request.confirmation
     		(
 				this,
@@ -70,13 +121,6 @@ public class ProjectBase extends RehearsalActivity
 	    		    }
 	    		}
 	    	);
-        }
-        else if (visitedVersion < RehearsalAssistant.currentVersion)
-        {
-    		//Request.contribution(this);
-//    		Request.recordWidget(this);
-    		Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
-    		mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
     }
         
