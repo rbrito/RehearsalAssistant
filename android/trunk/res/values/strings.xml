@@ -49,7 +49,7 @@
 <string name="not_now">Not right now</string>
 <string name="license2">License</string>
 <string name="uncompressed_recording">Recent Updates</string>
-<string name="uncompressed_recording2">0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate to another language, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
+<string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate to another language, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
 <string name="project_manager">Project Manager</string>
 <string name="new_session">New Session</string>
 <string name="use_for_sound_widget">use for Sound Recorder Widget recordings</string>
@@ -69,7 +69,7 @@
 <string name="ringdroid_dl_confirm">Click OK to download Ringdroid now.</string>
 <string name="warning_erase_recording">This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
 <string name="play">play</string>
-<string name="edit_label">edit label</string>
+<string name="edit_label">edit label / rename file</string>
 <string name="e_mail">e-mail / send</string>
 <string name="delete">delete</string>
 <string name="open_ringdroid">open with Ringdroid</string>
@@ -105,11 +105,20 @@
 <string name="session_playback">playback</string>
 
 <!-- untranslated -->
-<string name="email_settings">E-mail Settings</string>
+<string name="email_settings">E-mail</string>
 <string name="email_to_setting">Default Recipient(s)</string>
 <string name="email_to_setting_summary">Default recipient(s) when sending recordings via e-mail. Separate with commas.</string>
 <string name="email_subject_setting">Default Subject</string>
 <string name="email_subject_setting_summary">Default subject when sending recordings via e-mail.</string>
+<string name="recording_quality_settings">Recording Quality</string>
+<string name="screen_bright_wake_lock_setting">Use Screen Bright Wake Lock</string>
+<string name="screen_bright_wake_lock_setting_summary">Prevents changes in screen brightness during recording (avoids glitches).</string>
+<string name="upload_to_soundcloud">Upload to SoundCloud</string>
+<string name="soundcloud_droid">You can now upload individual recordings to SoundCloud (an online audio hosting and sharing service) using our new SoundCloud Droid app.\n\nAfter downloading SoundCloud Droid, choose &quot;e-mail / send&quot; for a recording and you will have the option to upload to SoundCloud.</string>
+<string name="uncompressed_recording_sample_rate">WAV Sample Rate</string>
+<string name="uncompressed_recording_sample_rate_sum">Preferred WAV Sample Rate.</string>
+<string name="import_project">Import Memo Project</string>
+<string name="file_not_found">File not found</string>
 
 <!-- obsolete -->
 <string name="email_session">E-Mail Session</string>
