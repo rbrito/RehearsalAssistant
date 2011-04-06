@@ -37,7 +37,7 @@ import android.preference.PreferenceManager;
  */
 public class RehearsalAssistant extends RehearsalActivity
 {
-	public static float currentVersion = 0.85f;
+	public static float currentVersion = 0.9f;
 	
     /** Called when the activity is first created.
      *  
