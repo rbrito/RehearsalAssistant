@@ -762,7 +762,17 @@ public class SessionPlayback
         {
         	mPlayer = new MediaPlayer();
         	mPlayer.setOnCompletionListener(mCompletionListener);
-        	mPlayer.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
+        	try
+        	{
+        		mPlayer.setDataSource(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));        		
+        	}
+        	catch (IllegalArgumentException e)
+        	{
+        		Toast.makeText(mActivity, mActivity.getString(R.string.file_not_found) + ": " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME), Toast.LENGTH_LONG).show();
+        		mPlayer.release();
+        		mPlayer = null;
+        		return;
+        	}
         	mPlayer.prepare();
         	mPlayer.start();
         	if(mPlaybackPanelEnabled)
