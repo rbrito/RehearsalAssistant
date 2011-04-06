@@ -2,13 +2,18 @@ package urbanstew.RehearsalAssistant;
 
 import java.io.File;
 
+import org.urbanstew.android.util.ForegroundService;
+
 import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
-import android.app.Service;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.media.AudioFormat;
 import android.media.MediaRecorder.AudioSource;
@@ -22,7 +27,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 
-public class RecordService extends Service
+public class RecordService extends ForegroundService
 {
 	/**
 	 * INITIALIZING : service is initializing; no session selected
@@ -32,17 +37,35 @@ public class RecordService extends Service
 	 */
 	enum State { INITIALIZING, READY, STARTED, RECORDING };
 
-	private final static int[] sampleRates = {44100, 22050, 11025, 8000};
+	private final static int[][] sampleRates =
+	{
+		{44100, 22050, 11025, 8000},
+		{22050, 11025, 8000, 44100},
+		{11025, 8000, 22050, 44100},
+		{8000, 11025, 22050, 44100}
+	};
 	
 	public void onCreate()
 	{
+		super.onCreate();
+		
 		mSessionId = -1;
 		mState = State.INITIALIZING;
-		
-		mWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE))
-			.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, RecordService.class.getName());
 
+		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mSharedPreferences.registerOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+		initializeWakeLock(mSharedPreferences);
 	}
+	
+	OnSharedPreferenceChangeListener mOnSharedPreferenceChangeListener = new OnSharedPreferenceChangeListener()
+	{
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+				String key)
+		{
+			if(key.equals("screen_bright_wake_lock"));
+				initializeWakeLock(sharedPreferences);				
+		}
+	};
 
 	public void onDestroy()
 	{
@@ -53,8 +76,26 @@ public class RecordService extends Service
 		}
 		if(mWakeLock.isHeld())
 			mWakeLock.release();
+		
+		mSharedPreferences.unregisterOnSharedPreferenceChangeListener(mOnSharedPreferenceChangeListener);
+		super.onDestroy();
 	}
 	
+	public void initializeWakeLock(SharedPreferences sharedPreferences)
+	{
+		boolean use_screen_bright = sharedPreferences.getBoolean("screen_bright_wake_lock", false);
+		boolean held = false;
+		if(mWakeLock != null && mWakeLock.isHeld())
+		{
+			mWakeLock.release();
+			held = true;
+		}
+				
+		mWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE))
+			.newWakeLock(use_screen_bright ? PowerManager.SCREEN_BRIGHT_WAKE_LOCK : PowerManager.PARTIAL_WAKE_LOCK, RecordService.class.getName());
+		if(held)
+			mWakeLock.acquire();
+	}
 	/**
 	 * Starting the activity will toggle the recording state.
 	 * When this starts recording, it will always start recording
@@ -180,7 +221,7 @@ public class RecordService extends Service
 		
 		updateViews();
 	}
-	
+		
 	/**
 	 * Starts recording.
 	 *
@@ -214,7 +255,7 @@ public class RecordService extends Service
 			
 
 			// get the recording type from preferences
-			boolean uncompressed = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("uncompressed_recording", false);
+			boolean uncompressed = mSharedPreferences.getBoolean("uncompressed_recording", false);
 
 			// construct file name
 			mOutputFile =
@@ -230,14 +271,17 @@ public class RecordService extends Service
 			else
 			{
 				int i=0;
+				
 				do
 				{
 					if (mRecorder != null)
 						mRecorder.release();
-					mRecorder = new RehearsalAudioRecorder(true, AudioSource.MIC, sampleRates[i], AudioFormat.CHANNEL_CONFIGURATION_MONO,
+					int sampleRatePreference = Integer.parseInt(mSharedPreferences.getString("uncompressed_recording_sample_rate", "0"));
+					mRecorder = new RehearsalAudioRecorder(true, AudioSource.MIC, sampleRates[sampleRatePreference][i], AudioFormat.CHANNEL_CONFIGURATION_MONO,
 							AudioFormat.ENCODING_PCM_16BIT);
 				} while((++i<sampleRates.length) & !(mRecorder.getState() == RehearsalAudioRecorder.State.INITIALIZING));
 			}
+			startForeground();
 			mRecorder.setOutputFile(mOutputFile);
 			mRecorder.prepare();
 			mRecorder.start(); // Recording is now started
@@ -273,6 +317,7 @@ public class RecordService extends Service
     	{
     		mRecorder.stop();
             mRecorder.release();
+            stopForeground();
     	}
     	
     	// complete the Annotation entry in the database
@@ -370,8 +415,10 @@ public class RecordService extends Service
     long mTimeAtAnnotationStart;
     String mOutputFile;
     String mTitle;
+    
+    SharedPreferences mSharedPreferences;
 
-    PowerManager.WakeLock mWakeLock;
+    PowerManager.WakeLock mWakeLock = null;
     
     /**
      * A secondary interface to the service.
@@ -418,4 +465,25 @@ public class RecordService extends Service
 			RecordService.this.stopSession(sessionId);
 		}
     };
+
+	protected Notification newNotification()
+	{
+		Notification notification = new Notification
+		(
+			R.drawable.media_recording,
+			"",
+			System.currentTimeMillis()
+		);			
+		notification.setLatestEventInfo
+		(
+			getApplicationContext(),
+			"Rehearsal Assistant",
+			"Recording...",
+			PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), RehearsalAssistant.class), 0)
+		);
+		notification.flags |= Notification.FLAG_ONGOING_EVENT;
+		
+		return notification;
+
+	}
 }
