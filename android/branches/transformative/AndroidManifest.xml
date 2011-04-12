@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="urbanstew.RehearsalAssistant" android:versionName="0.9" android:versionCode="26">
+      package="urbanstew.RehearsalAssistant" android:versionName="0.9.1" android:versionCode="27">
 <uses-sdk android:minSdkVersion="3"/>
 <application
 	android:icon="@drawable/icon"
-	android:label="Rehearsal Assistant"
+	android:label="Sound Recorder"
 	android:allowClearUserData="true" android:debuggable="false">
 
-<activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">
+<activity android:name=".RehearsalAssistant" android:label="Sound Recorder">
 	<intent-filter>
 		<action android:name="android.intent.action.MAIN" />
 		<category android:name="android.intent.category.LAUNCHER" />
@@ -83,13 +83,6 @@
 	<intent-filter><action android:name="android.intent.action.VIEW"></action>
 		<category android:name="android.intent.category.DEFAULT"></category>
 		<data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.project"></data>
-	</intent-filter>
-</activity>
-<activity android:name="ImportDirectoryActivity" android:label="Import Directory">
-	<intent-filter>
-		<action android:name="org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY"></action>
-		<category android:name="android.intent.category.DEFAULT"></category>
-		<data android:mimeType="*/*"></data>
 	</intent-filter>
 </activity>
 </application>
