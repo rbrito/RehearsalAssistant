@@ -203,7 +203,7 @@ public class ProjectManager extends ListActivity
     {
     	mNewProjectItem = menu.add(this.getString(R.string.new_project)).setIcon(android.R.drawable.ic_menu_add);
     	mInstructionsItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
-    	mDownloadWidgetItem = menu.add(this.getString(R.string.download_widget)).setIcon(R.drawable.recorder_widget_icon);
+    	//mDownloadWidgetItem = menu.add(this.getString(R.string.download_widget)).setIcon(R.drawable.recorder_widget_icon);
         super.onCreateOptionsMenu(menu);
         return true;
     }
