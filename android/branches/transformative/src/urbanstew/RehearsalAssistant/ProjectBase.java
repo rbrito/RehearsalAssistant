@@ -47,7 +47,7 @@ public class ProjectBase extends RehearsalActivity
         }
 
         projectCursor.moveToFirst();
-        setTitle("Rehearsal Assistant - " + projectCursor.getString(1));
+        setTitle("Sound Recorder - " + projectCursor.getString(1));
         projectCursor.close();
         
         // Display license if this is the first time running this version.
@@ -56,7 +56,7 @@ public class ProjectBase extends RehearsalActivity
         {
             Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(this)
         	.setTitle(getString(R.string.upload_to_soundcloud))
         	.setMessage(getString(R.string.soundcloud_droid))
         	.setPositiveButton
@@ -101,7 +101,7 @@ public class ProjectBase extends RehearsalActivity
         		getString(R.string.dont_download),
         		null
         	);
-            dialog.show();
+            dialog.show();*/
         	
             if(visitedVersion >= 0.5f)
             	mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);

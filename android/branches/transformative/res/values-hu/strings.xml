@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">Rehearsal Assistant</string>
+<string name="app_name">Sound Recorder</string>
 <string name="help">Használati útmutató</string>
 <string name="new_session_title">Adjon meg egy címet a munkamenetnek és kattintson az egyik \'Létrehoz\' gombra.</string>
 <string name="project_manager_instructions">A Projekt Vezérlő lehetővé teszi projektek megnyitását, létrehozását, és kezelését, amit a felvételek rendezésére használhat. Két projekt típus van támogatva - Jegyzet és Munkamenet.\n\nJegyzet projektek:\n* egyszerű felülete van a felvételhez/lejátszáshoz\n*ideális jegyzetekhez, emlékeztetőkhöz, stb.\n*Sound Recorder Widget-el való használatra is alkalmasak\n\nMunkamenet projektek:\n* rendezze a felvételeket munkamenetekbe\n*a munkamenet megkezdési idejével kerülnek megjelölésre.\n* próbák, kísérletek és gyakorlatokhoz tartozó jegyzeteket készítéséhez ajánlott.\n\nMegnyitáshoz kattintson egy projektre. Hosszan kattintson a törléshez, vagy Sound Recorder Widget felvételek támogatásához (csak Jegyzet projektek esetében).\n\nJelenleg projektek átnevezése, vagy felvételek projektek közti mozgatása nem lehetséges.\n\nÚj projekt létrehozására, Sound Record Widget letöltésére, vagy ezen utasítások újboli áttekintéséhez használja a menüt.\n\n</string>
@@ -17,7 +17,7 @@
 <string name="playback_instructions">Kattintson az alábbi jegyzetekre a meghallgatásukhoz. A jegyzet címének megváltoztatásához, e-mail-ben való elküldéséhez, vagy törléséhez nyomja le hosszan. A munkamenet e-mail-ben való elküldéséhez használja a MENÜ-t.</string>
 <string name="annotation_label_text">Adjon egy címet a jegyzetnek</string>
 <string name="no_annotations">Egy jegyzet sem került felvételre a munkamenet során.</string>
-<string name="license">Üdvözöljük a Rehearsal Assistant-ban!\n\nAz alkalmazás használatával, egyetért a következő szerződésben foglaltakban:\n\nAndroid Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nEz a program szabad szoftver; terjeszthető illetve módosítható a Free Software Foundation által kiadott GNU General Public License dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi változata szerint.Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve. További részleteket a GNU General Public License tartalmaz. A felhasználónak a programmal együtt meg kell kapnia a GNU General Public License egy példányát; ha mégsem kapta meg, akkor tekintse meg a http://www.gnu.org/licenses/ oldalon.\n\nA program forráskódját és dokumentációját a követező oldalon tekintheti meg http://urbanstew.org/rehearsalassistant/.\n\n</string>
+<string name="license">Üdvözöljük a Sound Recorder-ban!\n\nAz alkalmazás használatával, egyetért a következő szerződésben foglaltakban:\n\nAndroid Sound Recorder\nCopyright (C) 2009 urbanSTEW and others\n\nEz a program szabad szoftver; terjeszthető illetve módosítható a Free Software Foundation által kiadott GNU General Public License dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi változata szerint.Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve. További részleteket a GNU General Public License tartalmaz. A felhasználónak a programmal együtt meg kell kapnia a GNU General Public License egy példányát; ha mégsem kapta meg, akkor tekintse meg a http://www.gnu.org/licenses/ oldalon.\n\nA program forráskódját és dokumentációját a követező oldalon tekintheti meg http://urbanstew.org/rehearsalassistant/.\n\n</string>
 <string name="beta_warning">Ez az alkalmazás BETA állapotban van, ami azt jelenti, hogy felhasználása közben különböző problémák merülhetnek fel.\n\nHa hibát észlel, vagy bárminemű javaslata van, kérem írjon egy e-mail nekünk a comments@urbanstew.org címre és mi megpróbáljuk kijavítani a hibát / javaslatát a programba építeni.\n\nKöszönjük!\n\n</string>
 <string name="memo">Jegyzet</string>
 <string name="my_memo_project">Jegyzet projektem</string>
@@ -26,7 +26,7 @@
 <string name="session_project">Munkamenet projekt</string>
 <string name="my_session_project">Munkamenet projektem</string>
 <string name="project_type">projekt típus:</string>
-<string name="error_project_does_not_exist">HIBA: Rehearsal Assistant egy nem létező projekt-hez próbált hozzáférni.</string> 
+<string name="error_project_does_not_exist">HIBA: Sound Recorder egy nem létező projekt-hez próbált hozzáférni.</string> 
 <string name="doc_new_session">Új munkamenet</string>
 <string name="create_session">Új munkamenet létrehozása</string>
 <string name="create_and_start_session">Új munkamenet létrehozása és megkezdése</string>
@@ -73,14 +73,14 @@
 <string name="e_mail">e-mail / elküld</string>
 <string name="delete">törlés</string>
 <string name="open_ringdroid">megnyitás Ringdroid-al</string>
-<string name="recorded_with_rehearsal_assistant">A felvétel Rehearsal Assistant-al készült.  http://urbanstew.org/rehearsalassistant/</string>
+<string name="recorded_with_rehearsal_assistant">A felvétel Sound Recorder-al készült.  http://urbanstew.org/rehearsalassistant/</string>
 <string name="recording">Felvétel</string>
 <string name="annotation">Kommentár</string>
 <string name="session_title">Munkamenet címe:</string>
 <string name="session_end_time">Munkamenet befejezési ideje:</string>
 <string name="session_start_time">Munkamanet megkezdési ideje:</string>
-<string name="rehearsal_assistant_session">Rehearsal Assistant munkamenet</string>
-<string name="rehearsal_assistant_recording">Rehearsal Assistant felvétel</string>
+<string name="rehearsal_assistant_session">Sound Recorder munkamenet</string>
+<string name="rehearsal_assistant_recording">Sound Recorder felvétel</string>
 <string name="label">cím:</string>
 <string name="start_time">megkezdési idő:</string>
 <string name="end_time">befejezési idő:</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">Rehearsal Assistant</string>
+<string name="app_name">Sound Recorder</string>
 <string name="help">Anleitungen</string>    
 <string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
 <string name="project_manager_instructions">Der Projektmanager ermöglicht Ihnen Projekte zu öffnen, erstellen, und verwalten, welchen Sie zum ordnen der Aufzeichnungen einwenden können. Zwei Projektentypen werden unterstützt - Gesprächsnotiz und Sitzung.\n\nGesprächsnotiz Projekten:\n* haben eine einfache Aufnahme-/Wiedergabeoberfläche\n*ideal für Notizen, Abmahnungen, usw.\n*für den Einsatz mit dem Sound Recorder Widget geeignet\n\nSitzungprojekte:\n* ordnen die Aufzeichnungen in Sitzungen\n*markiert relativ zur Anfangszeit der Sitzung.\n* für die Notierung von Erreignissen wie z.B.: Proben, oder Experimenten vorgesehen.\n\nKlicken Sie auf ein Projekt um es zu öffnen. Klicken Sie länger um das Projekt zu löschen oder es für Sound Recorder Widget Aufnahmen zu bestimmen (nur bei Gesprächsnotizprojekten).\n\nZurzeit ist es nicht möglich Projekte umbenennen, oder Aufnahmen zwischen Projekten zu bewegen.\n\nSie können das Menü nutzen um neue Projekte zu erstellen, das Sound Recorder Widget herunterladen, oder diese Anleitungen nochmal durchsehen.\n\n</string>
@@ -17,7 +17,7 @@
 <string name="playback_instructions">Klicken Sie auf eine Annotation um es abzuhören. Langdrücken Sie um den Name der Annotation zu bearbeiten, um es per E-Mail senden, oder um es zu löschen. Benutzen Sie das MENÜ um die Sitzung per E-Mail zu senden.</string>
 <string name="annotation_label_text">Geben Sie einen neuen Titel für die Annotation ein</string>
 <string name="no_annotations">Keine Annotationen waren aufgenommen für diese Sitzung.</string>
-<string name="license">Wilkommen zum Rehearsal Assistant!\n\nDurch die Nutzung dieser Software verpflichten Sie sich zur Einhaltung der Bestimmungen und Bedingungen dieses Vertrags:\n\nAndroid Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nDieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version. Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License. Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe http://www.gnu.org/licenses/.\n\nSiehe http://urbanstew.org/rehearsalassistant/ für Links zum Quellcode und Dokumentation.\n\n</string>
+<string name="license">Wilkommen zum Sound Recorder!\n\nDurch die Nutzung dieser Software verpflichten Sie sich zur Einhaltung der Bestimmungen und Bedingungen dieses Vertrags:\n\nAndroid Sound Recorder\nCopyright (C) 2009 urbanSTEW and others\n\nDieses Programm ist freie Software. Sie können es unter den Bedingungen der GNU General Public License, wie von der Free Software Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version. Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU General Public License. Sie sollten ein Exemplar der GNU General Public License zusammen mit diesem Programm erhalten haben. Falls nicht, siehe http://www.gnu.org/licenses/.\n\nSiehe http://urbanstew.org/rehearsalassistant/ für Links zum Quellcode und Dokumentation.\n\n</string>
 <string name="beta_warning">Diese Software ist im BETA Status, welcher bedeutet das Sie werden wahrscheinlich auf Problemen stoßen während die Benutzung der Software.\n\nWenn Sie Probleme erfahren oder Sie einen Vorschlag haben, dann schicken sie uns bitte eine E-Mail auf die Adresse comments@urbanstew.org und wir werden versuchen das Problem zu lösen /  Ihren Vorschlag einbauen.\n\nDanke!\n\n</string>
 <string name="memo">Gesprächsnotiz</string>
 <string name="my_memo_project">Mein Gesprächsnotizprojekt</string>
@@ -26,7 +26,7 @@
 <string name="session_project">Sitzungprojekt</string>
 <string name="my_session_project">Mein Sitzungprojekt</string>
 <string name="project_type">Projekttyp:</string>
-<string name="error_project_does_not_exist">FEHLER: Rehearsal Assistant hatte versucht auf ein nicht vorhandenes Projekt zuzugreifen.</string> 
+<string name="error_project_does_not_exist">FEHLER: Sound Recorder hatte versucht auf ein nicht vorhandenes Projekt zuzugreifen.</string> 
 <string name="doc_new_session">Neue Sitzung</string>
 <string name="create_session">Sitzung erstellen</string>
 <string name="create_and_start_session">Sitzung erstellen und starten</string>
@@ -61,7 +61,7 @@
 <string name="error_market">Die Anwendung \'Market\' könnte nicht gestartet werden um das Widget herunter zu laden.</string>
 <string name="media_missing">fehlender Datenträger</string>
 <string name="media_missing_msg01">Ihr externer Datenträger (z.B., sdcard) ist nicht montiert (es ist</string>
-<string name="media_missing_msg02">Rehearsal Assistant wird nicht richtig funktionieren, da es den externen Datenträger als Speicher benutzt.</string>
+<string name="media_missing_msg02">Sound Recorder wird nicht richtig funktionieren, da es den externen Datenträger als Speicher benutzt.</string>
 <string name="stop_session">Sitzung stoppen</string>
 <string name="recording_session">Sitzung in Aufnahme</string>
 <string name="ringdroid_dl_error">Die Anwendung Market könnte nicht gestartet werden um Ringdroid herunter zu laden.</string>
@@ -73,14 +73,14 @@
 <string name="e_mail">e-mail / senden</string>
 <string name="delete">löschen</string>
 <string name="open_ringdroid">mit Ringdroid öffnen</string>
-<string name="recorded_with_rehearsal_assistant">Mit Rehearsal Assistant aufgenommen.  http://urbanstew.org/rehearsalassistant/</string>
+<string name="recorded_with_rehearsal_assistant">Mit Sound Recorder aufgenommen.  http://urbanstew.org/rehearsalassistant/</string>
 <string name="recording">Aufnahme</string>
 <string name="annotation">Annotation</string>
 <string name="session_title">Sitzungsname:</string>
 <string name="session_end_time">Sitzung Endzeit:</string>
 <string name="session_start_time">Sitzung Startzeit:</string>
-<string name="rehearsal_assistant_session">Rehearsal Assistant Sitzung</string>
-<string name="rehearsal_assistant_recording">Rehearsal Assistant Aufnahme</string>
+<string name="rehearsal_assistant_session">Sound Recorder Sitzung</string>
+<string name="rehearsal_assistant_recording">Sound Recorder Aufnahme</string>
 <string name="label">Titel:</string>
 <string name="start_time">Startzeit:</string>
 <string name="end_time">Endzeit:</string>

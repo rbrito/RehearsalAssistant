@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_name">Rehearsal Assistant</string>
+<string name="app_name">Sound Recorder</string>
 <string name="help">Instructions</string>
 <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 <string name="project_manager_instructions">The Project Manager allows you to open, create, and manage projects, which you can use to organize your recordings. Two types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*ideal for memos, reminders, etc.\n*can be designated for use with the Sound Recorder Widget\n\nSessionprojects:\n* organize recordings into sessions\n*timestamp relative to the beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick on a project to open it. Long-press to delete or designate for Sound Recorder Widget recordings (Memo projects only).\n\nAt this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou can use the menu to create a new project, download the Sound Recorder Widget,or to review these instructions again.\n\n</string>
@@ -17,7 +17,7 @@
 <string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
 <string name="annotation_label_text">Enter a new label for the annotation</string>
 <string name="no_annotations">No annotations were recorded for this session.</string>
-<string name="license">Welcome to Rehearsal Assistant!\n\nBy using this application, you agree to the following license:\n\nAndroid Rehearsal Assistant\nCopyright (C) 2009 urbanSTEW and others\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nSee http://www.gnu.org/licenses/ for a full text of the license.\n\nSee http://urbanstew.org/rehearsalassistant/ for links to source code and documentation.\n\n</string>
+<string name="license">Welcome to Sound Recorder!\n\nBy using this application, you agree to the following license:\n\nAndroid Sound Recorder\nCopyright (C) 2009 urbanSTEW and others\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nSee http://www.gnu.org/licenses/ for a full text of the license.\n\nSee http://urbanstew.org/rehearsalassistant/ for links to source code and documentation.\n\n</string>
 <string name="beta_warning">This software is in BETA status, which means you are likely to encounter problems during use.\n\nIf you experience problems or have any suggestions, please e-mail us at comments@urbanstew.org and we will try to fix the problem / incorporate your suggestions.\n\nThank you!\n\n</string>
 <string name="memo">Memo</string>
 <string name="my_memo_project">My Memo Project</string>
@@ -26,7 +26,7 @@
 <string name="session_project">Session Project</string>
 <string name="my_session_project">My Session Project</string>
 <string name="project_type">project type:</string>
-<string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string> 
+<string name="error_project_does_not_exist">ERROR: Sound Recorder has attempted to access a project which does not exist.</string> 
 <string name="doc_new_session">Document New Session</string>
 <string name="create_session">Create Session</string>
 <string name="create_and_start_session">Create and Start Session</string>
@@ -61,7 +61,7 @@
 <string name="error_market">Could not open the Market to download the Sound Recorder Widget.</string>
 <string name="media_missing">Media Missing</string>
 <string name="media_missing_msg01">Your external media (e.g., sdcard) is not mounted (it is</string>
-<string name="media_missing_msg02">Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files.</string>
+<string name="media_missing_msg02">Sound Recorder will not function properly, as it uses external storage for the recorded audio annotation files.</string>
 <string name="stop_session">Stop Session</string>
 <string name="recording_session">Recording Session</string>
 <string name="ringdroid_dl_error">Sorry, I could not start the Market app to download Ringdroid.</string>
@@ -73,14 +73,14 @@
 <string name="e_mail">e-mail / send</string>
 <string name="delete">delete</string>
 <string name="open_ringdroid">open with Ringdroid</string>
-<string name="recorded_with_rehearsal_assistant">Recorded using Rehearsal Assistant.  http://urbanstew.org/rehearsalassistant/</string>
+<string name="recorded_with_rehearsal_assistant">Recorded using Sound Recorder.  http://urbanstew.org/rehearsalassistant/</string>
 <string name="recording">Recording</string>
 <string name="annotation">Annotation</string>
 <string name="session_title">Session title:</string>
 <string name="session_end_time">Session end time:</string>
 <string name="session_start_time">Session start time:</string>
-<string name="rehearsal_assistant_session">Rehearsal Assistant session</string>
-<string name="rehearsal_assistant_recording">Rehearsal Assistant recording</string>
+<string name="rehearsal_assistant_session">Sound Recorder session</string>
+<string name="rehearsal_assistant_recording">Sound Recorder recording</string>
 <string name="label">label:</string>
 <string name="start_time">start time:</string>
 <string name="end_time">end time:</string>
