@@ -24,8 +24,6 @@
 
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -33,58 +31,54 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-/** The RehearsalAssistant Activity is the top-level activity.
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
+
+/**
+ * The RehearsalAssistant Activity is the top-level activity.
  */
-public class RehearsalAssistant extends RehearsalActivity
-{
-	public static float currentVersion = 0.85f;
-	
-    /** Called when the activity is first created.
-     *  
-     *  For now, provides access to the recording and playback activities.
-     *  
+public class RehearsalAssistant extends RehearsalActivity {
+    public static float currentVersion = 0.85f;
+
+    public static void checkSdCard(Context context) {
+        String state = android.os.Environment.getExternalStorageState();
+        if (!state.equals(android.os.Environment.MEDIA_MOUNTED)) {
+            Request.notification(context,
+                    context.getString(R.string.media_missing),
+                    context.getString(R.string.media_missing_msg01) + " " + state + ").  " + context.getString(R.string.media_missing_msg02)
+            );
+        }
+    }
+
+    /**
+     * Called when the activity is first created.
+     * <p>
+     * For now, provides access to the recording and playback activities.
      */
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         Intent intent;
-    	SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-    	if(preferences.getBoolean("launch_with_last_project", true))
-		{
-	        // View the current project
-	        AppDataAccess appData = new AppDataAccess(this);
-	        intent =
-	        	new Intent
-	        	(
-	        		Intent.ACTION_VIEW,
-	        		ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
-	        	);
-		}
-    	else
-    	{
-    		// Open Project Manager
-        	intent =
-		       	new Intent
-		       	(
-		       		Intent.ACTION_VIEW,
-		       		Projects.CONTENT_URI
-		       	);
-    	}
-    	
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (preferences.getBoolean("launch_with_last_project", true)) {
+            // View the current project
+            AppDataAccess appData = new AppDataAccess(this);
+            intent =
+                    new Intent
+                            (
+                                    Intent.ACTION_VIEW,
+                                    ContentUris.withAppendedId(Projects.CONTENT_URI, appData.getCurrentProjectId())
+                            );
+        } else {
+            // Open Project Manager
+            intent =
+                    new Intent
+                            (
+                                    Intent.ACTION_VIEW,
+                                    Projects.CONTENT_URI
+                            );
+        }
+
         startActivity(intent);
         finish();
-    }
-    
-    public static void checkSdCard(Context context)
-    {
-        String state = android.os.Environment.getExternalStorageState();
-    	if(!state.equals(android.os.Environment.MEDIA_MOUNTED))
-    	{
-        	Request.notification(context,
-            		context.getString(R.string.media_missing),
-            		context.getString(R.string.media_missing_msg01) + " " + state + ").  " + context.getString(R.string.media_missing_msg02)
-            	);
-    	}
     }
 }

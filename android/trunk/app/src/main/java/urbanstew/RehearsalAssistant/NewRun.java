@@ -24,11 +24,6 @@
 
 package urbanstew.RehearsalAssistant;
 
-import java.text.DateFormat;
-import java.util.Date;
-
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,15 +31,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+import java.util.Date;
 
-/** The NewRun Activity inserts a new run into the
- * 	current project.
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+
+
+/**
+ * The NewRun Activity inserts a new run into the
+ * current project.
  */
-public class NewRun extends RehearsalActivity implements View.OnClickListener
-{
-    /** Called when the activity is first created. */
-    public void onCreate(Bundle savedInstanceState)
-    {
+public class NewRun extends RehearsalActivity implements View.OnClickListener {
+    /**
+     * Called when the activity is first created.
+     */
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setTitle(this.getResources().getString(R.string.app_name) + " - " + this.getResources().getString(R.string.new_session));
@@ -52,28 +53,29 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener
         setContentView(R.layout.new_run);
         findViewById(R.id.create).setOnClickListener(this);
         findViewById(R.id.create_and_start).setOnClickListener(this);
-        
+
         EditText title = (EditText) findViewById(R.id.name);
-    	title.setText(DateFormat.getDateTimeInstance().format(new Date()) + " Session");
-    	title.selectAll();
+        title.setText(DateFormat.getDateTimeInstance().format(new Date()) + " Session");
+        title.selectAll();
     }
 
-    /** Called when the create button is pushed */
-    public void onClick(View v)
-    {
-    	// prepare the insert request - get title from the widget
-    	EditText title = (EditText) findViewById(R.id.name);
-    	ContentValues values = new ContentValues();
+    /**
+     * Called when the create button is pushed
+     */
+    public void onClick(View v) {
+        // prepare the insert request - get title from the widget
+        EditText title = (EditText) findViewById(R.id.name);
+        ContentValues values = new ContentValues();
 
-    	values.put(Sessions.PROJECT_ID, getIntent().getExtras().getLong("project_id"));
-    	
-    	values.put(Sessions.TITLE, title.getText().toString());
-    	if(v == findViewById(R.id.create_and_start))
-    		values.put(Sessions.START_TIME, System.currentTimeMillis());
-    	
-    	// insert the result and go to the record activity
-    	Uri result = getContentResolver().insert(getIntent().getData(), values);
-    	startActivity(new Intent(Intent.ACTION_EDIT, result));
+        values.put(Sessions.PROJECT_ID, getIntent().getExtras().getLong("project_id"));
+
+        values.put(Sessions.TITLE, title.getText().toString());
+        if (v == findViewById(R.id.create_and_start))
+            values.put(Sessions.START_TIME, System.currentTimeMillis());
+
+        // insert the result and go to the record activity
+        Uri result = getContentResolver().insert(getIntent().getData(), values);
+        startActivity(new Intent(Intent.ACTION_EDIT, result));
         finish();
     }
 }

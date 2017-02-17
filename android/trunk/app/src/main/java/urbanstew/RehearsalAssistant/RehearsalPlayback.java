@@ -34,100 +34,88 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-/** The RehearsalPlayback Activity provides playback access for
- * 	annotations in a particular project.
+/**
+ * The RehearsalPlayback Activity provides playback access for
+ * annotations in a particular project.
  */
-public class RehearsalPlayback extends RehearsalActivity
-{
-    /** Called when the activity is first created. */
-    public void onCreate(Bundle savedInstanceState)
-    {
+public class RehearsalPlayback extends RehearsalActivity {
+    SessionPlayback mSessionPlayback;
+
+    /**
+     * Called when the activity is first created.
+     */
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.playback);
-        
+
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, getIntent().getData());
-        
+
         setTitle("Rehearsal Assistant - " + mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
         mSessionPlayback.setOldTitle(getTitle());
-        
-        ((ListView)findViewById(R.id.annotation_list)).getAdapter()
-    	.registerDataSetObserver(new DataSetObserver()
-    	{
-    		public void onChanged()
-    		{
-    			reviseInstructions();
-    		}
-    	}
-    	);
-    
+
+        ((ListView) findViewById(R.id.annotation_list)).getAdapter()
+                .registerDataSetObserver(new DataSetObserver() {
+                                             public void onChanged() {
+                                                 reviseInstructions();
+                                             }
+                                         }
+                );
+
         reviseInstructions();
     }
-    
-    public void onResume()
-    {
-    	mSessionPlayback.onResume();
-    	super.onResume();
+
+    public void onResume() {
+        mSessionPlayback.onResume();
+        super.onResume();
     }
 
-    public void onPause()
-    {
-    	super.onPause();
-    	mSessionPlayback.onPause();    	
+    public void onPause() {
+        super.onPause();
+        mSessionPlayback.onPause();
     }
 
-    public void onDestroy()
-    {
-    	mSessionPlayback.onDestroy();
-    	super.onDestroy();
-    }
-    
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-    	super.onConfigurationChanged(newConfig);
-    	mSessionPlayback.updateListIndication();
-    }
-    
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-    	super.onRestoreInstanceState(savedInstanceState);
-    	mSessionPlayback.onRestoreInstanceState(savedInstanceState);
+    public void onDestroy() {
+        mSessionPlayback.onDestroy();
+        super.onDestroy();
     }
 
-    protected void onSaveInstanceState(Bundle outState)
-    {
-    	super.onSaveInstanceState(outState);
-    	mSessionPlayback.onSaveInstanceState(outState);
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mSessionPlayback.updateListIndication();
     }
-    
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSessionPlayback.onRestoreInstanceState(savedInstanceState);
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mSessionPlayback.onSaveInstanceState(outState);
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
-    	mSessionPlayback.onCreateOptionsMenu(menu);
-    	return super.onCreateOptionsMenu(menu);
+        mSessionPlayback.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(menu);
     }
-    
-    public boolean onOptionsItemSelected(MenuItem item) 
-    {
-    	return
-    		super.onOptionsItemSelected(item) ||
-    		mSessionPlayback.onOptionsItemSelected(item);
-    }
-    
-	public boolean onContextItemSelected(MenuItem item)
-	{
-		return mSessionPlayback.onContextItemSelected(item);
-	}
 
-	void reviseInstructions()
-	{
-    	TextView instructions = (TextView)findViewById(R.id.no_annotations);
-        if(mSessionPlayback.annotationsCursor().getCount() == 0)
-        {
-        	instructions.setText(R.string.no_annotations);
-        	instructions.setVisibility(View.VISIBLE);
-        }
-        else
-        	instructions.setVisibility(View.INVISIBLE);
-	}
-	
-    SessionPlayback mSessionPlayback;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return
+                super.onOptionsItemSelected(item) ||
+                        mSessionPlayback.onOptionsItemSelected(item);
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        return mSessionPlayback.onContextItemSelected(item);
+    }
+
+    void reviseInstructions() {
+        TextView instructions = (TextView) findViewById(R.id.no_annotations);
+        if (mSessionPlayback.annotationsCursor().getCount() == 0) {
+            instructions.setText(R.string.no_annotations);
+            instructions.setVisibility(View.VISIBLE);
+        } else
+            instructions.setVisibility(View.INVISIBLE);
+    }
 }
