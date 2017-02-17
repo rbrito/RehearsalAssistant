@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/grayscale_masks.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/grayscale_masks.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/recorder_widget_icon.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/recorder_widget_icon.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/icon.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/icon.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/media_record.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/media_record.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/media_recording.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/media_recording.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/red_masks.png",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/red_masks.png"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/drawable/masks_gradient.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/drawable/masks_gradient.xml"
+    }
+]

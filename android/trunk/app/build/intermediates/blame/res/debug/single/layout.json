@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/project_manager.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/project_manager.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/runslist_item.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/runslist_item.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/alert_playback_dialog.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/alert_playback_dialog.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/new_run.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/new_run.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/record.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/record.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/projectslist_item.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/projectslist_item.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/main.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/main.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/alert_annotation_label_entry.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/alert_annotation_label_entry.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/simple.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/simple.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/annotationslist_item.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/annotationslist_item.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/playback.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/playback.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/new_project_dialog.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/new_project_dialog.xml"
+    }
+]
