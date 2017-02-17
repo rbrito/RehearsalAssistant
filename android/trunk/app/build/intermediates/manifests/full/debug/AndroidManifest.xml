@@ -53,8 +53,7 @@
             android:name="urbanstew.RehearsalAssistant.SimpleProject"
             android:allowTaskReparenting="true"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask" />
         <activity
             android:name="urbanstew.RehearsalAssistant.SessionProject"
             android:launchMode="singleTask" />

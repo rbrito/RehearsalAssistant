@@ -32,12 +32,12 @@
         "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/alert_annotation_label_entry.xml"
     },
     {
-        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/simple.xml",
-        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/simple.xml"
-    },
-    {
         "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/annotationslist_item.xml",
         "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/annotationslist_item.xml"
+    },
+    {
+        "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/simple.xml",
+        "source": "/home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/res/layout/simple.xml"
     },
     {
         "merged": "/home/rbrito/StudioProjects/ReherasalAssistant/app/build/intermediates/res/merged/debug/layout/playback.xml",

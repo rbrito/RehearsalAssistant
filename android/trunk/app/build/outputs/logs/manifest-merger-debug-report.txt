@@ -1,184 +1,184 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:2:1-103:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:2:1-119:12
 	package
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:3:7-45
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:3:5-43
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 	android:versionName
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:3:46-71
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:5:5-30
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 	android:versionCode
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:3:72-96
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:4:5-29
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:2:11-69
 uses-sdk
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:4:1-38
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:7:5-43
 	android:targetSdkVersion
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:4:11-36
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:7:15-40
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 		INJECTED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml
 application
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:5:1-95:15
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:8:5-111:19
 	android:label
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:7:2-37
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:12:9-44
 	android:allowClearUserData
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:8:2-35
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:9:9-42
 	android:debuggable
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:8:36-62
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:10:9-35
 	android:icon
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:6:2-31
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:11:9-38
 activity#urbanstew.RehearsalAssistant.RehearsalAssistant
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:10:1-15:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:14:9-21:20
 	android:label
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:10:46-81
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:16:13-48
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:10:11-45
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:15:13-47
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:11:2-14:18
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:17:13-20:29
 action#android.intent.action.MAIN
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:12:3-55
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:18:17-69
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:12:11-52
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:18:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:13:3-63
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:17-77
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:13:13-60
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:27-74
 provider#urbanstew.RehearsalAssistant.RehearsalData
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:17:1-115
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:23:9-25:88
 	android:authorities
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:17:40-103
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:25:13-76
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:17:11-39
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:24:13-41
 activity#urbanstew.RehearsalAssistant.ProjectOpener
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:1-29:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:27:9-40:20
 	android:launchMode
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:40-71
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:30:13-44
 	android:allowTaskReparenting
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:72-107
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:29:13-48
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:19:11-39
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:28:13-41
 intent-filter#android.intent.action.VIEW+android.intent.category.DEFAULT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:20:2-24:18
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:31:13-35:29
 action#android.intent.action.VIEW
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:21:3-62
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:32:17-76
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:21:11-52
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:32:25-66
 category#android.intent.category.DEFAULT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:22:3-71
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:33:17-85
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:22:13-59
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:33:27-73
 data
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:23:3-81
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:34:17-95
 	android:mimeType
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:23:9-73
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:34:23-87
 intent-filter#android.intent.category.DEFAULT+urbanstew.RehearsalAssistant.simple_mode
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:25:2-28:18
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:36:13-39:29
 action#urbanstew.RehearsalAssistant.simple_mode
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:26:3-76
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:37:17-90
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:26:11-66
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:37:25-80
 activity#urbanstew.RehearsalAssistant.SimpleProject
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:31:1-37:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:42:9-46:56
 	android:launchMode
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:33:2-33
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:46:13-44
 	android:allowTaskReparenting
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:34:2-37
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:44:13-48
 	android:configChanges
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:35:2-52
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:45:13-63
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:32:2-30
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:43:13-41
 activity#urbanstew.RehearsalAssistant.SessionProject
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:39:1-84
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:48:9-50:56
 	android:launchMode
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:39:41-72
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:50:13-44
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:39:11-40
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:49:13-42
 activity#urbanstew.RehearsalAssistant.RehearsalPlayback
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:41:5-50:13
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:52:9-60:20
 	android:configChanges
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:43:6-56
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:54:13-63
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:42:6-38
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:53:13-45
 activity#urbanstew.RehearsalAssistant.RehearsalRecord
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:51:2-60:13
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:61:9-69:20
 	android:configChanges
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:53:3-53
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:63:13-63
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:52:3-33
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:62:13-43
 intent-filter#android.intent.action.EDIT+android.intent.category.DEFAULT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:55:3-59:19
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:64:13-68:29
 action#android.intent.action.EDIT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:56:4-63
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:65:17-76
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:56:12-53
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:65:25-66
 activity#urbanstew.RehearsalAssistant.NewRun
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:61:2-66:13
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:70:9-76:20
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:61:12-33
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:70:19-40
 intent-filter#android.intent.action.INSERT+android.intent.category.DEFAULT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:61:34-65:17
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:71:13-75:29
 action#android.intent.action.INSERT
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:63:1-62
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:73:17-78
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:63:9-52
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:73:25-68
 activity#urbanstew.RehearsalAssistant.SettingsActivity
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:68:1-54
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:78:9-62
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:68:11-42
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:78:19-50
 service#urbanstew.RehearsalAssistant.RecordService
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:70:1-81:11
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:80:9-91:19
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:70:10-38
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:80:18-46
 intent-filter#android.intent.category.DEFAULT+urbanstew.RehearsalAssistant.record
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:71:1-74:18
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:81:13-84:29
 action#urbanstew.RehearsalAssistant.record
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:72:2-70
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:82:17-85
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:72:10-60
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:82:25-75
 intent-filter#urbanstew.RehearsalAssistant.IRecordService
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:75:5-79:21
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:85:13-89:29
 action#urbanstew.RehearsalAssistant.IRecordService
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:78:17-86
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:88:17-86
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:78:25-83
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:88:25-83
 activity#urbanstew.RehearsalAssistant.ProjectManager
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:82:1-87:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:93:9-101:20
 	android:launchMode
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:82:41-72
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:95:13-44
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:82:11-40
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:94:13-42
 activity#urbanstew.RehearsalAssistant.ImportDirectoryActivity
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:88:1-94:12
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:102:9-110:20
 	android:label
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:88:50-82
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:104:13-45
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:88:11-49
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:103:13-51
 intent-filter#android.intent.category.DEFAULT+org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:89:2-93:18
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:105:13-109:29
 action#org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:90:3-85
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:106:17-99
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:90:11-75
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:106:25-89
 uses-permission#android.permission.VIBRATE
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:97:1-78
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:113:5-82
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:97:18-59
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:113:22-63
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:99:1-83
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:115:5-87
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:99:18-64
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:115:22-68
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:101:1-80
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:117:5-84
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:101:18-61
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:117:22-65
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:102:1-93
+ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:118:5-97
 	android:name
-		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:102:18-74
+		ADDED from /home/rbrito/StudioProjects/ReherasalAssistant/app/src/main/AndroidManifest.xml:118:22-78

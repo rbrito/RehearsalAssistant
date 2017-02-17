@@ -4,39 +4,37 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-            
+
     <EditText
         android:id="@+id/project_title_text"
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:scrollHorizontally="true"
-    	android:singleLine="true"
-        android:gravity="fill_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
-    />
+        android:gravity="fill_horizontal"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <RadioGroup
         android:id="@+id/project_type"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginLeft="10dip"
-        android:layout_marginRight="50dip"
-    >
-    	<RadioButton
-	        android:id="@+id/project_type_simple"
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:text="@string/memo_project"
-    	/>
-    	<RadioButton
-	        android:id="@+id/project_type_session"
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:text="@string/session_project"
-    	/>
+        android:layout_marginRight="50dip">
+
+        <RadioButton
+            android:id="@+id/project_type_simple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/memo_project" />
+
+        <RadioButton
+            android:id="@+id/project_type_session"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/session_project" />
     </RadioGroup>
-        
+
 </LinearLayout>

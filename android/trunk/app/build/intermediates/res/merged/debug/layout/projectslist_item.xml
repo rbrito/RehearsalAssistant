@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /*
  * Copyright (C) 2006-2008 Google Inc.
  *
@@ -17,44 +16,42 @@
  */
 -->
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:orientation="vertical"
-	> 
-<TextView 
-    android:id="@android:id/text1"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:gravity="center_vertical"
-    android:paddingLeft="20dip"
-    android:singleLine="true"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-/>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"
-    android:orientation="vertical"
-    android:paddingBottom="20dip"
-    android:paddingRight="20dip"
-    android:paddingLeft="20dip"
-	> 
-<ImageView
-    android:id="@+id/recorder_widget_icon"
-	android:layout_alignParentLeft="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/recorder_widget_icon"/>	
-<TextView
-    android:id="@android:id/text2"
-	android:layout_alignParentRight="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="right"
-	android:singleLine="true"
-    android:textAppearance="?android:attr/textAppearanceSmall"
-/>
-</RelativeLayout>
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dip"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="20dip"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip">
+
+        <ImageView
+            android:id="@+id/recorder_widget_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/recorder_widget_icon" />
+
+        <TextView
+            android:id="@android:id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
 </LinearLayout>
