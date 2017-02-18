@@ -27,14 +27,13 @@ package urbanstew.RehearsalAssistant;
 import java.text.DateFormat;
 import java.util.Date;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 /**
  * The NewRun Activity inserts a new run into the current project.

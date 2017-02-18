@@ -1,11 +1,11 @@
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
 public class AppDataAccess {
 	AppDataAccess(Context context) {

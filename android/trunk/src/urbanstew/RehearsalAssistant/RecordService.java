@@ -2,8 +2,6 @@ package urbanstew.RehearsalAssistant;
 
 import java.io.File;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -20,6 +18,8 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class RecordService extends Service {
 	/**

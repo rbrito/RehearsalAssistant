@@ -1,12 +1,12 @@
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
 /**
  * @author Stjepan Rajko

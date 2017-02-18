@@ -1,7 +1,5 @@
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class ProjectBase extends RehearsalActivity {
 	public void onCreate(Bundle savedInstanceState) {

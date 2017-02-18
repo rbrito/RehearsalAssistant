@@ -24,13 +24,13 @@
 
 package urbanstew.RehearsalAssistant;
 
-import java.util.Date;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
@@ -38,9 +38,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -54,6 +51,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -63,25 +63,24 @@ import android.text.Spannable;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.SimpleCursorAdapter.ViewBinder;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
+import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 /**
  * The RehearsalPlayback Activity provides playback access for annotations in a

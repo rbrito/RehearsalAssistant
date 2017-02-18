@@ -3,7 +3,8 @@ package urbanstew.RehearsalAssistant;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
+import org.urbanstew.VolumeEnvelopeView;
+
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -27,7 +28,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.urbanstew.VolumeEnvelopeView;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class SimpleProject extends ProjectBase {
 	static long getSessionId(ContentResolver resolver, long projectId) {

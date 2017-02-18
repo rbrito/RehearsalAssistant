@@ -27,11 +27,6 @@ package urbanstew.RehearsalAssistant;
 import java.io.File;
 import java.util.HashMap;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
-import urbanstew.RehearsalAssistant.Rehearsal.AppData;
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -48,6 +43,10 @@ import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
+import urbanstew.RehearsalAssistant.Rehearsal.Annotations;
+import urbanstew.RehearsalAssistant.Rehearsal.AppData;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
+import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class RehearsalData extends ContentProvider {
 

@@ -24,14 +24,13 @@
 
 package urbanstew.RehearsalAssistant;
 
-import urbanstew.RehearsalAssistant.Rehearsal.Projects;
-
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
 /**
  * The RehearsalAssistant Activity is the top-level activity.
