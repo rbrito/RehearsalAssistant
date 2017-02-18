@@ -5,7 +5,7 @@
 <application
 	android:icon="@drawable/icon"
 	android:label="Rehearsal Assistant"
-	android:allowClearUserData="true" android:debuggable="false">
+	android:allowClearUserData="true">
 
 <activity android:name=".RehearsalAssistant" android:label="Rehearsal Assistant">
 	<intent-filter>
