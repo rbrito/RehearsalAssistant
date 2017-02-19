@@ -383,7 +383,7 @@ public class SessionPlayback {
 		else
 			emailSession.putExtra(Intent.EXTRA_SUBJECT, mEmailSubject);
 
-		String messageText = new String();
+		String messageText = "";
 		if (wholeSession && mEmailDetail) {
 			messageText += mActivity.getString(R.string.session_title) + " " + mSessionCursor.getString(SESSIONS_TITLE)
 					+ "\n";
