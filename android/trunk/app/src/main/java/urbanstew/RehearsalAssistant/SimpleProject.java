@@ -123,8 +123,9 @@ public class SimpleProject extends ProjectBase {
         mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
         scrollToEndOfList();
 
-        bindService(new Intent(IRecordService.class.getName()),
-                mServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent recording_intent = new Intent(IRecordService.class.getName());
+        recording_intent.setPackage("urbanstew.RehearsalAssistant");
+        bindService(recording_intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         ((ListView) findViewById(R.id.annotation_list)).getAdapter()
                 .registerDataSetObserver(new DataSetObserver() {
