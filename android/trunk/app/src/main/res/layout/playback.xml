@@ -21,7 +21,7 @@
         android:gravity="center"
         android:text="00:00:00"
         android:textAppearance="?android:attr/textAppearanceButton"
-        android:textSize="40dip" />
+        android:textSize="40sp"
         android:maxLines="1" />
 
     <FrameLayout
