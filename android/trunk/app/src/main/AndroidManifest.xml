@@ -107,14 +107,5 @@
                 <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.project" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="ImportDirectoryActivity"
-            android:label="Import Directory">
-            <intent-filter>
-                <action android:name="org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="*/*" />
-            </intent-filter>
-        </activity>
     </application>
 </manifest>
