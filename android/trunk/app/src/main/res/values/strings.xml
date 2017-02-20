@@ -3,7 +3,7 @@
 <string name="app_name">Rehearsal Assistant</string>
 <string name="help">Instructions</string>
 <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
-<string name="project_manager_instructions">The Project Manager allows you to open, create, and manage projects, which you can use to organize your recordings. Two types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*ideal for memos, reminders, etc.\n*can be designated for use with the Sound Recorder Widget\n\nSessionprojects:\n* organize recordings into sessions\n*timestamp relative to the beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick on a project to open it. Long-press to delete or designate for Sound Recorder Widget recordings (Memo projects only).\n\nAt this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou can use the menu to create a new project, download the Sound Recorder Widget,or to review these instructions again.\n\n</string>
+<string name="project_manager_instructions">The Project Manager allows you to open, create, and manage projects, which you can use to organize your recordings. Two types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*ideal for memos, reminders, etc.\n*can be designated for use with the Sound Recorder Widget\n\nSession projects:\n* organize recordings into sessions\n*timestamp relative to the beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick on a project to open it. Long-press to delete or designate for Sound Recorder Widget recordings (Memo projects only).\n\nAt this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou can use the menu to create a new project, download the Sound Recorder Widget,or to review these instructions again.\n\n</string>
 <string name="record">Click to Record</string>
 <string name="recording_instructions">Click the button to start the session. Click again to start/stop each recording. Use the MENU to stop the session.</string>
 <string name="recording_instructions_started">Click the button to start/stop each recording. Use the MENU to stop the session.</string>
@@ -44,7 +44,7 @@
 <string name="ok">OK</string>
 <string name="dont_download">Don\'t download</string>
 <string name="contribute">Contribute</string>
-<string name="thank_using">Thank you for using Reherasal Assistant!  If you are finding it useful, please consider contributing to the project.</string>
+<string name="thank_using">Thank you for using Rehearsal Assistant!  If you are finding it useful, please consider contributing to the project.</string>
 <string name="find_how">Find out how</string>
 <string name="not_now">Not right now</string>
 <string name="license2">License</string>
