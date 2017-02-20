@@ -113,14 +113,8 @@
 <string name="recording_quality_settings">Recording Quality</string>
 <string name="screen_bright_wake_lock_setting">Use Screen Bright Wake Lock</string>
 <string name="screen_bright_wake_lock_setting_summary">Prevents changes in screen brightness during recording (avoids glitches).</string>
-<string name="upload_to_soundcloud">Upload to SoundCloud</string>
-<string name="soundcloud_droid">You can now upload individual recordings to SoundCloud (an online audio hosting and sharing service) using our new SoundCloud Droid app.\n\nAfter downloading SoundCloud Droid, choose &quot;e-mail / send&quot; for a recording and you will have the option to upload to SoundCloud.</string>
 <string name="uncompressed_recording_sample_rate">WAV Sample Rate</string>
 <string name="uncompressed_recording_sample_rate_sum">Preferred WAV Sample Rate.</string>
-<string name="import_project">Import Memo Project</string>
-<string name="file_not_found">File not found</string>
 
 <!-- obsolete -->
-<string name="email_session">E-Mail Session</string>
-<string name="email_recording">E-Mail Recording</string>
 </resources>
