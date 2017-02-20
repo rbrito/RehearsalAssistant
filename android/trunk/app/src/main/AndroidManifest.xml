@@ -21,20 +21,20 @@
 
         <provider
             android:name="RehearsalData"
-            android:authorities="com.urbanstew.provider.RehearsalAssistant"></provider>
+            android:authorities="com.urbanstew.provider.RehearsalAssistant" />
 
         <activity
             android:name="ProjectOpener"
             android:allowTaskReparenting="true"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.project"></data>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.project" />
             </intent-filter>
             <intent-filter>
-                <action android:name="urbanstew.RehearsalAssistant.simple_mode"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <action android:name="urbanstew.RehearsalAssistant.simple_mode" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -42,44 +42,44 @@
             android:name="SimpleProject"
             android:allowTaskReparenting="true"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <activity
             android:name="SessionProject"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <activity
             android:name="RehearsalPlayback"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session" />
             </intent-filter>
         </activity>
         <activity
             android:name="RehearsalRecord"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
-                <action android:name="android.intent.action.EDIT"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session"></data>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.urbanstew.session" />
             </intent-filter>
         </activity>
         <activity android:name="NewRun">
             <intent-filter>
-                <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.session"></data>
-                <action android:name="android.intent.action.INSERT"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.session" />
+                <action android:name="android.intent.action.INSERT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name="SettingsActivity"></activity>
+        <activity android:name="SettingsActivity" />
 
         <service android:name="RecordService">
             <intent-filter>
-                <action android:name="urbanstew.RehearsalAssistant.record"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <action android:name="urbanstew.RehearsalAssistant.record" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <!-- These are the interfaces supported by the service, which
@@ -93,26 +93,26 @@
             android:name="ProjectManager"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.project"></data>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.dir/vnd.urbanstew.project" />
             </intent-filter>
         </activity>
         <activity
             android:name="ImportDirectoryActivity"
             android:label="Import Directory">
             <intent-filter>
-                <action android:name="org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="*/*"></data>
+                <action android:name="org.urbanstew.rehearsalassistant.IMPORT_DIRECTORY" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest> 
