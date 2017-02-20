@@ -7,7 +7,6 @@
     <uses-sdk android:minSdkVersion="3" />
     <application
         android:allowClearUserData="true"
-        android:debuggable="false"
         android:icon="@drawable/icon"
         android:label="Rehearsal Assistant">
 
