@@ -28,8 +28,7 @@
             android:ems="25"
             android:maxLines="1"
             android:minHeight="?android:attr/listPreferredItemHeight"
-            android:scrollHorizontally="true"
-            android:singleLine="true" />
+            android:scrollHorizontally="true" />
 
         <Button
             android:id="@+id/create_and_start"

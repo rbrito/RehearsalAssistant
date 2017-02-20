@@ -26,10 +26,10 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_default"
             android:gravity="center"
-            android:singleLine="true"
             android:text="00:00:00"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:textSize="40dip" />
+            android:maxLines="1" />
 
         <ImageView
             android:id="@+id/left_record_indicator"
