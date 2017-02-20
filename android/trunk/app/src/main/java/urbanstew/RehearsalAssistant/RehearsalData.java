@@ -493,7 +493,7 @@ public class RehearsalData extends ContentProvider {
                 editor.putFloat("app_visited_version", Float.valueOf(visited_version.getString(2)));
             }
 
-            editor.commit();
+            editor.apply();
 
             db.execSQL("DROP TABLE " + AppData.TABLE_NAME);
         }

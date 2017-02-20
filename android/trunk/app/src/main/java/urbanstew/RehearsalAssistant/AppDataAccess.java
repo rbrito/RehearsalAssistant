@@ -25,13 +25,13 @@ public class AppDataAccess {
             return (preferences.getLong("current_project_id", -1));
 
         long id = getFirstProjectID();
-        preferences.edit().putLong("current_project_id", id).commit();
+        preferences.edit().putLong("current_project_id", id).apply();
         return id;
     }
 
     void setCurrentProjectId(long id) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        preferences.edit().putLong("current_project_id", id).commit();
+        preferences.edit().putLong("current_project_id", id).apply();
     }
 
     long getProjectIdNot(long id) {
@@ -91,7 +91,7 @@ public class AppDataAccess {
         projectsCursor.close();
 
         // save the new project id
-        preferences.edit().putLong("recorder_widget_project_id", projectId).commit();
+        preferences.edit().putLong("recorder_widget_project_id", projectId).apply();
 
         return projectId;
 
@@ -103,7 +103,7 @@ public class AppDataAccess {
 
     void setRecorderWidgetProjectId(long id) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        preferences.edit().putLong("recorder_widget_project_id", id).commit();
+        preferences.edit().putLong("recorder_widget_project_id", id).apply();
     }
 
     long getRecorderWidgetProjectIdIfExists() {
@@ -125,13 +125,13 @@ public class AppDataAccess {
 
     void setVisitedVersion(String what, float version) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        preferences.edit().putFloat("app_visited_version" + what, version).commit();
+        preferences.edit().putFloat("app_visited_version" + what, version).apply();
     }
 
     boolean lastVisitedVersionOlderThan(String what, float version) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         float oldVersion = preferences.getFloat("app_visited_version" + what, 0);
-        preferences.edit().putFloat("app_visited_version" + what, RehearsalAssistant.currentVersion).commit();
+        preferences.edit().putFloat("app_visited_version" + what, RehearsalAssistant.currentVersion).apply();
         return oldVersion < version;
     }
 }
