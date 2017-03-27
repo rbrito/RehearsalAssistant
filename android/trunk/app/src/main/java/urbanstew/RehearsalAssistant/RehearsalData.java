@@ -60,6 +60,7 @@ public class RehearsalData extends ContentProvider {
     private static final int ANNOTATIONS = 7;
     private static final int ANNOTATION_ID = 8;
     private static final UriMatcher sUriMatcher;
+    public static final String REHEARSAL_ASSISTANT_ERASING = "RehearsalAssist erasing";
     private static HashMap<String, String> sAppDataProjectionMap;
     private static HashMap<String, String> sProjectsProjectionMap;
     private static HashMap<String, String> sSessionsProjectionMap;
@@ -196,7 +197,8 @@ public class RehearsalData extends ContentProvider {
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             if (c.getString(0) != null) {
-                Log.w("Rehearsal Assistant erasing", c.getString(0));
+                // FIXME: Choose a better tag
+                Log.w(REHEARSAL_ASSISTANT_ERASING, c.getString(0));
                 (new File(c.getString(0))).delete();
             }
         }
