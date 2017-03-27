@@ -250,7 +250,7 @@ public class RehearsalData extends ContentProvider {
 
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        long rowId = 0;
+        long rowId;
         Uri contentURI;
 
         switch (sUriMatcher.match(uri)) {
