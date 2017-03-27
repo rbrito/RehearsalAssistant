@@ -210,7 +210,7 @@ public class SessionPlayback {
                 v.setText(formatter.format(new Date(cursor.getLong(ANNOTATIONS_START_TIME))),
                         /*makeAnnotationText(cursor),*/ TextView.BufferType.SPANNABLE);
                 if (cursor.getInt(ANNOTATIONS_VIEWED) == 0) {
-                    v.setTextAppearance(mActivity.getApplicationContext(), android.R.attr.textAppearanceLarge);
+                    v.setTextAppearance(mActivity.getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Large);
                     Spannable str = (Spannable) v.getText();
                     str.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, str.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
