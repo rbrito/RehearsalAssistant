@@ -101,6 +101,6 @@ public class VolumeEnvelopeView extends View {
     }
 
     private Paint mEnvelopePaint;
-    private LinkedList<Float> mEnvelope = new LinkedList<Float>();
+    private LinkedList<Float> mEnvelope = new LinkedList<>();
     int mSize = 0;
 }

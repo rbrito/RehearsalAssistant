@@ -76,18 +76,18 @@ public class RehearsalData extends ContentProvider {
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations", ANNOTATIONS);
         sUriMatcher.addURI(Rehearsal.AUTHORITY, "annotations/#", ANNOTATION_ID);
 
-        sAppDataProjectionMap = new HashMap<String, String>();
+        sAppDataProjectionMap = new HashMap<>();
         sAppDataProjectionMap.put(AppData._ID, AppData._ID);
         sAppDataProjectionMap.put(AppData.KEY, AppData.KEY);
         sAppDataProjectionMap.put(AppData.VALUE, AppData.VALUE);
 
-        sProjectsProjectionMap = new HashMap<String, String>();
+        sProjectsProjectionMap = new HashMap<>();
         sProjectsProjectionMap.put(Projects._ID, Projects._ID);
         sProjectsProjectionMap.put(Projects.TITLE, Projects.TITLE);
         sProjectsProjectionMap.put(Projects.IDENTIFIER, Projects.IDENTIFIER);
         sProjectsProjectionMap.put(Projects.TYPE, Projects.TYPE);
 
-        sSessionsProjectionMap = new HashMap<String, String>();
+        sSessionsProjectionMap = new HashMap<>();
         sSessionsProjectionMap.put(Sessions._ID, Sessions._ID);
         sSessionsProjectionMap.put(Sessions.PROJECT_ID, Sessions.PROJECT_ID);
         sSessionsProjectionMap.put(Sessions.TITLE, Sessions.TITLE);
@@ -95,7 +95,7 @@ public class RehearsalData extends ContentProvider {
         sSessionsProjectionMap.put(Sessions.START_TIME, Sessions.START_TIME);
         sSessionsProjectionMap.put(Sessions.END_TIME, Sessions.END_TIME);
 
-        sAnnotationsProjectionMap = new HashMap<String, String>();
+        sAnnotationsProjectionMap = new HashMap<>();
         sAnnotationsProjectionMap.put(Annotations._ID, Annotations._ID);
         sAnnotationsProjectionMap.put(Annotations.SESSION_ID, Annotations.SESSION_ID);
         sAnnotationsProjectionMap.put(Annotations.START_TIME, Annotations.START_TIME);
