@@ -43,7 +43,7 @@ public class VolumeEnvelopeView extends View {
         a.recycle();
     }
 
-    private final void initVolumeEnvelopeView() {
+    private void initVolumeEnvelopeView() {
         mEnvelopePaint = new Paint();
         mEnvelopePaint.setAntiAlias(false);
         mEnvelopePaint.setColor(0xFF000000);
