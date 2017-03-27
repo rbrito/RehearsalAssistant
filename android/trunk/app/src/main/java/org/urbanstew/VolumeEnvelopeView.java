@@ -94,7 +94,7 @@ public class VolumeEnvelopeView extends View {
         int height = (this.getHeight() - this.getPaddingBottom() - this.getPaddingTop()) / 2;
         int mid = this.getHeight() / 2;
         for (Float i : mEnvelope) {
-            int offset = (int) (height * i.floatValue());
+            int offset = (int) (height * i);
             canvas.drawLine(x, mid - offset, x, mid + offset + 1, mEnvelopePaint);
             x += 2;
         }
