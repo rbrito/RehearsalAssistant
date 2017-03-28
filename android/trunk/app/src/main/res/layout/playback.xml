@@ -31,13 +31,7 @@
         android:layout_below="@+id/playback_instructions"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
-        android:background="@drawable/masks_gradient">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center"
-            android:src="@drawable/red_masks" />
+        >
 
         <urbanstew.RehearsalAssistant.IndicatingListView
             android:id="@+id/annotation_list"

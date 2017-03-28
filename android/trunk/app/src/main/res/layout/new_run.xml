@@ -60,20 +60,5 @@
             android:paddingLeft="7dip"
             android:text=" " />
 
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="0px"
-            android:background="@drawable/masks_gradient">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:src="@drawable/red_masks" />
-        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

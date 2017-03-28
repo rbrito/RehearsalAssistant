@@ -27,13 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
-        android:background="@drawable/masks_gradient">
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="center"
-            android:src="@drawable/red_masks" />
+        >
 
         <ListView
             android:id="@+id/run_list"
