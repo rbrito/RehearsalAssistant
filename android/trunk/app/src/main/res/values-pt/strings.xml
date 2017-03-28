@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Rehearsal Assistant</string>
+  <string name="help">Ajuda</string>
+  <string name="annotation">Comentário</string>
+  <string name="cancel">Cancelar</string>
+  <string name="delete">Apagar</string>
+  <string name="download_it">Baixar!</string>
+  <string name="e_mail">email/enviar</string>
+  <string name="edit_label">Editar rótulo/renomear</string>
+  <string name="email_settings">Email</string>
+  <string name="email_subject_setting">Assunto padrão</string>
+  <string name="error_zip">Problemas ao criar arquivo ZIP</string>
+  <string name="filename">Arquivo:</string>
+</resources>
