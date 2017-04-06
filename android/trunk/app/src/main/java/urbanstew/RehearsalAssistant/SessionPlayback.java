@@ -103,6 +103,7 @@ public class SessionPlayback {
     private static final int ANNOTATIONS_FILE_NAME = 3;
     private static final int ANNOTATIONS_LABEL = 4;
     private static final int ANNOTATIONS_VIEWED = 5;
+    public static final String TAG = "RehearsalAssistant";
     Timer mTimer = new Timer();
     TimerTask mCurrentTimeTask;
     RehearsalActivity mActivity;
@@ -196,7 +197,7 @@ public class SessionPlayback {
 
         mAnnotationsCursor = resolver.query(Annotations.CONTENT_URI, projection, Annotations.SESSION_ID + "=" + session_id + " AND " + Annotations.END_TIME + " IS NOT NULL", null,
                 Annotations.DEFAULT_SORT_ORDER);
-        Log.w("RehearsalAssistant", "Read " + mAnnotationsCursor.getCount() + " annotations.");
+        Log.w(TAG, "Read " + mAnnotationsCursor.getCount() + " annotations.");
 
         mListAdapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
                 new String[]{Annotations.START_TIME, Annotations.LABEL}, new int[]{android.R.id.text1, android.R.id.text2});
@@ -578,7 +579,7 @@ public class SessionPlayback {
         try {
             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         } catch (ClassCastException e) {
-            Log.e("Rehearsal Assistant", "bad menuInfo", e);
+            Log.e(TAG, "bad menuInfo", e);
             return false;
         }
         final AdapterView.AdapterContextMenuInfo final_info = info;

@@ -25,6 +25,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class RecordService extends Service {
     private final static int[] sampleRates = {44100, 22050, 11025, 8000};
+    public static final String TAG = "Rehearsal Assistant";
     long mSessionId;
     State mState;
     long mTimeAtStart;
@@ -124,7 +125,7 @@ public class RecordService extends Service {
             if (mState == State.RECORDING)
                 stopRecording();
 
-            Log.d("Rehearsal Assistant", "RecordService opening Session ID: " + mSessionId);
+            Log.d(TAG, "RecordService opening Session ID: " + mSessionId);
 
             mSessionId = sessionId;
 
@@ -235,7 +236,7 @@ public class RecordService extends Service {
             File external = Environment.getExternalStorageDirectory();
             File audio = new File(external.getAbsolutePath() + "/urbanstew.RehearsalAssistant/" + mSessionId);
             audio.mkdirs();
-            Log.w("Rehearsal Assistant", "writing to directory " + audio.getAbsolutePath());
+            Log.w(TAG, "writing to directory " + audio.getAbsolutePath());
 
 
             // get the recording type from preferences
@@ -245,7 +246,7 @@ public class RecordService extends Service {
             mOutputFile =
                     audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId
                             + (uncompressed ? ".wav" : ".3gp");
-            Log.w("Rehearsal Assistant", "writing to file " + mOutputFile);
+            Log.w(TAG, "writing to file " + mOutputFile);
 
             // start the recording
             if (!uncompressed) {

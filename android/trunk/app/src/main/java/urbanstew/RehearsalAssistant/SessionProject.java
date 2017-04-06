@@ -52,6 +52,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
     public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
     public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
+    public static final String TAG = "Rehearsal Assistant";
     /**
      * Called when the user selects an item in the list.
      * <p>
@@ -100,7 +101,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
         cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
                 Sessions.DEFAULT_SORT_ORDER);
 
-        Log.w("RehearsalAssistant", "Read " + cursor.getCount() + " " + Sessions.TABLE_NAME);
+        Log.w(TAG, "Read " + cursor.getCount() + " " + Sessions.TABLE_NAME);
 
         // Map Sessions to ListView
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.runslist_item, cursor,
@@ -141,7 +142,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
         try {
             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         } catch (ClassCastException e) {
-            Log.e("Rehearsal Assistant", "bad menuInfo", e);
+            Log.e(TAG, "bad menuInfo", e);
             return false;
         }
 
