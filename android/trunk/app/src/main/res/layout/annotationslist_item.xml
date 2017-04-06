@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="5dip"
+        android:paddingRight="5dip"
         android:paddingTop="5dip"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:maxLines="1" />
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="5dip"
+        android:paddingRight="5dip"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:maxLines="1" />
 </LinearLayout>

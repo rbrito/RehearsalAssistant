@@ -58,7 +58,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="7dip"
-            android:text=" " />
+            android:paddingRight="7dip"
+            android:hint="@string/title_of_session" />
 
     </LinearLayout>
 </RelativeLayout>

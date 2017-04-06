@@ -27,7 +27,7 @@
 <string name="session_project">Session Project</string>
 <string name="my_session_project">My Session Project</string>
 <string name="project_type">project type:</string>
-<string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string> 
+<string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string>
 <string name="doc_new_session">Document New Session</string>
 <string name="create_session">Create Session</string>
 <string name="create_and_start_session">Create and Start Session</string>
@@ -83,7 +83,7 @@
 <string name="session_start_time">Session start time:</string>
 <string name="rehearsal_assistant_session">Rehearsal Assistant session</string>
 <string name="rehearsal_assistant_recording">Rehearsal Assistant recording</string>
-<string name="label">label:</string>
+<string name="label">Label</string>
 <string name="start_time">start time:</string>
 <string name="end_time">end time:</string>
 <string name="filename">filename:</string>
@@ -117,6 +117,11 @@
 <string name="screen_bright_wake_lock_setting_summary">Prevents changes in screen brightness during recording (avoids glitches).</string>
 <string name="uncompressed_recording_sample_rate">WAV Sample Rate</string>
 <string name="uncompressed_recording_sample_rate_sum">Preferred WAV Sample Rate.</string>
+<string name="zero_playback_time">00:00:00</string>
+<string name="next_recording">Next recording</string>
+<string name="pause">Pause</string>
+<string name="previous_recording">Previous recording</string>
+<string name="title_of_session">Title of session</string>
 
 <!-- obsolete -->
 </resources>

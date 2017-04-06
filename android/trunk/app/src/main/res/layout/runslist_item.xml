@@ -21,6 +21,9 @@
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
+    android:maxLines="1"
     android:paddingLeft="20dip"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:maxLines="1" />
+    android:paddingRight="20dip"
+    android:paddingStart="20dip"
+    android:paddingEnd="20dip"
+    android:textAppearance="?android:attr/textAppearanceMedium" />

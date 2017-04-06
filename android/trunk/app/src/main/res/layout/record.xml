@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_default"
             android:gravity="center"
-            android:text="00:00:00"
+            android:text="@string/zero_playback_time"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:textSize="40sp"
             android:maxLines="1" />

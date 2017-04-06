@@ -450,7 +450,7 @@ public class SessionPlayback {
 
     String annotationTextInfo(String label) {
         String text = label + " " + (mAnnotationsCursor.getPosition() + 1) + "\n";
-        text += " " + mActivity.getString(R.string.label) + " " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
+        text += " " + mActivity.getString(R.string.label) + ": " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
         text += " " + mActivity.getString(R.string.start_time) + " " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
         text += " " + mActivity.getString(R.string.end_time) + " " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_END_TIME))) + "\n";
         text += " " + mActivity.getString(R.string.filename) + " " + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME) + "\n\n";
