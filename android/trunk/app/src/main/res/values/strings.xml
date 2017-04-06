@@ -2,6 +2,7 @@
 <resources>
 <string name="app_name">Rehearsal Assistant</string>
 <string name="help">Instructions</string>
+<string name="new_run_title">%1$s - %2$s</string>
 <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
 <string name="project_manager_instructions">The Project Manager allows you to open, create, and manage projects, which you can use to organize your recordings. Two types of projects are supported - Memo and Session.\n\nMemo projects:\n* have a simple recording/playback interface\n*ideal for memos, reminders, etc.\n*can be designated for use with the Sound Recorder Widget\n\nSession projects:\n* organize recordings into sessions\n*timestamp relative to the beginning of the session.\n* intended for annotating events such as rehearsals, experiments, and training sessions.\n\nClick on a project to open it. Long-press to delete or designate for Sound Recorder Widget recordings (Memo projects only).\n\nAt this time, it is not possible to rename a project, or to move recordings between projects.\n\nYou can use the menu to create a new project, download the Sound Recorder Widget,or to review these instructions again.\n\n</string>
 <string name="record">Click to Record</string>
@@ -77,6 +78,7 @@
 <string name="recording">Recording</string>
 <string name="annotation">Annotation</string>
 <string name="session_title">Session title:</string>
+<string name="session_date_title">%1$s %2$s</string>
 <string name="session_end_time">Session end time:</string>
 <string name="session_start_time">Session start time:</string>
 <string name="rehearsal_assistant_session">Rehearsal Assistant session</string>

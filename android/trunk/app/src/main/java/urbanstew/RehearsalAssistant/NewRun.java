@@ -26,6 +26,7 @@ package urbanstew.RehearsalAssistant;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -48,14 +49,22 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle(this.getResources().getString(R.string.app_name) + " - " + this.getResources().getString(R.string.new_session));
+        Resources res = this.getResources();
+        String app_name = res.getString(R.string.app_name);
+        String new_session = res.getString(R.string.new_session);
+        String text = String.format(res.getString(R.string.new_run_title), app_name, new_session);
+        setTitle(text);
+
         // setup the display and callbacks
         setContentView(R.layout.new_run);
         findViewById(R.id.create).setOnClickListener(this);
         findViewById(R.id.create_and_start).setOnClickListener(this);
 
         EditText title = (EditText) findViewById(R.id.name);
-        title.setText(DateFormat.getDateTimeInstance().format(new Date()) + " Session");
+
+        String date = DateFormat.getDateTimeInstance().format(new Date());
+        text = String.format(res.getString(R.string.session_date_title), date, res.getString(R.string.session));
+        title.setText(text);
         title.selectAll();
     }
 
