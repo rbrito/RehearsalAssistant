@@ -1,11 +1,11 @@
-<resources>
-	<string-array name="sample_rate_strings">
+<resources xmlns:tools="http://schemas.android.com/tools">
+	<string-array name="sample_rate_strings" tools:ignore="MissingTranslation">
 		<item>44100 Hz</item>
 		<item>22050 Hz</item>
 		<item>11025 Hz</item>
 		<item>8000 Hz</item>
 	</string-array>
-	<string-array name="sample_rate_values">
+	<string-array name="sample_rate_values" tools:ignore="MissingTranslation">
 		<item>0</item>
 		<item>1</item>
 		<item>2</item>
