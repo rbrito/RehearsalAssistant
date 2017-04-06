@@ -739,7 +739,7 @@ public class SessionPlayback {
         mActivity.sendBroadcast(intent);
     }
 
-    void updateProgressDisplay() {
+    private void updateProgressDisplay() {
         String timeText;
         timeText = mPlayTimeFormatter.format(mPlayer.getCurrentPosition() + (mSessionTiming ? mActiveAnnotationStartTime : 0));
         mCurrentTime.setText(timeText);
