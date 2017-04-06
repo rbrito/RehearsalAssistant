@@ -198,8 +198,8 @@ public class RecordService extends Service {
      * Calls startRecording or stopRecording depending on the current state.
      *
      * @param sessionId id of the session for the recording (used only when starting a recording)
-     * @see startRecording
-     * @see stopRecording
+     * @see this.startRecording
+     * @see this.stopRecording
      */
     void toggleRecording(long sessionId) {
         if (mState == State.STARTED)

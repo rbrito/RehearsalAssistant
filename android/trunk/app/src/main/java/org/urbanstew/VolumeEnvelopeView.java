@@ -14,7 +14,7 @@ public class VolumeEnvelopeView extends View {
      * Constructor.  This version is only needed if you will be instantiating
      * the object manually (not from a layout XML file).
      *
-     * @param context
+     * @param context: Context of the View
      */
     public VolumeEnvelopeView(Context context) {
         super(context);

@@ -147,7 +147,7 @@ public class RehearsalAudioRecorder {
     /**
      * Sets output file path, call directly after construction/reset.
      *
-     * @param output file path
+     * @param argPath file path
      */
     public void setOutputFile(String argPath) {
         try {
