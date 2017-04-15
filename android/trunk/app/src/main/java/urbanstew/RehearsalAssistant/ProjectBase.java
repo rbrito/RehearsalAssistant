@@ -13,21 +13,21 @@ import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class ProjectBase extends RehearsalActivity {
-    protected static final int SESSIONS_ID = 0;
+    static final int SESSIONS_ID = 0;
     protected static final int SESSIONS_TITLE = 1;
-    protected static final int SESSIONS_START_TIME = 2;
-    protected static final int SESSIONS_END_TIME = 3;
-    protected static final String[] sessionsProjection = new String[]
+    static final int SESSIONS_START_TIME = 2;
+    static final int SESSIONS_END_TIME = 3;
+    static final String[] sessionsProjection = new String[]
             {
                     Sessions._ID, // 0
                     Sessions.TITLE, // 1
                     Sessions.START_TIME,
                     Sessions.END_TIME
             };
-    protected MenuItem mHelpMenuItem, mSwitchMenuItem;
-    long mProjectId;
-    AppDataAccess mAppData;
-    boolean mSimpleMode;
+    MenuItem mHelpMenuItem;
+    private MenuItem mSwitchMenuItem;
+    private long mProjectId;
+    private AppDataAccess mAppData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +95,10 @@ public class ProjectBase extends RehearsalActivity {
         startActivity(intent);
     }
 
-    protected void setSimpleProject(boolean simpleMode) {
-        mSimpleMode = simpleMode;
-    }
+    // FIXME: This method was discovered as useless after some refactoring
+//    void setSimpleProject(boolean simpleMode) {
+//        boolean mSimpleMode = simpleMode;
+//    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
@@ -129,7 +130,7 @@ public class ProjectBase extends RehearsalActivity {
         return true;
     }
 
-    protected long projectId() {
+    long projectId() {
         return mProjectId;
     }
 }

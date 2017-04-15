@@ -25,16 +25,16 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class RecordService extends Service {
     private final static int[] sampleRates = {44100, 22050, 11025, 8000};
-    public static final String TAG = "Rehearsal Assistant";
-    long mSessionId;
-    State mState;
-    long mTimeAtStart;
-    long mRecordedAnnotationId;
-    RehearsalAudioRecorder mRecorder = null;
-    long mTimeAtAnnotationStart;
-    String mOutputFile;
-    String mTitle;
-    PowerManager.WakeLock mWakeLock;
+    private static final String TAG = "Rehearsal Assistant";
+    private long mSessionId;
+    private State mState;
+    private long mTimeAtStart;
+    private long mRecordedAnnotationId;
+    private RehearsalAudioRecorder mRecorder = null;
+    private long mTimeAtAnnotationStart;
+    private String mOutputFile;
+    private String mTitle;
+    private PowerManager.WakeLock mWakeLock;
     /**
      * A secondary interface to the service.
      */
@@ -120,7 +120,7 @@ public class RecordService extends Service {
      *
      * @param sessionId id of the session to select.
      */
-    void setSession(long sessionId) {
+    private void setSession(long sessionId) {
         if (mSessionId != sessionId) {
             if (mState == State.RECORDING)
                 stopRecording();
@@ -160,7 +160,7 @@ public class RecordService extends Service {
      *
      * @param sessionId id of the session to start.
      */
-    void startSession(long sessionId) {
+    private void startSession(long sessionId) {
         setSession(sessionId);
 
         // clear the annotations
@@ -185,7 +185,7 @@ public class RecordService extends Service {
      *
      * @param sessionId id of the session to start.
      */
-    void stopSession(long sessionId) {
+    private void stopSession(long sessionId) {
         ContentValues values = new ContentValues();
         values.put(Sessions.END_TIME, System.currentTimeMillis());
         getContentResolver().update(ContentUris.withAppendedId(Sessions.CONTENT_URI, sessionId), values, null, null);
@@ -201,7 +201,7 @@ public class RecordService extends Service {
      * @see this.startRecording
      * @see this.stopRecording
      */
-    void toggleRecording(long sessionId) {
+    private void toggleRecording(long sessionId) {
         if (mState == State.STARTED)
             startRecording(sessionId);
         else
@@ -217,7 +217,7 @@ public class RecordService extends Service {
      *
      * @param sessionId id of the session for the recording
      */
-    void startRecording(long sessionId) {
+    private void startRecording(long sessionId) {
         setSession(sessionId);
 
         // session must be in STARTED state
@@ -282,7 +282,7 @@ public class RecordService extends Service {
      * <p>
      * Changes state to STARTED.
      */
-    void stopRecording() {
+    private void stopRecording() {
         // state must be RECORDING
         if (mState != State.RECORDING)
             return;
@@ -337,7 +337,7 @@ public class RecordService extends Service {
             mWakeLock.release();
     }
 
-    void updateViews() {
+    private void updateViews() {
         this.sendBroadcast
                 (
                         new Intent
@@ -349,19 +349,19 @@ public class RecordService extends Service {
                 );
     }
 
-    long timeInRecording() {
+    private long timeInRecording() {
         if (mState != State.RECORDING)
             return 0;
         return System.currentTimeMillis() - mTimeAtAnnotationStart;
     }
 
-    long timeInSession() {
+    private long timeInSession() {
         if (mState == State.INITIALIZING)
             return 0;
         return System.currentTimeMillis() - mTimeAtStart;
     }
 
-    int getMaxAmplitude() {
+    private int getMaxAmplitude() {
         if (mRecorder == null || mState != State.RECORDING)
             return 0;
         return mRecorder.getMaxAmplitude();

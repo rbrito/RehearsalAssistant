@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class RehearsalActivity extends Activity {
-    protected MenuItem mSettingsMenuItem;
+    private MenuItem mSettingsMenuItem;
 
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);

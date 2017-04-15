@@ -35,6 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -48,18 +49,19 @@ import java.util.TimerTask;
  */
 public class RehearsalRecord extends RehearsalActivity {
 
-    Button mRecordButton;
-    IRecordService mRecordService = null;
-    TimerTask mCurrentTimeTask;
-    long mSessionId;
-    TextView mCurrentTime;
-    SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
-    Timer mTimer = new Timer();
-    android.widget.ImageView mLeftRecordIndicator, mRightRecordIndicator;
+    private Button mRecordButton;
+    private IRecordService mRecordService = null;
+    private TimerTask mCurrentTimeTask;
+    private long mSessionId;
+    private TextView mCurrentTime;
+    private final SimpleDateFormat mFormatter = new SimpleDateFormat("HH:mm:ss");
+    private final Timer mTimer = new Timer();
+    private ImageView mLeftRecordIndicator;
+    private ImageView mRightRecordIndicator;
     /**
      * Called when the button is pushed
      */
-    View.OnClickListener mClickListener = new View.OnClickListener() {
+    private final View.OnClickListener mClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             try {
                 switch (RecordService.State.values()[mRecordService.getState()]) {
@@ -81,7 +83,7 @@ public class RehearsalRecord extends RehearsalActivity {
     /**
      * Class for interacting with the secondary interface of the service.
      */
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mRecordService = IRecordService.Stub.asInterface(service);
             try {
@@ -195,7 +197,7 @@ public class RehearsalRecord extends RehearsalActivity {
     /**
      * State changes.
      */
-    void startSession() {
+    private void startSession() {
         try {
             mRecordService.startSession(mSessionId);
             startedSession();
@@ -206,12 +208,12 @@ public class RehearsalRecord extends RehearsalActivity {
         }
     }
 
-    void startedSession() {
+    private void startedSession() {
         ((android.widget.Button) findViewById(R.id.button)).setText(R.string.record);
         findViewById(R.id.button).setKeepScreenOn(true);
     }
 
-    void stopSession() {
+    private void stopSession() {
         try {
             mRecordService.stopSession(mSessionId);
 
@@ -224,7 +226,7 @@ public class RehearsalRecord extends RehearsalActivity {
         }
     }
 
-    void startRecording() {
+    private void startRecording() {
         try {
             mRecordService.startRecording(mSessionId);
             updateViews();
@@ -233,7 +235,7 @@ public class RehearsalRecord extends RehearsalActivity {
 
     }
 
-    void stopRecording() {
+    private void stopRecording() {
         try {
             mRecordService.stopRecording();
             updateViews();
@@ -242,7 +244,7 @@ public class RehearsalRecord extends RehearsalActivity {
         }
     }
 
-    void updateViews() throws RemoteException {
+    private void updateViews() throws RemoteException {
         boolean value = mRecordService.getState() == RecordService.State.RECORDING.ordinal();
         mRecordButton.setText(value ? R.string.stop_recording : R.string.record);
         mLeftRecordIndicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);

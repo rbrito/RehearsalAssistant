@@ -54,7 +54,7 @@ public class VolumeEnvelopeView extends View {
      *
      * @param color ARGB value for the text
      */
-    public void setColor(int color) {
+    private void setColor(int color) {
         mEnvelopePaint.setColor(color);
         invalidate();
     }
@@ -101,6 +101,6 @@ public class VolumeEnvelopeView extends View {
     }
 
     private Paint mEnvelopePaint;
-    private LinkedList<Float> mEnvelope = new LinkedList<>();
-    int mSize = 0;
+    private final LinkedList<Float> mEnvelope = new LinkedList<>();
+    private int mSize = 0;
 }

@@ -39,7 +39,7 @@ import android.widget.TextView;
  * annotations in a particular project.
  */
 public class RehearsalPlayback extends RehearsalActivity {
-    SessionPlayback mSessionPlayback;
+    private SessionPlayback mSessionPlayback;
 
     /**
      * Called when the activity is first created.
@@ -110,7 +110,7 @@ public class RehearsalPlayback extends RehearsalActivity {
         return mSessionPlayback.onContextItemSelected(item);
     }
 
-    void reviseInstructions() {
+    private void reviseInstructions() {
         TextView instructions = (TextView) findViewById(R.id.no_annotations);
         if (mSessionPlayback.annotationsCursor().getCount() == 0) {
             instructions.setText(R.string.no_annotations);

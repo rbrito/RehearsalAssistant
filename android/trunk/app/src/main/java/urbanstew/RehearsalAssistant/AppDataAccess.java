@@ -8,12 +8,12 @@ import android.preference.PreferenceManager;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
-public class AppDataAccess {
-    static String[] projectsDataProjection =
+class AppDataAccess {
+    private static final String[] projectsDataProjection =
             {
                     Projects._ID,
             };
-    Context mContext;
+    private final Context mContext;
 
     AppDataAccess(Context context) {
         mContext = context;
@@ -44,7 +44,7 @@ public class AppDataAccess {
         return id;
     }
 
-    long getFirstProjectID() {
+    private long getFirstProjectID() {
         Cursor c = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsDataProjection, null, null, Projects.DEFAULT_SORT_ORDER);
         c.moveToFirst();
         long result = c.getLong(0);
@@ -118,12 +118,12 @@ public class AppDataAccess {
         setVisitedVersion("", version);
     }
 
-    float getVisitedVersion(String what) {
+    private float getVisitedVersion(String what) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         return preferences.getFloat("app_visited_version" + what, 0);
     }
 
-    void setVisitedVersion(String what, float version) {
+    private void setVisitedVersion(String what, float version) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         preferences.edit().putFloat("app_visited_version" + what, version).apply();
     }

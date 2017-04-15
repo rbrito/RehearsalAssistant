@@ -60,11 +60,11 @@ public class RehearsalData extends ContentProvider {
     private static final int ANNOTATIONS = 7;
     private static final int ANNOTATION_ID = 8;
     private static final UriMatcher sUriMatcher;
-    public static final String REHEARSAL_ASSISTANT_ERASING = "RehearsalAssist erasing";
-    private static HashMap<String, String> sAppDataProjectionMap;
-    private static HashMap<String, String> sProjectsProjectionMap;
-    private static HashMap<String, String> sSessionsProjectionMap;
-    private static HashMap<String, String> sAnnotationsProjectionMap;
+    private static final String TAG = "RehearsalAssist";
+    private static final HashMap<String, String> sAppDataProjectionMap;
+    private static final HashMap<String, String> sProjectsProjectionMap;
+    private static final HashMap<String, String> sSessionsProjectionMap;
+    private static final HashMap<String, String> sAnnotationsProjectionMap;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -116,11 +116,11 @@ public class RehearsalData extends ContentProvider {
         return values;
     }
 
-    static void addSimpleProject(SQLiteDatabase db, Context context) {
+    private static void addSimpleProject(SQLiteDatabase db, Context context) {
         db.insert("projects", "identifier", valuesForMemoProject(context));
     }
 
-    static void addSessionProject(SQLiteDatabase db, Context context) {
+    private static void addSessionProject(SQLiteDatabase db, Context context) {
         ContentValues values = new ContentValues();
         values.put(Projects.TITLE, context.getString(R.string.my_session_project));
         values.put(Projects.IDENTIFIER, "session_project");
@@ -182,7 +182,7 @@ public class RehearsalData extends ContentProvider {
         return count;
     }
 
-    int deleteAnnotations(SQLiteDatabase db, String selection, String[] selectionArgs) {
+    private int deleteAnnotations(SQLiteDatabase db, String selection, String[] selectionArgs) {
         // query and erase files
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
@@ -197,8 +197,7 @@ public class RehearsalData extends ContentProvider {
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             if (c.getString(0) != null) {
-                // FIXME: Choose a better tag
-                Log.w(REHEARSAL_ASSISTANT_ERASING, c.getString(0));
+                Log.w(TAG, "Erasing " + c.getString(0));
                 (new File(c.getString(0))).delete();
             }
         }
@@ -395,7 +394,7 @@ public class RehearsalData extends ContentProvider {
     enum Annotation {_ID, RUN_ID, START_TIME, END_TIME, FILE_NAME}
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
-        Context mContext;
+        final Context mContext;
 
         DatabaseHelper(Context context) {
             super(context, "rehearsal_assistant.db", null, 9);

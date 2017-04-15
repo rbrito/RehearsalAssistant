@@ -32,19 +32,19 @@ import java.util.TimerTask;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class SimpleProject extends ProjectBase {
-    TimerTask mCurrentTimeTask;
-    IRecordService mRecordService = null;
-    TextView mCurrentTime;
-    VolumeEnvelopeView mEnvelopeView;
-    Timer mTimer = new Timer();
-    ImageButton mRecordButton;
-    long mSessionId;
-    SessionPlayback mSessionPlayback;
-    boolean mUpdateListSelection = false;
+    private TimerTask mCurrentTimeTask;
+    private IRecordService mRecordService = null;
+    private TextView mCurrentTime;
+    private VolumeEnvelopeView mEnvelopeView;
+    private final Timer mTimer = new Timer();
+    private ImageButton mRecordButton;
+    private long mSessionId;
+    private SessionPlayback mSessionPlayback;
+    private boolean mUpdateListSelection = false;
     /**
      * Called when the button is pushed
      */
-    View.OnClickListener mClickListener = new View.OnClickListener() {
+    private final View.OnClickListener mClickListener = new View.OnClickListener() {
         public void onClick(View v) {
             if (mRecordService == null)
                 return;
@@ -57,11 +57,11 @@ public class SimpleProject extends ProjectBase {
             }
         }
     };
-    boolean mVolumeEnvelopeEnabled;
+    private boolean mVolumeEnvelopeEnabled;
     /**
      * Class for interacting with the secondary interface of the service.
      */
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             mRecordService = IRecordService.Stub.asInterface(service);
             try {
@@ -108,7 +108,7 @@ public class SimpleProject extends ProjectBase {
         setContentView(R.layout.simple);
 
         super.onCreate(savedInstanceState);
-        super.setSimpleProject(true);
+        // super.setSimpleProject(true); // FIXME: Useless call?
 
         mRecordButton = (ImageButton) findViewById(R.id.button);
         mRecordButton.setOnClickListener(mClickListener);
@@ -247,7 +247,7 @@ public class SimpleProject extends ProjectBase {
         return mSessionPlayback.onContextItemSelected(item);
     }
 
-    void reviseInstructions() {
+    private void reviseInstructions() {
         TextView noAnnotations = (TextView) findViewById(R.id.no_annotations);
         if (mSessionPlayback.annotationsCursor().getCount() == 0) {
             noAnnotations.setText(getString(R.string.simple_no_annotations_instructions));
@@ -256,12 +256,12 @@ public class SimpleProject extends ProjectBase {
             noAnnotations.setVisibility(View.INVISIBLE);
     }
 
-    void scrollToEndOfList() {
+    private void scrollToEndOfList() {
         ListView list = (ListView) findViewById(R.id.annotation_list);
         list.setSelection(list.getCount() - 1);
     }
 
-    void updateInterface() throws RemoteException {
+    private void updateInterface() throws RemoteException {
         if (mRecordService == null)
             return;
 

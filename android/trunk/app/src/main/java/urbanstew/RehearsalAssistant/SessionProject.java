@@ -49,23 +49,23 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
  * The RehearsalAssistant Activity is the top-level activity.
  */
 public class SessionProject extends ProjectBase implements View.OnClickListener {
-    public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
-    public static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
-    public static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
-    public static final String TAG = "Rehearsal Assistant";
+    private static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
+    private static final int MENU_ITEM_RECORD = Menu.FIRST + 1;
+    private static final int MENU_ITEM_DELETE = Menu.FIRST + 2;
+    private static final String TAG = "Rehearsal Assistant";
     /**
      * Called when the user selects an item in the list.
      * <p>
      * Currently, starts the RehearsalPlayback activity.
      */
-    AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
             Uri runUri = ContentUris.withAppendedId(Sessions.CONTENT_URI, id);
             startActivity(new Intent(Intent.ACTION_VIEW, runUri));
         }
     };
-    Cursor cursor;
-    View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
+    private Cursor cursor;
+    private final View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
                                         ContextMenuInfo menuInfo) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
@@ -95,7 +95,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
         setContentView(R.layout.main);
 
         super.onCreate(savedInstanceState);
-        super.setSimpleProject(false);
+        // super.setSimpleProject(false); // FIXME: Useless call?
 
         // Read sessions
         cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
@@ -196,7 +196,7 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
             startActivity(new Intent(Intent.ACTION_INSERT, Sessions.CONTENT_URI).putExtra("project_id", projectId()));
     }
 
-    void reviseInstructions() {
+    private void reviseInstructions() {
         TextView noSessions = (TextView) findViewById(R.id.no_sessions);
         if (cursor.getCount() == 0) {
             noSessions.setText(getString(R.string.session_no_session_instructions));

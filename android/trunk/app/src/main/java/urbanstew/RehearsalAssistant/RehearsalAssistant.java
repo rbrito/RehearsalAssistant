@@ -37,7 +37,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Projects;
  * The RehearsalAssistant Activity is the top-level activity.
  */
 public class RehearsalAssistant extends RehearsalActivity {
-    public static float currentVersion = 0.85f;
+    public static final float currentVersion = 0.85f;
 
     public static void checkSdCard(Context context) {
         String state = android.os.Environment.getExternalStorageState();

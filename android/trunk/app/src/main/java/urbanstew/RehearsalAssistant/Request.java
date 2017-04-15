@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-public class Request {
+class Request {
     public static void cancellable_confirmation(Context context, String title, String content, DialogInterface.OnClickListener confirmation) {
         new Dialog(context, title, content, confirmation, true);
     }
@@ -48,41 +48,43 @@ public class Request {
 
     }
 
-    public static void recordWidget(final Context context) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                .setTitle("Sound Recorder Widget")
-                .setMessage(context.getString(R.string.try_widget))
-                .setPositiveButton
-                        (
-                                context.getString(R.string.download_it),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        try {
-                                            context.startActivity
-                                                    (
-                                                            new Intent
-                                                                    (
-                                                                            Intent.ACTION_VIEW,
-                                                                            Uri.parse("market://search?q=pname:org.urbanstew.RehearsalAssistant.RecordWidget")
-                                                                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                    );
-                                        } catch (ActivityNotFoundException e) {
-                                            Toast.makeText(context, R.string.market_start_error, Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                }
-                        )
-                .setNegativeButton
-                        (
-                                context.getString(R.string.dont_download),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                    }
-                                }
-                        );
-
-        dialog.show();
-    }
+// --Commented out by Inspection START (4/12/17 8:37 PM):
+//    public static void recordWidget(final Context context) {
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+//                .setTitle("Sound Recorder Widget")
+//                .setMessage(context.getString(R.string.try_widget))
+//                .setPositiveButton
+//                        (
+//                                context.getString(R.string.download_it),
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int whichButton) {
+//                                        try {
+//                                            context.startActivity
+//                                                    (
+//                                                            new Intent
+//                                                                    (
+//                                                                            Intent.ACTION_VIEW,
+//                                                                            Uri.parse("market://search?q=pname:org.urbanstew.RehearsalAssistant.RecordWidget")
+//                                                                    ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                                                    );
+//                                        } catch (ActivityNotFoundException e) {
+//                                            Toast.makeText(context, R.string.market_start_error, Toast.LENGTH_LONG).show();
+//                                        }
+//                                    }
+//                                }
+//                        )
+//                .setNegativeButton
+//                        (
+//                                context.getString(R.string.dont_download),
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int whichButton) {
+//                                    }
+//                                }
+//                        );
+//
+//        dialog.show();
+//    }
+// --Commented out by Inspection STOP (4/12/17 8:37 PM)
 }
 
 class Dialog {

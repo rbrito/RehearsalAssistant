@@ -31,14 +31,16 @@ import android.widget.Toast;
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
 public class ProjectManager extends ListActivity {
-    public static final int MENU_ITEM_RENAME = Menu.FIRST;
-    public static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
-    public static final int MENU_ITEM_RECORDER_WIDGET = Menu.FIRST + 2;
-    AlertDialog mNewProjectDialog;
-    SimpleCursorAdapter mListAdapter;
-    Cursor mProjectCursor;
-    MenuItem mInstructionsItem, mNewProjectItem, mDownloadWidgetItem;
-    long mRecorderWidgetProjectId;
+    private static final int MENU_ITEM_RENAME = Menu.FIRST;
+    private static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
+    private static final int MENU_ITEM_RECORDER_WIDGET = Menu.FIRST + 2;
+    private AlertDialog mNewProjectDialog;
+    private SimpleCursorAdapter mListAdapter;
+    private Cursor mProjectCursor;
+    private MenuItem mInstructionsItem;
+    private MenuItem mNewProjectItem;
+    private MenuItem mDownloadWidgetItem;
+    private long mRecorderWidgetProjectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -224,7 +226,7 @@ public class ProjectManager extends ListActivity {
 
     }
 
-    void displayNewProjectDialog(String content, int type) {
+    private void displayNewProjectDialog(String content, int type) {
         LayoutInflater factory = LayoutInflater.from(this);
         final View dialogView = factory.inflate(R.layout.new_project_dialog, null);
         mNewProjectDialog = new AlertDialog.Builder(this)

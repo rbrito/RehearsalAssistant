@@ -10,9 +10,9 @@ import android.widget.ListView;
 
 public class IndicatingListView extends ListView {
 
-    int mPosition = -1;
-    View mSelectedView = null;
-    Drawable mSelectedViewOldDrawable;
+    private int mPosition = -1;
+    private View mSelectedView = null;
+    private Drawable mSelectedViewOldDrawable;
 
     public IndicatingListView(Context context) {
         super(context);
@@ -63,7 +63,7 @@ public class IndicatingListView extends ListView {
         super.onDraw(canvas);
     }
 
-    void restoreBackgroundDrawable() {
+    private void restoreBackgroundDrawable() {
         if (mSelectedView != null)
             mSelectedView.setBackgroundDrawable(mSelectedViewOldDrawable);
         mSelectedView = null;

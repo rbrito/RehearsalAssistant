@@ -27,7 +27,7 @@ package urbanstew.RehearsalAssistant;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-public class Rehearsal {
+class Rehearsal {
     public static final String AUTHORITY = "com.urbanstew.provider.RehearsalAssistant";
 
     // This class cannot be instantiated

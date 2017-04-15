@@ -87,27 +87,27 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
  * The RehearsalPlayback Activity provides playback access for
  * annotations in a particular project.
  */
-public class SessionPlayback {
-    public static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
-    public static final int MENU_ITEM_LABEL = Menu.FIRST + 1;
-    public static final int MENU_ITEM_EMAIL = Menu.FIRST + 2;
-    public static final int MENU_ITEM_DELETE = Menu.FIRST + 3;
-    public static final int MENU_ITEM_EDIT = Menu.FIRST + 4;
+class SessionPlayback {
+    private static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
+    private static final int MENU_ITEM_LABEL = Menu.FIRST + 1;
+    private static final int MENU_ITEM_EMAIL = Menu.FIRST + 2;
+    private static final int MENU_ITEM_DELETE = Menu.FIRST + 3;
+    private static final int MENU_ITEM_EDIT = Menu.FIRST + 4;
     static final int SESSIONS_ID = 0;
     static final int SESSIONS_TITLE = 1;
-    static final int SESSIONS_START_TIME = 2;
-    static final int SESSIONS_END_TIME = 3;
+    private static final int SESSIONS_START_TIME = 2;
+    private static final int SESSIONS_END_TIME = 3;
     private static final int ANNOTATIONS_ID = 0;
     private static final int ANNOTATIONS_START_TIME = 1;
     private static final int ANNOTATIONS_END_TIME = 2;
     private static final int ANNOTATIONS_FILE_NAME = 3;
     private static final int ANNOTATIONS_LABEL = 4;
     private static final int ANNOTATIONS_VIEWED = 5;
-    public static final String TAG = "RehearsalAssistant";
-    Timer mTimer = new Timer();
-    TimerTask mCurrentTimeTask;
-    RehearsalActivity mActivity;
-    View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
+    private static final String TAG = "RehearsalAssistant";
+    private final Timer mTimer = new Timer();
+    private TimerTask mCurrentTimeTask;
+    private final RehearsalActivity mActivity;
+    private final View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
         public void onCreateContextMenu(ContextMenu menu, View v,
                                         ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getString(R.string.play));
@@ -118,39 +118,45 @@ public class SessionPlayback {
         }
 
     };
-    TextView mCurrentTime;
+    private final TextView mCurrentTime;
     // Playback dialog views
-    SeekBar mSeekBar;
-    TextView mPlaybackCurrentTime, mPlaybackDuration, mPlaybackFileSize;
-    IndicatingListView mListView;
-    SimpleCursorAdapter mListAdapter;
-    Cursor mAnnotationsCursor;
-    Cursor mSessionCursor;
-    MediaPlayer mPlayer = null;
-    int mPlayingPosition = -1;
+    private final SeekBar mSeekBar;
+    private final TextView mPlaybackCurrentTime;
+    private final TextView mPlaybackDuration;
+    private final TextView mPlaybackFileSize;
+    private final IndicatingListView mListView;
+    private final SimpleCursorAdapter mListAdapter;
+    private final Cursor mAnnotationsCursor;
+    private final Cursor mSessionCursor;
+    private MediaPlayer mPlayer = null;
+    private int mPlayingPosition = -1;
     List<String> mStrings = new LinkedList<>();
     ArrayAdapter<String> listAdapter;
-    SimpleDateFormat mPlayTimeFormatter = new SimpleDateFormat("HH:mm:ss");
-    DateFormat formatter;
-    long mActiveAnnotationStartTime = 0;
-    AlertDialog mAnnotationLabelDialog = null;
-    long mAnnotationLabelId;
-    AlertDialog mPlaybackDialog = null;
-    ImageButton mPlayPauseButton;
-    boolean mSessionTiming;
-    boolean mPlaybackPanelEnabled, mPlaybackPanelDisappears, mEmailDetail, mConfirmIndividualDeletion;
+    private final SimpleDateFormat mPlayTimeFormatter = new SimpleDateFormat("HH:mm:ss");
+    private final DateFormat formatter;
+    private long mActiveAnnotationStartTime = 0;
+    private AlertDialog mAnnotationLabelDialog = null;
+    private long mAnnotationLabelId;
+    private AlertDialog mPlaybackDialog = null;
+    private final ImageButton mPlayPauseButton;
+    private final boolean mSessionTiming;
+    private boolean mPlaybackPanelEnabled;
+    private boolean mPlaybackPanelDisappears;
+    private boolean mEmailDetail;
+    private boolean mConfirmIndividualDeletion;
     /**
      * Called when the user selects a list item.
      */
-    AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
             playItem(position);
         }
     };
-    String mEmailTo, mEmailSubject;
-    Handler mHandler = new Handler();
-    CharSequence mOldTitle;
-    OnCompletionListener mCompletionListener = new OnCompletionListener() {
+    private String mEmailTo;
+    private String mEmailSubject;
+    private final Handler mHandler = new Handler();
+    private CharSequence mOldTitle;
+    private final OnCompletionListener mCompletionListener = new OnCompletionListener() {
         public void onCompletion(MediaPlayer mp) {
             onPlayCompletion();
         }
@@ -358,7 +364,7 @@ public class SessionPlayback {
             mAnnotationLabelDialog.dismiss();
     }
 
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    void onRestoreInstanceState(Bundle savedInstanceState) {
         // restore label edit dialog if needed
         if (savedInstanceState.getBoolean("annotationLabelDialogShown")) {
             displayAnnotationLabelDialog
@@ -369,7 +375,7 @@ public class SessionPlayback {
         }
     }
 
-    protected void onSaveInstanceState(Bundle outState) {
+    void onSaveInstanceState(Bundle outState) {
         if (mAnnotationLabelDialog != null && mAnnotationLabelDialog.isShowing()) {
             outState.putBoolean("annotationLabelDialogShown", true);
             outState.putString
@@ -381,9 +387,8 @@ public class SessionPlayback {
         }
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public void onCreateOptionsMenu(Menu menu) {
         menu.add("E-Mail Session").setIcon(android.R.drawable.ic_dialog_email);
-        return true;
     }
 
     public void stopPlayback() {
@@ -406,22 +411,22 @@ public class SessionPlayback {
         }
     }
 
-    String makeAnnotationText(Cursor cursor) {
+    private String makeAnnotationText(Cursor cursor) {
         String text = formatter.format(new Date(cursor.getLong(ANNOTATIONS_START_TIME)));
         String label = cursor.getString(ANNOTATIONS_LABEL);
         if (label.length() > 0)
-            text += " " + cursor.getString(ANNOTATIONS_LABEL);
+            text += " " + cursor.getString(ANNOTATIONS_LABEL); // FIXME: Avoid string concatenation
         return text;
     }
 
-    void onPlayItemLostFocus() {
+    private void onPlayItemLostFocus() {
         mPlayingPosition = -1;
         mActivity.setTitle(mOldTitle);
         if (mPlaybackPanelEnabled)
             mListView.clearIndication();
     }
 
-    boolean createSessionArchive(String archiveFilename) {
+    private boolean createSessionArchive(String archiveFilename) {
         byte[] buffer = new byte[1024];
 
         try {
@@ -448,7 +453,7 @@ public class SessionPlayback {
         return true;
     }
 
-    String annotationTextInfo(String label) {
+    private String annotationTextInfo(String label) {
         String text = label + " " + (mAnnotationsCursor.getPosition() + 1) + "\n";
         text += " " + mActivity.getString(R.string.label) + ": " + mAnnotationsCursor.getString(ANNOTATIONS_LABEL) + "\n";
         text += " " + mActivity.getString(R.string.start_time) + " " + formatter.format(new Date(mAnnotationsCursor.getLong(ANNOTATIONS_START_TIME))) + "\n";
@@ -458,7 +463,7 @@ public class SessionPlayback {
         return text;
     }
 
-    void sendEmail(boolean wholeSession) {
+    private void sendEmail(boolean wholeSession) {
         Intent emailSession = new Intent(Intent.ACTION_SEND);
         if (mEmailSubject == null || mEmailSubject.length() == 0)
             if (wholeSession)
@@ -519,7 +524,7 @@ public class SessionPlayback {
         return true;
     }
 
-    void displayAnnotationLabelDialog(String content, long id) {
+    private void displayAnnotationLabelDialog(String content, long id) {
         mAnnotationLabelId = id;
         LayoutInflater factory = LayoutInflater.from(mActivity);
         final View textEntryView = factory.inflate(R.layout.alert_annotation_label_entry, null);
@@ -658,17 +663,17 @@ public class SessionPlayback {
         return true;
     }
 
-    void setPlayPauseButton(int id) {
+    private void setPlayPauseButton(int id) {
         mPlayPauseButton.setImageDrawable(mActivity.getResources().getDrawable(id));
     }
 
-    void displayPlaybackDialog() {
+    private void displayPlaybackDialog() {
         if (!mPlaybackDialog.isShowing())
             setPlayPauseButton(android.R.drawable.ic_media_pause);
         mPlaybackDialog.show();
     }
 
-    void onPlayCompletion() {
+    private void onPlayCompletion() {
         updateProgressDisplay();
         if (mPlaybackPanelEnabled)
             setPlayPauseButton(android.R.drawable.ic_media_play);
@@ -681,7 +686,7 @@ public class SessionPlayback {
         }
     }
 
-    void playItem(int position) {
+    private void playItem(int position) {
         mActivity.onPlaybackStarted();
         mPlayingPosition = position;
         mAnnotationsCursor.moveToPosition(position);
@@ -699,7 +704,7 @@ public class SessionPlayback {
             Request.notification(mActivity,
                     mActivity.getString(R.string.media_missing),
                     mActivity.getString(R.string.media_missing_msg01) + " " + state + ").  " + mActivity.getString(R.string.media_missing_msg02)
-            );
+            ); // FIXME: localization
             return;
         }
 
