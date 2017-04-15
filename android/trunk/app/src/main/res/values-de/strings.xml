@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Rehearsal Assistant</string>
-  <string name="help">Anleitungen</string>    
+  <string name="help">Anleitungen</string>
   <string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
   <string name="project_manager_instructions">Der Projektmanager ermöglicht Ihnen Projekte zu öffnen, erstellen, und verwalten, welchen Sie zum ordnen der Aufzeichnungen einwenden können. Zwei Projektentypen werden unterstützt - Gesprächsnotiz und Sitzung.\n\nGesprächsnotiz Projekten:\n* haben eine einfache Aufnahme-/Wiedergabeoberfläche\n*ideal für Notizen, Abmahnungen, usw.\n*für den Einsatz mit dem Sound Recorder Widget geeignet\n\nSitzungprojekte:\n* ordnen die Aufzeichnungen in Sitzungen\n*markiert relativ zur Anfangszeit der Sitzung.\n* für die Notierung von Erreignissen wie z.B.: Proben, oder Experimenten vorgesehen.\n\nKlicken Sie auf ein Projekt um es zu öffnen. Klicken Sie länger um das Projekt zu löschen oder es für Sound Recorder Widget Aufnahmen zu bestimmen (nur bei Gesprächsnotizprojekten).\n\nZurzeit ist es nicht möglich Projekte umbenennen, oder Aufnahmen zwischen Projekten zu bewegen.\n\nSie können das Menü nutzen um neue Projekte zu erstellen, das Sound Recorder Widget herunterladen, oder diese Anleitungen nochmal durchsehen.\n\n</string>
   <string name="record">Klicken Sie um die Aufnahme zu starten</string>
@@ -12,7 +12,7 @@
   <string name="settings">Einstellungen</string>
   <string name="simple_instructions">Das Gesprächsnotizprojekt ermöglicht eine einfache Aufnahme und Wiedergabe der Tondatein.\n\nBenutzen Sie das Aufnehmenbutton um die Aufnahme zu starten / stoppen. Klicken Sie auf eine Aufnahme um es abzuhören. Langdrücken Sie um den Name der Aufnahme zu bearbeiten, um es per E-Mail senden, oder um es zu löschen.\n\nBenutzen Sie das MENÜ um alle Aufnahmen per E-Mail zu senden oder den Projektmanager abzurufen.</string>
   <string name="simple_no_annotations_instructions">Klicken Sie auf das Button um die Aufnahme zu starten / stoppen.\n\nBenutzen Sie das menü um die Anleitungen, Einstellungen, oder den Projektmanager abzurufen.</string>
-  <string name="start_session">Klicken Sie um die Sitzung zu starten</string>	
+  <string name="start_session">Klicken Sie um die Sitzung zu starten</string>
   <string name="stop_recording">Klicken Sie um die Aufnahme zu stoppen</string>
   <string name="playback_instructions">Klicken Sie auf eine Annotation um es abzuhören. Langdrücken Sie um den Name der Annotation zu bearbeiten, um es per E-Mail senden, oder um es zu löschen. Benutzen Sie das MENÜ um die Sitzung per E-Mail zu senden.</string>
   <string name="annotation_label_text">Geben Sie einen neuen Titel für die Annotation ein</string>
@@ -26,7 +26,7 @@
   <string name="session_project">Sitzungprojekt</string>
   <string name="my_session_project">Mein Sitzungprojekt</string>
   <string name="project_type">Projekttyp:</string>
-  <string name="error_project_does_not_exist">FEHLER: Rehearsal Assistant hatte versucht auf ein nicht vorhandenes Projekt zuzugreifen.</string> 
+  <string name="error_project_does_not_exist">FEHLER: Rehearsal Assistant hatte versucht auf ein nicht vorhandenes Projekt zuzugreifen.</string>
   <string name="doc_new_session">Neue Sitzung</string>
   <string name="create_session">Sitzung erstellen</string>
   <string name="create_and_start_session">Sitzung erstellen und starten</string>

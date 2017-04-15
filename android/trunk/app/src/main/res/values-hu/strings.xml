@@ -26,7 +26,7 @@
   <string name="session_project">Munkamenet projekt</string>
   <string name="my_session_project">Munkamenet projektem</string>
   <string name="project_type">projekt típus:</string>
-  <string name="error_project_does_not_exist">HIBA: Rehearsal Assistant egy nem létező projekt-hez próbált hozzáférni.</string> 
+  <string name="error_project_does_not_exist">HIBA: Rehearsal Assistant egy nem létező projekt-hez próbált hozzáférni.</string>
   <string name="doc_new_session">Új munkamenet</string>
   <string name="create_session">Új munkamenet létrehozása</string>
   <string name="create_and_start_session">Új munkamenet létrehozása és megkezdése</string>

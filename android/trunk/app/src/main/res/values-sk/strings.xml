@@ -12,7 +12,7 @@
   <string name="settings">Nastavenia</string>
   <string name="simple_instructions">Memo Projekt ponukne jednoduché nahranie/prehranie zvukových záznam.\n\nPoužívaj tlačítko \'Nahrávaj\' na začanie/ukončenie nahrávania. Klikni na záznam aby si ho počúval. Tlač dlho aby si upravil meno záznamu, pošlal ho cez e-mail, alebo aby si ho odstránil.\n\nPoužívaj MENU na poslanie každých záznam cez e-mail a na prístup k Projekt Manageru.</string>
   <string name="simple_no_annotations_instructions">Klikni dole na začanie/ukončenie nahrávania.\n\nPoužívaj menu na prístup k pokynám, nastaveniam, alebo Projekt Manageru.</string>
-  <string name="start_session">Klikni pre začanie sedenia</string>	
+  <string name="start_session">Klikni pre začanie sedenia</string>
   <string name="stop_recording">Klikni pre ukončenie sedenia</string>
   <string name="playback_instructions">Klikni na poznámku aby si ho počúval. Tlač dlho aby si upravil meno poznámky, pošlal ho cez e-mail, alebo aby si ho odstránil. Používaj MENU aby si pošlal sedenie cez e-mail.</string>
   <string name="annotation_label_text">Zadajte nový titul pre poznámku</string>
@@ -26,7 +26,7 @@
   <string name="session_project">Sedenie Projekt</string>
   <string name="my_session_project">Môj Sedenie Projekt</string>
   <string name="project_type">typ projektu:</string>
-  <string name="error_project_does_not_exist">CHYBA: Rehearsal Assistant chcel pristúpiť k neexistujúcim projektom.</string> 
+  <string name="error_project_does_not_exist">CHYBA: Rehearsal Assistant chcel pristúpiť k neexistujúcim projektom.</string>
   <string name="doc_new_session">Dokumentovať Nové Sedenie</string>
   <string name="create_session">Vytvoriť Sedenie</string>
   <string name="create_and_start_session">Vytvoriť a začať sedenie</string>

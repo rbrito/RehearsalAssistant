@@ -64,4 +64,4 @@
             android:title="@string/email_subject_setting" />
     </PreferenceCategory>
 
-</PreferenceScreen> 
+</PreferenceScreen>
