@@ -127,7 +127,7 @@ public class RehearsalRecord extends RehearsalActivity {
         bindService(new Intent(IRecordService.class.getName()),
                 mServiceConnection, Context.BIND_AUTO_CREATE);
 
-        setTitle(this.getString(R.string.app_name) + " - " + this.getString(R.string.recording_session));
+        setTitle(String.format("%s - %s", this.getString(R.string.app_name), this.getString(R.string.recording_session))); // FIXME: move formatted string to resources
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
