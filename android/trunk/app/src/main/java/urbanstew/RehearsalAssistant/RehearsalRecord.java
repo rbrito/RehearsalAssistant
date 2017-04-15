@@ -79,7 +79,6 @@ public class RehearsalRecord extends RehearsalActivity {
         }
     };
     RehearsalData data;
-    long project_id;
     /**
      * Class for interacting with the secondary interface of the service.
      */
