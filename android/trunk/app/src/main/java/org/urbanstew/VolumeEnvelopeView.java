@@ -1,13 +1,13 @@
 package org.urbanstew;
 
-import java.util.LinkedList;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.util.LinkedList;
 
 public class VolumeEnvelopeView extends View {
     /**
