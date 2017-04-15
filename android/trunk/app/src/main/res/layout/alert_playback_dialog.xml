@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
@@ -16,43 +16,47 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="0.15in"
-            android:paddingRight="0.15in"
-            android:src="@android:drawable/ic_media_previous"
-            android:contentDescription="@string/previous_recording" />
+            android:contentDescription="@string/previous_recording"
+            android:minWidth="@android:dimen/app_icon_size"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@android:drawable/ic_media_previous" />
 
         <ImageButton
             android:id="@+id/playback_pause"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="0.15in"
-            android:paddingRight="0.15in"
-            android:src="@android:drawable/ic_media_pause"
-            android:contentDescription="@string/pause" />
+            android:contentDescription="@string/pause"
+            android:minWidth="@android:dimen/app_icon_size"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@android:drawable/ic_media_pause" />
 
         <ImageButton
             android:id="@+id/playback_next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="0.15in"
-            android:paddingRight="0.15in"
-            android:src="@android:drawable/ic_media_next"
-            android:contentDescription="@string/next_recording" />
+            android:contentDescription="@string/next_recording"
+            android:minWidth="@android:dimen/app_icon_size"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:src="@android:drawable/ic_media_next" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="3dip"
-        android:paddingRight="3dip">
+        android:paddingLeft="0dip"
+        android:paddingRight="0dip">
 
         <TextView
             android:id="@+id/playback_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -68,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
@@ -77,6 +82,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:max="1024"
-        android:paddingLeft="3dip"
-        android:paddingRight="3dip" />
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp" />
 </LinearLayout>

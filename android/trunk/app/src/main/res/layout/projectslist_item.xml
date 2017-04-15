@@ -26,18 +26,20 @@
         android:layout_width="fill_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:gravity="center_vertical"
-        android:paddingStart="20dip"
+        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:maxLines="1"
-        android:paddingEnd="20dip" />
+        android:paddingEnd="20dp"
+        android:paddingRight="20dp"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="20dip"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip">
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <ImageView
             android:id="@+id/recorder_widget_icon"
@@ -45,14 +47,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:src="@drawable/recorder_widget_icon"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/recorder_widget_icon"/>
 
         <TextView
             android:id="@android:id/text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:gravity="right"
+            android:gravity="end"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:maxLines="1"
             android:layout_alignParentRight="true" />

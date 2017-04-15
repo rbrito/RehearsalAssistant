@@ -122,6 +122,8 @@
 <string name="pause">Pause</string>
 <string name="previous_recording">Previous recording</string>
 <string name="title_of_session">Title of session</string>
+    <string name="recorder_widget_icon">Record/Play</string>
+    <string name="new_project_name">New project name</string>
 
-<!-- obsolete -->
+    <!-- obsolete -->
 </resources>
