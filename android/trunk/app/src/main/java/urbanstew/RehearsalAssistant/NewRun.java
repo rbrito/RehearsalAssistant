@@ -44,15 +44,39 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
  */
 public class NewRun extends RehearsalActivity implements View.OnClickListener {
     /**
+     * Returns a String filled in according with the template given by stringResourceId and the resources
+     * given in args, all being resources of the type string.
+     *
+     * FIXME: Should be static.
+     * FIXME: Should be way more general.
+     *
+     * @param stringResourceId
+     * @param args
+     * @return
+     */
+    public String formattedStringFromStringResources(int stringResourceId, Integer... args) {
+        Resources res = this.getResources();
+        String template = res.getString(stringResourceId);
+
+        String[] args_as_strings = new String[args.length];
+        for (int i = 0; i < args.length; i++) {
+            args_as_strings[i] = res.getString(args[i]);
+        }
+
+        // List<String> args_as_strings = Arrays.asList(args.length);
+        // args_as_strings.foreach();
+
+        return String.format(template, (Object []) args_as_strings);
+    }
+
+
+    /**
      * Called when the activity is first created.
      */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Resources res = this.getResources();
-        String app_name = res.getString(R.string.app_name);
-        String new_session = res.getString(R.string.new_session);
-        String text = String.format(res.getString(R.string.new_run_title), app_name, new_session);
+        String text = formattedStringFromStringResources(R.string.new_run_title, R.string.app_name, R.string.new_session);
         setTitle(text);
 
         // setup the display and callbacks
@@ -62,6 +86,7 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener {
 
         EditText title = (EditText) findViewById(R.id.name);
 
+        Resources res = this.getResources();
         String date = DateFormat.getDateTimeInstance().format(new Date());
         text = String.format(res.getString(R.string.session_date_title), date, res.getString(R.string.session));
         title.setText(text);
