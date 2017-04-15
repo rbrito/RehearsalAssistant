@@ -100,6 +100,7 @@ public class VolumeEnvelopeView extends View {
         }
     }
 
+    // FIXME: A mess with the unusual order of the members
     private Paint mEnvelopePaint;
     private final LinkedList<Float> mEnvelope = new LinkedList<>();
     private int mSize = 0;
