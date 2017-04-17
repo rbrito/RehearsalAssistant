@@ -201,8 +201,8 @@ class SessionPlayback {
         mListView = (IndicatingListView) mActivity.findViewById(R.id.annotation_list);
         mListView.setAdapter(mListAdapter);
         /*
-      Called when the user selects a list item.
-     */
+        Called when the user selects a list item.
+        */
         AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 playItem(position);
