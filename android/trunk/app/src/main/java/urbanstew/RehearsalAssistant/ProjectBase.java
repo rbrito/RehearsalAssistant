@@ -82,8 +82,6 @@ public class ProjectBase extends RehearsalActivity {
                             }
                     );
         } else if (visitedVersion < RehearsalAssistant.currentVersion) {
-            //Request.contribution(this);
-//    		Request.recordWidget(this);
             Request.notification(this, this.getString(R.string.uncompressed_recording), this.getString(R.string.uncompressed_recording2));
             mAppData.setVisitedVersion(RehearsalAssistant.currentVersion);
         }
