@@ -120,7 +120,7 @@ public class SimpleProject extends ProjectBase {
             Toast.makeText(this, R.string.memo_error, Toast.LENGTH_LONG).show();
             finish();
         }
-        mSessionPlayback = new SessionPlayback(savedInstanceState, this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
+        mSessionPlayback = new SessionPlayback(this, ContentUris.withAppendedId(Sessions.CONTENT_URI, mSessionId));
         scrollToEndOfList();
 
         Intent recording_intent = new Intent(IRecordService.class.getName());

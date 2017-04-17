@@ -142,7 +142,7 @@ class SessionPlayback {
     /**
      * Called when the activity is first created.
      */
-    public SessionPlayback(Bundle savedInstanceState, RehearsalActivity activity, Uri uri) {
+    public SessionPlayback(RehearsalActivity activity, Uri uri) {
         mActivity = activity;
         mActivity.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 

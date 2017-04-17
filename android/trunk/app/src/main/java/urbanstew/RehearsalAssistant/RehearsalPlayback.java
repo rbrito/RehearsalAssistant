@@ -49,7 +49,7 @@ public class RehearsalPlayback extends RehearsalActivity {
 
         setContentView(R.layout.playback);
 
-        mSessionPlayback = new SessionPlayback(savedInstanceState, this, getIntent().getData());
+        mSessionPlayback = new SessionPlayback(this, getIntent().getData());
 
         setTitle("Rehearsal Assistant - " + mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
         mSessionPlayback.setOldTitle(getTitle());
