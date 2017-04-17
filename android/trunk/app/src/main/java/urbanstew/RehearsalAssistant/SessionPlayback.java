@@ -107,17 +107,6 @@ class SessionPlayback {
     private final Timer mTimer = new Timer();
     private TimerTask mCurrentTimeTask;
     private final RehearsalActivity mActivity;
-    private final View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
-        public void onCreateContextMenu(ContextMenu menu, View v,
-                                        ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getString(R.string.play));
-            menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getString(R.string.edit_label));
-            menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.e_mail));
-            menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getString(R.string.delete));
-            menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, mActivity.getString(R.string.open_ringdroid));
-        }
-
-    };
     private final TextView mCurrentTime;
     // Playback dialog views
     private final SeekBar mSeekBar;
@@ -125,7 +114,6 @@ class SessionPlayback {
     private final TextView mPlaybackDuration;
     private final TextView mPlaybackFileSize;
     private final IndicatingListView mListView;
-    private final SimpleCursorAdapter mListAdapter;
     private final Cursor mAnnotationsCursor;
     private final Cursor mSessionCursor;
     private MediaPlayer mPlayer = null;
@@ -144,17 +132,8 @@ class SessionPlayback {
     private boolean mPlaybackPanelDisappears;
     private boolean mEmailDetail;
     private boolean mConfirmIndividualDeletion;
-    /**
-     * Called when the user selects a list item.
-     */
-    private final AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-            playItem(position);
-        }
-    };
     private String mEmailTo;
     private String mEmailSubject;
-    private final Handler mHandler = new Handler();
     private CharSequence mOldTitle;
     private final OnCompletionListener mCompletionListener = new OnCompletionListener() {
         public void onCompletion(MediaPlayer mp) {
@@ -205,7 +184,7 @@ class SessionPlayback {
                 Annotations.DEFAULT_SORT_ORDER);
         Log.w(TAG, "Read " + mAnnotationsCursor.getCount() + " annotations.");
 
-        mListAdapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
+        SimpleCursorAdapter mListAdapter = new SimpleCursorAdapter(activity.getApplication(), R.layout.annotationslist_item, mAnnotationsCursor,
                 new String[]{Annotations.START_TIME, Annotations.LABEL}, new int[]{android.R.id.text1, android.R.id.text2});
 
         mListAdapter.setViewBinder(new ViewBinder() {
@@ -226,8 +205,28 @@ class SessionPlayback {
         });
         mListView = (IndicatingListView) mActivity.findViewById(R.id.annotation_list);
         mListView.setAdapter(mListAdapter);
+        /*
+      Called when the user selects a list item.
+     */
+        AdapterView.OnItemClickListener mSelectedListener = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                playItem(position);
+            }
+        };
         mListView.setOnItemClickListener(mSelectedListener);
+        View.OnCreateContextMenuListener mCreateContextMenuListener = new View.OnCreateContextMenuListener() {
+            public void onCreateContextMenu(ContextMenu menu, View v,
+                                            ContextMenuInfo menuInfo) {
+                menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getString(R.string.play));
+                menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getString(R.string.edit_label));
+                menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.e_mail));
+                menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getString(R.string.delete));
+                menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, mActivity.getString(R.string.open_ringdroid));
+            }
+
+        };
         mListView.setOnCreateContextMenuListener(mCreateContextMenuListener);
+        Handler mHandler = new Handler();
         mAnnotationsCursor.registerContentObserver(new ContentObserver(mHandler) {
             public void onChange(boolean selfChange) {
                 updateListIndication();
