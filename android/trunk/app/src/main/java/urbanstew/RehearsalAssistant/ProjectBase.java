@@ -93,11 +93,6 @@ public class ProjectBase extends RehearsalActivity {
         startActivity(intent);
     }
 
-    // FIXME: This method was discovered as useless after some refactoring
-//    void setSimpleProject(boolean simpleMode) {
-//        boolean mSimpleMode = simpleMode;
-//    }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         mHelpMenuItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
         String switchText;
