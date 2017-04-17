@@ -37,9 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/current_time"
             android:layout_alignLeft="@id/current_time"
+            android:layout_alignStart="@id/current_time"
             android:layout_alignTop="@id/current_time"
             android:layout_marginBottom="6dip"
             android:layout_marginLeft="10dip"
+            android:layout_marginStart="10dip"
             android:scaleType="center"
             android:src="@drawable/media_recording"
             android:visibility="invisible" />
@@ -50,9 +52,11 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/current_time"
             android:layout_alignRight="@id/current_time"
+            android:layout_alignEnd="@id/current_time"
             android:layout_alignTop="@id/current_time"
             android:layout_marginBottom="6dip"
             android:layout_marginRight="10dip"
+            android:layout_marginEnd="10dip"
             android:scaleType="center"
             android:src="@drawable/media_recording"
             android:visibility="invisible" />
