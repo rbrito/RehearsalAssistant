@@ -7,7 +7,6 @@
   <string name="cancel">Abbrechen</string>
   <string name="confirm_individual_deletion">Löschen der Aufzeichnungen bestätigen</string>
   <string name="confirm_individual_deletion_sum">Bestätigug anfordern für das Löschen der Aufzeichnungen.</string>
-  <string name="contribute">Spenden</string>
   <string name="create_and_start_session">Sitzung erstellen und starten</string>
   <string name="create_session">Sitzung erstellen</string>
   <string name="delete">löschen</string>
@@ -25,7 +24,6 @@
   <string name="error_send">die Mitteilung könnte nicht abgeschickt werden:</string>
   <string name="error_zip">Ein Fehler ist aufgetreten bei der Erstellung des ZIP Archivs:</string>
   <string name="filename">Dateiname:</string>
-  <string name="find_how">Finden Sie heraus wie</string>
   <string name="help">Anleitungen</string>
   <string name="instructions">Anleitungen</string>
   <string name="label">Titel:</string>
@@ -47,7 +45,6 @@
   <string name="new_session">neue Sitzung</string>
   <string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
   <string name="no_annotations">Keine Annotationen waren aufgenommen für diese Sitzung.</string>
-  <string name="not_now">Nicht gerade jetzt!</string>
   <string name="ok">OK</string>
   <string name="open_ringdroid">mit Ringdroid öffnen</string>
   <string name="play">abspielen</string>
@@ -92,7 +89,6 @@
   <string name="start_time">Startzeit:</string>
   <string name="stop_recording">Klicken Sie um die Aufnahme zu stoppen</string>
   <string name="stop_session">Sitzung stoppen</string>
-  <string name="thank_using">Danke für die Benutzung des Reherasal Assistants!  Wenn Sie es nützlich finden, dann helfen überlegen Sie es bei dem Projekt mit zu machen.</string>
   <string name="try_widget">Haben Sie schon das neu Sound Recorder Widget ausprobiert?  Es ermöglicht Ihnen aufnahmen zu machen aus der Startseite.</string>
   <string name="uncompressed_recording">Letzten Aktualisierungen</string>
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate something untranslated (like this), or improve a translation, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nDiese Version hat experimentelle Unterstüztung für unkomprimiertere Aufnahmen (höhere Qualität, aber viel höhere Dateigröße).  Sie können zwischen unkomprimiert/komprimiert überschalten in dem Einstellungen-Menü. Diese Einstellung wird alle neue Aufnahme beeinflussen im jeden Projekt.\n\nBitte teilen Sie uns mit eure Erfahrungen, und danke für alle bisherigen Rückmeldungen!</string>

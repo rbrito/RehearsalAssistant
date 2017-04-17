@@ -7,7 +7,6 @@
   <string name="cancel">Cancel</string>
   <string name="confirm_individual_deletion">Confirm Recording Deletion</string>
   <string name="confirm_individual_deletion_sum">Request confirmation for deletion of individual recordings.</string>
-  <string name="contribute">Contribute</string>
   <string name="create_and_start_session">Create and Start Session</string>
   <string name="create_session">Create Session</string>
   <string name="delete">delete</string>
@@ -30,7 +29,6 @@
   <string name="error_send">Unable to send message:</string>
   <string name="error_zip">Problem creating ZIP archive:</string>
   <string name="filename">filename:</string>
-  <string name="find_how">Find out how</string>
   <string name="help">Instructions</string>
   <string name="instructions">Instructions</string>
   <string name="label">Label</string>
@@ -55,7 +53,6 @@
   <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
   <string name="next_recording">Next recording</string>
   <string name="no_annotations">No annotations were recorded for this session.</string>
-  <string name="not_now">Not right now</string>
   <string name="ok">OK</string>
   <string name="open_ringdroid">open with Ringdroid</string>
   <string name="pause">Pause</string>
@@ -107,7 +104,6 @@
   <string name="start_time">start time:</string>
   <string name="stop_recording">Click to Stop Recording</string>
   <string name="stop_session">Stop Session</string>
-  <string name="thank_using">Thank you for using Rehearsal Assistant!  If you are finding it useful, please consider contributing to the project.</string>
   <string name="title_of_session">Title of session</string>
   <string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone\'s home screen.</string>
   <string name="uncompressed_recording">Recent Updates</string>

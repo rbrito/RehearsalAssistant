@@ -7,7 +7,6 @@
   <string name="cancel">Zrušiť</string>
   <string name="confirm_individual_deletion">Confirm Recording Deletion</string>
   <string name="confirm_individual_deletion_sum">Request confirmation for deletion of individual recordings.</string>
-  <string name="contribute">Prispieť</string>
   <string name="create_and_start_session">Vytvoriť a začať sedenie</string>
   <string name="create_session">Vytvoriť Sedenie</string>
   <string name="delete">odstrániť</string>
@@ -25,7 +24,6 @@
   <string name="error_send">Nemohol som pošlať správu:</string>
   <string name="error_zip">Nemohol som vytvoriť archív ZIP:</string>
   <string name="filename">názov súboru:</string>
-  <string name="find_how">Zistiť ako</string>
   <string name="help">Pokyny</string>
   <string name="instructions">Pokyny</string>
   <string name="label">názov:</string>
@@ -47,7 +45,6 @@
   <string name="new_session">Nové Sedenie</string>
   <string name="new_session_title">Zadajte titul pre sedenie a kliknite na jeden z \'Vytvoriť\' tlačítkov.</string>
   <string name="no_annotations">Žiadné poznámky neboli nahrávané v sedeniu.</string>
-  <string name="not_now">Teraz nie</string>
   <string name="ok">OK</string>
   <string name="open_ringdroid">otvoriť pomocou Ringdroidu</string>
   <string name="play">prehrávať</string>
@@ -92,7 +89,6 @@
   <string name="start_time">čas začatia:</string>
   <string name="stop_recording">Klikni pre ukončenie sedenia</string>
   <string name="stop_session">Ukončiť sedenie</string>
-  <string name="thank_using">Ďakujeme že používate Reherasal Assistant!  Keď považujete ho za užitočné, prosím prispiete k projektu.</string>
   <string name="try_widget">Ste už výskušaly nový Sound Recorder Widget?  Umožní vám nahrávať záznamy z plochy telefónu.</string>
   <string name="uncompressed_recording">Posledné aktualizácie</string>
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate something untranslated (like this), or improve a translation, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nTáto verzia uvádza skúšobnú podporu pre nekomprimované nahrávanie (lepšia kvalita, ale aj väčšia veľkosť súborou). Prepnúť na nekomprimované nahrávanie môžeťe pomocou nastavení. Toto nastavenie ovplyvňuje každú novú nahrávku vo všetkých projektoch.\n\nDajte nám vedieť vás dojem, a ďakujeme za všetkých dojmov doteraz!</string>
