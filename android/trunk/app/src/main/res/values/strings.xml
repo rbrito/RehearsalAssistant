@@ -118,4 +118,5 @@
   <string name="warning_erase_recording">This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
   <string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
   <string name="zero_playback_time">00:00:00</string>
+    <string name="recording_button">Recording button</string>
 </resources>

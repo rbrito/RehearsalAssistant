@@ -11,7 +11,8 @@
         android:layout_alignParentBottom="true"
         android:clickable="false"
         android:paddingTop="7dip"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:contentDescription="@string/recording_button" />
 
     <RelativeLayout
         android:id="@+id/time_and_volume"
