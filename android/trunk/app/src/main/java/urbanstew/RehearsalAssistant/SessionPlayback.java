@@ -469,7 +469,7 @@ class SessionPlayback {
 
         String messageText = "";
         if (wholeSession && mEmailDetail) {
-            messageText += mActivity.getString(R.string.session_title) + " " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
+            messageText += mActivity.getString(R.string.session_title) + ": " + mSessionCursor.getString(SESSIONS_TITLE) + "\n";
             messageText += mActivity.getString(R.string.session_start_time) + " " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_START_TIME))) + "\n";
             messageText += mActivity.getString(R.string.session_end_time) + " " + DateFormat.getDateTimeInstance().format(new Date(mSessionCursor.getLong(SESSIONS_END_TIME))) + "\n\n";
         }

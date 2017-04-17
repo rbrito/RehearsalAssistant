@@ -94,7 +94,7 @@
   <string name="session_project">Session Project</string>
   <string name="session_record">record</string>
   <string name="session_start_time">Session start time:</string>
-  <string name="session_title">Session title:</string>
+  <string name="session_title">Session title</string>
   <string name="set_uncompressed_recording">Record Uncompressed Audio</string>
   <string name="set_uncompressed_recording_sum">Save recordings in uncompressed WAV format.  This takes much more space but provides higher audio quality.  (EXPERIMENTAL FEATURE)</string>
   <string name="settings">Settings</string>
