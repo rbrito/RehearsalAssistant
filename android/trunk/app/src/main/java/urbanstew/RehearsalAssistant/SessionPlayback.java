@@ -118,8 +118,6 @@ class SessionPlayback {
     private final Cursor mSessionCursor;
     private MediaPlayer mPlayer = null;
     private int mPlayingPosition = -1;
-    List<String> mStrings = new LinkedList<>();
-    ArrayAdapter<String> listAdapter;
     private final SimpleDateFormat mPlayTimeFormatter = new SimpleDateFormat("HH:mm:ss");
     private final DateFormat formatter;
     private long mActiveAnnotationStartTime = 0;
