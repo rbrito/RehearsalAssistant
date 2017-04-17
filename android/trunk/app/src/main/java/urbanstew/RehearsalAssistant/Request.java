@@ -1,12 +1,8 @@
 package urbanstew.RehearsalAssistant;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.widget.Toast;
 
 class Request {
     public static void cancellable_confirmation(Context context, String title, String content, DialogInterface.OnClickListener confirmation) {
