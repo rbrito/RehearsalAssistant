@@ -61,7 +61,7 @@ public class RehearsalAudioRecorder {
                     bSamples = 8;
                 }
 
-                if (channelConfig == AudioFormat.CHANNEL_CONFIGURATION_MONO) {
+                if (channelConfig == AudioFormat.CHANNEL_IN_MONO) {
                     nChannels = 1;
                 } else {
                     nChannels = 2;
