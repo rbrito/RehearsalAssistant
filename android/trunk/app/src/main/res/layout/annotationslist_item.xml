@@ -21,7 +21,7 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="vertical">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@android:id/text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:maxLines="1" />
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@android:id/text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
