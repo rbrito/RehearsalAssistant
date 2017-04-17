@@ -34,16 +34,6 @@ class AppDataAccess {
         preferences.edit().putLong("current_project_id", id).apply();
     }
 
-    long getProjectIdNot(long id) {
-        Cursor projectsCursor = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsDataProjection, Projects._ID + "<>" + id, null, Projects.DEFAULT_SORT_ORDER);
-        if (projectsCursor.getCount() > 0) {
-            projectsCursor.moveToFirst();
-            setCurrentProjectId(id = projectsCursor.getLong(0));
-        }
-        projectsCursor.close();
-        return id;
-    }
-
     private long getFirstProjectID() {
         Cursor c = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsDataProjection, null, null, Projects.DEFAULT_SORT_ORDER);
         c.moveToFirst();
