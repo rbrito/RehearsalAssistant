@@ -11,8 +11,6 @@
   <string name="create_session">Új munkamenet létrehozása</string>
   <string name="delete">törlés</string>
   <string name="doc_new_session">Új munkamenet</string>
-  <string name="dont_download">Ne töltse le</string>
-  <string name="download_it">Töltse le!</string>
   <string name="download_widget">Widget letöltése</string>
   <string name="e_mail">e-mail / elküld</string>
   <string name="edit_label">cím megváltoztatása / fájl átnevezése</string>
@@ -31,7 +29,6 @@
   <string name="launch_with_last_project_sum">Indítás az utolsó projekttel(a Projekt Vezerlő helyett)</string>
   <string name="license">Üdvözöljük a Rehearsal Assistant-ban!\n\nAz alkalmazás használatával, egyetért a következő szerződésben foglaltakban:\n\nAndroid Rehearsal Assistant\nCopyright © 2009 urbanSTEW and others\n\nEz a program szabad szoftver; terjeszthető illetve módosítható a Free Software Foundation által kiadott GNU General Public License dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi változata szerint.Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve. További részleteket a GNU General Public License tartalmaz. A felhasználónak a programmal együtt meg kell kapnia a GNU General Public License egy példányát; ha mégsem kapta meg, akkor tekintse meg a http://www.gnu.org/licenses/ oldalon.\n\nA program forráskódját és dokumentációját a követező oldalon tekintheti meg http://urbanstew.org/rehearsalassistant/.\n\n</string>
   <string name="license2">Licensz</string>
-  <string name="market_start_error">Nem sikerült elindítani a Market alkalmazást a letöltéshez.</string>
   <string name="media_missing">Tárolóeszköz hiányzik</string>
   <string name="media_missing_msg01">A külső tároló eszköze (pl., sdcard) hiányzik.</string>
   <string name="media_missing_msg02">Az alkalmazás nem fog megfelelően működni, mivel külső tárolót használ az audiófájlok tárolására.</string>
@@ -89,7 +86,6 @@
   <string name="start_time">megkezdési idő:</string>
   <string name="stop_recording">Kattintson a felvétel megállításához.</string>
   <string name="stop_session">Munkamenet leállítása</string>
-  <string name="try_widget">Próbálta már az új Sound Recorder Widget-et?  Ez lehetővé teszi a felvételek elindítását/megállítását egyenesen a telefonja home screen-jéről.</string>
   <string name="uncompressed_recording">Legfrissebb</string>
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate something untranslated (like this), or improve a translation, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nEz a verzió kísérleti fázisú támogatást nyújt a tömörítetlen felvételhez (jobb minőség, de sokkal nagyobb fájl méret).  A tömörítetlen felvételt a menüben a beállítások-ban kapcsolhatja be. Kihatással lesz az új felvételekre az összes projektben.\n\nKérem tudassa velünk visszajelzését, és köszönjük az összes ezidáig kapott visszajelzést is!</string>
   <string name="use_for_sound_widget">használja a Sound Recorder Widget felvételekhez</string>

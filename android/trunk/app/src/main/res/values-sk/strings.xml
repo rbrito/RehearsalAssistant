@@ -11,8 +11,6 @@
   <string name="create_session">Vytvoriť Sedenie</string>
   <string name="delete">odstrániť</string>
   <string name="doc_new_session">Dokumentovať Nové Sedenie</string>
-  <string name="dont_download">Nestiahni to</string>
-  <string name="download_it">Stiahni to!</string>
   <string name="download_widget">Stiahni Widget</string>
   <string name="e_mail">e-mail / pošlať</string>
   <string name="edit_label">upraviť názov / premenovať súbor</string>
@@ -31,7 +29,6 @@
   <string name="launch_with_last_project_sum">Launch the last opened project (as opposed to the Project Manager)</string>
   <string name="license">Vítame vás v Rehearsal Assistante!\n\nPoužitím tejto aplikácie, súhlasíte s následovým licenciou:\n\nAndroid Rehearsal Assistant\nCopyright © 2009 urbanSTEW and others\n\nTento program je slobodný softvér: môžete ho šíriť a upravovať podľa ustanovení Všeobecnej zverejňovacej licencie GNU (GNU General Public Licence), vydávanej nadáciou Free Software Foundation a to buď podľa 3. verzie tejto Licencie, alebo (podľa vášho uváženia) ktorejkoľvek neskoršej verzie.\n\nTento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo VHODNOSTI PRE URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte vo Všeobecnej zverejňovacej licencii GNU.\n\nKópiu Všeobecnej zverejňovacej licencie GNU ste mali dostať spolu s týmto programom. Ak sa tak nestalo, nájdete ju tu: http://www.gnu.org/licenses/.\n\nZdrojový kód a dokumentáciu nájdete na http://urbanstew.org/rehearsalassistant/.\n\n</string>
   <string name="license2">Licensia</string>
-  <string name="market_start_error">Nemohol som spustiť applikáciu Market.</string>
   <string name="media_missing">Chýbajúca pamäťová karta</string>
   <string name="media_missing_msg01">Vaša pamäťová karta(e.g., sdcard) inštalovaná (štátus:</string>
   <string name="media_missing_msg02">Rehearsal Assistant nebude fungovať správne, keďže používa pamäťovú kartu na uloženie zvukových záznam.</string>
@@ -89,7 +86,6 @@
   <string name="start_time">čas začatia:</string>
   <string name="stop_recording">Klikni pre ukončenie sedenia</string>
   <string name="stop_session">Ukončiť sedenie</string>
-  <string name="try_widget">Ste už výskušaly nový Sound Recorder Widget?  Umožní vám nahrávať záznamy z plochy telefónu.</string>
   <string name="uncompressed_recording">Posledné aktualizácie</string>
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate something untranslated (like this), or improve a translation, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nTáto verzia uvádza skúšobnú podporu pre nekomprimované nahrávanie (lepšia kvalita, ale aj väčšia veľkosť súborou). Prepnúť na nekomprimované nahrávanie môžeťe pomocou nastavení. Toto nastavenie ovplyvňuje každú novú nahrávku vo všetkých projektoch.\n\nDajte nám vedieť vás dojem, a ďakujeme za všetkých dojmov doteraz!</string>
   <string name="use_for_sound_widget">použiť pre Sound Recorder Widget nahrávky</string>

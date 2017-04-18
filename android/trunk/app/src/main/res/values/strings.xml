@@ -11,8 +11,6 @@
   <string name="create_session">Create Session</string>
   <string name="delete">delete</string>
   <string name="doc_new_session">Document New Session</string>
-  <string name="dont_download">Don\'t download</string>
-  <string name="download_it">Download it!</string>
   <string name="download_widget">Download Widget</string>
   <string name="e_mail">e-mail / send</string>
   <string name="edit_label">edit label / rename file</string>
@@ -36,7 +34,6 @@
   <string name="launch_with_last_project_sum">Launch the last opened project (as opposed to the Project Manager)</string>
   <string name="license">Welcome to Rehearsal Assistant!\n\nBy using this application, you agree to the following license:\n\nAndroid Rehearsal Assistant\nCopyright © 2009 urbanSTEW and others\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nSee http://www.gnu.org/licenses/ for a full text of the license.\n\nSee http://urbanstew.org/rehearsalassistant/ for links to source code and documentation.\n\n</string>
   <string name="license2">License</string>
-  <string name="market_start_error">Could not start the Market app to download.</string>
   <string name="media_missing">Media Missing</string>
   <string name="media_missing_msg01">Your external media (e.g., sdcard) is not mounted (it is</string>
   <string name="media_missing_msg02">Rehearsal Assistant will not function properly, as it uses external storage for the recorded audio annotation files.</string>
@@ -105,7 +102,6 @@
   <string name="stop_recording">Click to Stop Recording</string>
   <string name="stop_session">Stop Session</string>
   <string name="title_of_session">Title of session</string>
-  <string name="try_widget">Have you tried the new Sound Recorder Widget?  It allows you to start and stop recording right from your phone\'s home screen.</string>
   <string name="uncompressed_recording">Recent Updates</string>
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate to another language, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
   <string name="uncompressed_recording_sample_rate">WAV Sample Rate</string>
@@ -118,5 +114,5 @@
   <string name="warning_erase_recording">This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
   <string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
   <string name="zero_playback_time">00:00:00</string>
-    <string name="recording_button">Recording button</string>
+  <string name="recording_button">Recording button</string>
 </resources>
