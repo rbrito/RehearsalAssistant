@@ -45,7 +45,7 @@
   <string name="my_session_project">My Session Project</string>
   <string name="new_project">New Project</string>
   <string name="new_project_name">New project name</string>
-  <string name="new_run_title">%s - %s</string>
+  <string name="new_run_title" translatable="false">%s - %s</string>
   <string name="new_session">New Session</string>
   <string name="new_session_title">Enter a title for the session and click one of the \'Create\' buttons.</string>
   <string name="next_recording">Next recording</string>
@@ -82,7 +82,7 @@
   <string name="screen_bright_wake_lock_setting_summary">Prevents changes in screen brightness during recording (avoids glitches).</string>
   <string name="session">Session</string>
   <string name="session_continue">continue recording</string>
-  <string name="session_date_title">%s %s</string>
+  <string name="session_date_title" translatable="false">%s %s</string>
   <string name="session_end_time">Session end time:</string>
   <string name="session_instructions">A Session Project allows you to record voice/audio annotations in sessions, and time-stamps relative to the beginning of the session.\n\nClick\'Document New Session\' to create a new session and record annotations. You may also click on an existing session to review its annotations, or long-press for more options.\n\nYou can use the MENU to access the Project Manager.</string>
   <string name="session_no_session_instructions">Click below to document a new session.\n\nUse the menu to access instructions, adjust settings, or to access the Project Manager.</string>
@@ -113,6 +113,6 @@
   <string name="warning_erase_project_recordings">This will delete of all of the recordings in the project.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
   <string name="warning_erase_recording">This will permanently delete the recording.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
   <string name="warning_mute">Warning: music volume is muted.  To increase the volume, use the volume adjustment buttons while playing a recording.</string>
-  <string name="zero_playback_time">00:00:00</string>
+  <string name="zero_playback_time" translatable="false">00:00:00</string>
   <string name="recording_button">Recording button</string>
 </resources>
