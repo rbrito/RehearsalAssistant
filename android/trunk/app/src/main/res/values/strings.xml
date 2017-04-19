@@ -3,7 +3,7 @@
   <string name="annotation">Annotation</string>
   <string name="annotation_label_text">Enter a new label for the annotation</string>
   <string name="app_name">Rehearsal Assistant</string>
-  <string name="beta_warning">This software is in BETA status, which means you are likely to encounter problems during use.\n\nIf you experience problems or have any suggestions, please e-mail us at comments@urbanstew.org and we will try to fix the problem / incorporate your suggestions.\n\nThank you!\n\n</string>
+  <string name="beta_warning">This software is in BETA status, which means you are likely to encounter problems during use.\n\nIf you experience problems or have any suggestions, please e-mail us at comments@urbanstew.org and we will try to fix the problem / incorporate your suggestions.\n\nThank you!</string>
   <string name="cancel">Cancel</string>
   <string name="confirm_individual_deletion">Confirm Recording Deletion</string>
   <string name="confirm_individual_deletion_sum">Request confirmation for deletion of individual recordings.</string>
