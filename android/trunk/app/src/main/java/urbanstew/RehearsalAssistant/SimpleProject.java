@@ -32,6 +32,7 @@ import java.util.TimerTask;
 import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 
 public class SimpleProject extends ProjectBase {
+    private static final String TAG = "Rehearsal Assistant";
     private TimerTask mCurrentTimeTask;
     private IRecordService mRecordService = null;
     private TextView mCurrentTime;
@@ -84,7 +85,7 @@ public class SimpleProject extends ProjectBase {
                 Sessions.DEFAULT_SORT_ORDER);
         // add the session if it is not there
         if (cursor.getCount() < 1) {
-            Log.d("Rehearsal Assistant", "Inserting Session for Memo Project ID: " + projectId);
+            Log.d(TAG, "Inserting Session for Memo Project ID: " + projectId);
             ContentValues values = new ContentValues();
             values.put(Sessions.PROJECT_ID, projectId);
             values.put(Sessions.TITLE, "Simple Session");
@@ -94,7 +95,7 @@ public class SimpleProject extends ProjectBase {
         }
         long sessionId;
         if (cursor.getCount() < 1) {
-            Log.w("Rehearsal Assistant", "Can't create session for memo project ID: " + projectId);
+            Log.w(TAG, "Can't create session for memo project ID: " + projectId);
             sessionId = -1;
         } else {
             cursor.moveToFirst();
