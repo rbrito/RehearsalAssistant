@@ -146,6 +146,7 @@ public class RehearsalData extends ContentProvider {
                 count = 0;
                 for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext())
                     count += delete(ContentUris.withAppendedId(Sessions.CONTENT_URI, c.getLong(0)), null, null);
+                c.close();
                 break;
 
             case SESSION_ID:
@@ -179,6 +180,7 @@ public class RehearsalData extends ContentProvider {
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
+        db.close();
         return count;
     }
 
@@ -495,8 +497,10 @@ public class RehearsalData extends ContentProvider {
             }
 
             editor.apply();
+            visited_version.close();
 
             db.execSQL("DROP TABLE " + AppData.TABLE_NAME);
+            db.close();
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
