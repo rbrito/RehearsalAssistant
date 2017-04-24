@@ -3,7 +3,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="8dp"
     android:orientation="vertical">
+    <!-- FIXME: with the padding above it is terrible! -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +20,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/previous_recording"
             android:minWidth="@android:dimen/app_icon_size"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:src="@android:drawable/ic_media_previous" />
 
         <ImageButton
@@ -29,8 +29,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/pause"
             android:minWidth="@android:dimen/app_icon_size"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:src="@android:drawable/ic_media_pause" />
 
         <ImageButton
@@ -40,8 +38,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/next_recording"
             android:minWidth="@android:dimen/app_icon_size"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:src="@android:drawable/ic_media_next" />
     </LinearLayout>
 
