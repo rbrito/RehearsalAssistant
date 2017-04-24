@@ -95,7 +95,6 @@ public class SessionProject extends ProjectBase implements View.OnClickListener 
         setContentView(R.layout.main);
 
         super.onCreate(savedInstanceState);
-        // super.setSimpleProject(false); // FIXME: Useless call?
 
         // Read sessions
         cursor = getContentResolver().query(Sessions.CONTENT_URI, sessionsProjection, Sessions.PROJECT_ID + "=" + projectId(), null,
