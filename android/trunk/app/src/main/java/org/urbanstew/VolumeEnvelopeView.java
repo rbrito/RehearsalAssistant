@@ -10,6 +10,10 @@ import android.view.View;
 import java.util.LinkedList;
 
 public class VolumeEnvelopeView extends View {
+    private Paint mEnvelopePaint;
+    private final LinkedList<Float> mEnvelope = new LinkedList<>();
+    private int mSize = 0;
+
     /**
      * Constructor.  This version is only needed if you will be instantiating
      * the object manually (not from a layout XML file).
@@ -99,9 +103,4 @@ public class VolumeEnvelopeView extends View {
             x += 2;
         }
     }
-
-    // FIXME: A mess with the unusual order of the members
-    private Paint mEnvelopePaint;
-    private final LinkedList<Float> mEnvelope = new LinkedList<>();
-    private int mSize = 0;
 }
