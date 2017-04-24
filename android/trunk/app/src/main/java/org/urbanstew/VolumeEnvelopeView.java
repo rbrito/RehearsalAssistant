@@ -42,7 +42,7 @@ public class VolumeEnvelopeView extends View {
         // Retrieve the color(s) to be used for this view and apply them.
         // Note, if you only care about supporting a single color, that you
         // can instead call a.getColor() and pass that to setTextColor().
-        setColor(a.getColor(urbanstew.RehearsalAssistant.R.styleable.VolumeEnvelopeView_color, 0xFF000000));
+        setColor(a.getColor(urbanstew.RehearsalAssistant.R.styleable.VolumeEnvelopeView_color, 0xFF000000)); // Opaque black
 
         a.recycle();
     }
@@ -50,7 +50,7 @@ public class VolumeEnvelopeView extends View {
     private void initVolumeEnvelopeView() {
         mEnvelopePaint = new Paint();
         mEnvelopePaint.setAntiAlias(false);
-        mEnvelopePaint.setColor(0xFF000000);
+        mEnvelopePaint.setColor(0xFF000000); // Opaque black
     }
 
     /**
