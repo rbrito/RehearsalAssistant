@@ -32,4 +32,7 @@
   <string name="stop_recording">Parar gravação</string>
   <string name="stop_session">Parar sessão</string>
   <string name="warning">Aviso</string>
+  <string name="confirm_individual_deletion">Confirmar remoção de gravação</string>
+  <string name="confirm_individual_deletion_sum">Pedir confirmação para remover gravações individuais.</string>
+  <string name="email_detail">Detalhes do email</string>
 </resources>
