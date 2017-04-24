@@ -181,7 +181,7 @@ public class SimpleProject extends ProjectBase {
         mTimer.scheduleAtFixedRate(
                 mCurrentTimeTask,
                 0,
-                100);
+                100); // FIXME: This generates *a lot* of load on the system and drains battery!!!
     }
 
     public void onPause() {
