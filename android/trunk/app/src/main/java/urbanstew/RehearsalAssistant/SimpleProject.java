@@ -109,7 +109,6 @@ public class SimpleProject extends ProjectBase {
         setContentView(R.layout.simple);
 
         super.onCreate(savedInstanceState);
-        // super.setSimpleProject(true); // FIXME: Useless call?
 
         mRecordButton = (ImageButton) findViewById(R.id.button);
         mRecordButton.setOnClickListener(mClickListener);
