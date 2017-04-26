@@ -76,8 +76,7 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String text = formattedStringFromStringResources(R.string.new_run_title, R.string.app_name, R.string.new_session);
-        setTitle(text);
+        setTitle(this.getString(R.string.new_session));
 
         // setup the display and callbacks
         setContentView(R.layout.new_run);
@@ -86,9 +85,8 @@ public class NewRun extends RehearsalActivity implements View.OnClickListener {
 
         EditText title = (EditText) findViewById(R.id.name);
 
-        Resources res = this.getResources();
         String date = DateFormat.getDateTimeInstance().format(new Date());
-        text = String.format(res.getString(R.string.session_date_title), date, res.getString(R.string.session));
+        String text = String.format(this.getString(R.string.session_date_title), date, this.getString(R.string.session));
         title.setText(text);
         title.selectAll();
     }
