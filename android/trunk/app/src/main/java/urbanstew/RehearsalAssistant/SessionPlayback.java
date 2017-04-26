@@ -726,7 +726,7 @@ class SessionPlayback {
                 mPlaybackFileSize.setText(String.valueOf(audio.length() / 1024) + " kB");
                 mPlaybackDuration.setText(mPlayTimeFormatter.format(mPlayer.getDuration() + (mSessionTiming ? mActiveAnnotationStartTime : 0)));
             }
-            mActivity.setTitle(mActivity.getString(R.string.app_name) + " - " + makeAnnotationText(mAnnotationsCursor));
+            mActivity.setTitle(makeAnnotationText(mAnnotationsCursor));
             updateProgressDisplay();
         } catch (java.io.IOException e) {
             if (e.getMessage() != null)

@@ -43,7 +43,7 @@ public class ProjectManager extends ListActivity {
 
         super.onCreate(savedInstanceState);
 
-        setTitle(this.getString(R.string.app_name) + " - " + this.getString(R.string.project_manager));
+        setTitle(this.getString(R.string.project_manager));
 
         String[] projectProjection =
                 {

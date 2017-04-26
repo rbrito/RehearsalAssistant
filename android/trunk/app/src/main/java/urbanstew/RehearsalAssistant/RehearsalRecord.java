@@ -130,7 +130,7 @@ public class RehearsalRecord extends RehearsalActivity {
         i.setPackage("urbanstew.RehearsalAssistant"); // FIXME: use the proper package
         bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
 
-        setTitle(String.format("%s - %s", this.getString(R.string.app_name), this.getString(R.string.recording_session))); // FIXME: move formatted string to resources
+        setTitle(this.getString(R.string.recording_session));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

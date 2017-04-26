@@ -51,7 +51,7 @@ public class RehearsalPlayback extends RehearsalActivity {
 
         mSessionPlayback = new SessionPlayback(this, getIntent().getData());
 
-        setTitle("Rehearsal Assistant - " + mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
+        setTitle(mSessionPlayback.sessionCursor().getString(SessionPlayback.SESSIONS_TITLE));
         mSessionPlayback.setOldTitle(getTitle());
 
         ((ListView) findViewById(R.id.annotation_list)).getAdapter()
