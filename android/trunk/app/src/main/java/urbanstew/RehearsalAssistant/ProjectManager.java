@@ -154,6 +154,7 @@ public class ProjectManager extends ListActivity {
                                 getContentResolver().delete(ContentUris.withAppendedId(Projects.CONTENT_URI, mProjectCursor.getLong(0)), null, null);
                             }
                         });
+                mListAdapter.notifyDataSetChanged(); // FIXME: This is quite probably incomplete
                 break;
         }
         return true;
