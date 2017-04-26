@@ -42,11 +42,9 @@ class AppDataAccess {
         return result;
     }
 
-    private long getRecorderWidgetProjectIdImpl(boolean createIfNeeded) {
+    long getRecorderWidgetProjectId() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         long projectId = -1;
-        if (preferences.contains("recorder_widget_project_id"))
-            projectId = preferences.getLong("recorder_widget_project_id", -1);
 
         String[] projectsProjection =
                 {
@@ -71,12 +69,12 @@ class AppDataAccess {
         // otherwise, find an existing project or create a new one
         projectsCursor = mContext.getContentResolver().query(Projects.CONTENT_URI, projectsProjection, Projects.TYPE + "=" + Projects.TYPE_SIMPLE, null, Projects.DEFAULT_SORT_ORDER);
         if (projectsCursor.getCount() == 0) {
-            if (!createIfNeeded)
-                return -1;
-            mContext.getContentResolver().insert(Rehearsal.Projects.CONTENT_URI, RehearsalData.valuesForMemoProject(mContext));
-            projectsCursor.requery();
+            return -1;
+            //mContext.getContentResolver().insert(Rehearsal.Projects.CONTENT_URI, RehearsalData.valuesForMemoProject(mContext));
+            //projectsCursor.requery();
         }
         projectsCursor.moveToFirst();
+
         projectId = projectsCursor.getLong(0);
         projectsCursor.close();
 
@@ -87,18 +85,6 @@ class AppDataAccess {
 
     }
 
-    long getRecorderWidgetProjectId() {
-        return getRecorderWidgetProjectIdImpl(true);
-    }
-
-    void setRecorderWidgetProjectId(long id) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        preferences.edit().putLong("recorder_widget_project_id", id).apply();
-    }
-
-    long getRecorderWidgetProjectIdIfExists() {
-        return getRecorderWidgetProjectIdImpl(false);
-    }
 
     float getVisitedVersion() {
         return getVisitedVersion("");

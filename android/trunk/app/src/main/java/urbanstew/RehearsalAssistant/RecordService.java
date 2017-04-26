@@ -338,15 +338,6 @@ public class RecordService extends Service {
     }
 
     private void updateViews() {
-        this.sendBroadcast
-                (
-                        new Intent
-                                (
-                                        mState == State.RECORDING
-                                                ? "urbanstew.RehearsalAssistant.RecordWidget.update_recording"
-                                                : "urbanstew.RehearsalAssistant.RecordWidget.update"
-                                )
-                );
     }
 
     private long timeInRecording() {
