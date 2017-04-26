@@ -90,21 +90,25 @@ class SessionPlayback {
     private static final int MENU_ITEM_EMAIL = Menu.FIRST + 2;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 3;
     private static final int MENU_ITEM_EDIT = Menu.FIRST + 4;
+
     static final int SESSIONS_ID = 0;
     static final int SESSIONS_TITLE = 1;
     private static final int SESSIONS_START_TIME = 2;
     private static final int SESSIONS_END_TIME = 3;
+
     private static final int ANNOTATIONS_ID = 0;
     private static final int ANNOTATIONS_START_TIME = 1;
     private static final int ANNOTATIONS_END_TIME = 2;
     private static final int ANNOTATIONS_FILE_NAME = 3;
     private static final int ANNOTATIONS_LABEL = 4;
     private static final int ANNOTATIONS_VIEWED = 5;
+
     private static final String TAG = "RehearsalAssistant";
     private final Timer mTimer = new Timer();
     private TimerTask mCurrentTimeTask;
     private final RehearsalActivity mActivity;
     private final TextView mCurrentTime;
+
     // Playback dialog views
     private final SeekBar mSeekBar;
     private final TextView mPlaybackCurrentTime;
@@ -114,6 +118,7 @@ class SessionPlayback {
     private final Cursor mAnnotationsCursor;
     private final Cursor mSessionCursor;
     private MediaPlayer mPlayer = null;
+
     private int mPlayingPosition = -1;
     private final SimpleDateFormat mPlayTimeFormatter = new SimpleDateFormat("HH:mm:ss");
     private final DateFormat formatter;
