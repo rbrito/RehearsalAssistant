@@ -245,7 +245,7 @@ public class RecordService extends Service {
             // construct file name
             mOutputFile =
                     audio.getAbsolutePath() + "/audio_" + mRecordedAnnotationId
-                            + (uncompressed ? ".wav" : ".3gp");
+                            + (uncompressed ? ".wav" : ".m4a");
             Log.w(TAG, "writing to file " + mOutputFile);
 
             // start the recording
@@ -322,7 +322,7 @@ public class RecordService extends Service {
 
             ContentValues audioValues = new ContentValues(2);
 
-            audioValues.put(MediaStore.Audio.AudioColumns.TITLE, "audio_" + mRecordedAnnotationId + ".3gp");
+            audioValues.put(MediaStore.Audio.AudioColumns.TITLE, "audio_" + mRecordedAnnotationId + ".m4a");
             audioValues.put(MediaStore.Audio.AudioColumns.ALBUM, mTitle);
             audioValues.put(MediaStore.Audio.AudioColumns.ARTIST, "Rehearsal Assistant");
 
