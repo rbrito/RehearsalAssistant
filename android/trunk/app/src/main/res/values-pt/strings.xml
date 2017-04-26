@@ -34,4 +34,26 @@
   <string name="confirm_individual_deletion">Confirmar remoção de gravação</string>
   <string name="confirm_individual_deletion_sum">Pedir confirmação para remover gravações individuais.</string>
   <string name="email_detail">Detalhes do email</string>
+  <string name="memo">Memo</string>
+  <string name="my_session_project">Meu projeto de sessão</string>
+  <string name="new_session">Nova sessão</string>
+  <string name="ok">OK</string>
+  <string name="no_annotations">Nenhuma anotação foi escrita para esta sessão.</string>
+  <string name="next_recording">Próxima gravação</string>
+  <string name="new_session_title">Entre um título para a sessão e clique em um dos botões \'Criar\'.</string>
+  <string name="play">Tocar</string>
+  <string name="recording">Gravando</string>
+  <string name="recording_button">Botão de gravação</string>
+  <string name="recording_quality_settings">Qualidade de gravação</string>
+  <string name="session">Sessão</string>
+  <string name="session_continue">continuar gravando</string>
+  <string name="session_overwrite">sobreescrever</string>
+  <string name="settings">Configurações</string>
+  <string name="title_of_session">Título da Sessão</string>
+  <string name="end_time">Hora de término:</string>
+  <string name="record">Clique para gravar</string>
+  <string name="project_type">Tipo de projeto:</string>
+  <string name="recorded_with_rehearsal_assistant">Gravado usando Rehearsal Assistant. http://urbanstew.org/rehearsalassistant/</string>
+  <string name="recorder_widget_icon">Gravar/Tocar</string>
+  <string name="session_end_time">Hora de fim de gravação:</string>
 </resources>
