@@ -135,7 +135,7 @@ public class RehearsalRecord extends RehearsalActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(this.getString(R.string.stop_session)).setIcon(android.R.drawable.ic_menu_close_clear_cancel);
-        //super.onCreateOptionsMenu(menu);
+        super.onCreateOptionsMenu(menu); // FIXME: this was commented and I have to check why
 
         return true;
     }
