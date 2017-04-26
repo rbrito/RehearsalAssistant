@@ -2,14 +2,12 @@ package urbanstew.RehearsalAssistant;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -26,21 +24,17 @@ import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 
 public class ProjectManager extends ListActivity {
     private static final int MENU_ITEM_RENAME = Menu.FIRST;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
-    private static final int MENU_ITEM_RECORDER_WIDGET = Menu.FIRST + 2;
     private AlertDialog mNewProjectDialog;
     private SimpleCursorAdapter mListAdapter;
     private Cursor mProjectCursor;
     private MenuItem mInstructionsItem;
     private MenuItem mNewProjectItem;
-    private MenuItem mDownloadWidgetItem;
-    private long mRecorderWidgetProjectId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +52,6 @@ public class ProjectManager extends ListActivity {
                 };
 
         AppDataAccess appData = new AppDataAccess(this);
-        mRecorderWidgetProjectId = new AppDataAccess(ProjectManager.this).getRecorderWidgetProjectIdIfExists();
 
         mProjectCursor = managedQuery(Projects.CONTENT_URI, projectProjection, null, null, Projects.DEFAULT_SORT_ORDER);
 
@@ -72,11 +65,10 @@ public class ProjectManager extends ListActivity {
                                         int columnIndex) {
                 if (view.getId() == android.R.id.text1)
                     return false;
-                if (view.getId() == android.R.id.text2)
+                if (view.getId() == android.R.id.text2) {
                     ((TextView) view).setText(ProjectManager.this.getString(R.string.project_type) + " " + ProjectManager.this.getString(cursor.getLong(2) == Projects.TYPE_SESSION ? R.string.session : R.string.memo));
-                else if (view.getId() == R.id.recorder_widget_icon)
-                    view.setVisibility(cursor.getLong(0) == mRecorderWidgetProjectId ? View.VISIBLE : View.INVISIBLE);
-
+                    return true;
+                }
                 return true;
             }
         });
@@ -98,13 +90,6 @@ public class ProjectManager extends ListActivity {
                 menu.add(Menu.NONE, MENU_ITEM_DELETE, 1, getString(R.string.delete));
                 mProjectCursor.moveToPosition(info.position);
                 long project_type = mProjectCursor.getLong(2);
-                if (project_type == Projects.TYPE_SIMPLE)
-                    menu.add
-                            (
-                                    Menu.NONE, MENU_ITEM_RECORDER_WIDGET,
-                                    2,
-                                    R.string.use_for_sound_widget
-                            );
             }
         });
     }
@@ -165,16 +150,9 @@ public class ProjectManager extends ListActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 long projectId = mProjectCursor.getLong(0);
                                 getContentResolver().delete(ContentUris.withAppendedId(Projects.CONTENT_URI, mProjectCursor.getLong(0)), null, null);
-                                if (projectId == mRecorderWidgetProjectId)
-                                    mRecorderWidgetProjectId = new AppDataAccess(ProjectManager.this).getRecorderWidgetProjectIdIfExists();
                             }
                         });
                 break;
-
-            case MENU_ITEM_RECORDER_WIDGET:
-                mRecorderWidgetProjectId = mProjectCursor.getLong(0);
-                new AppDataAccess(this).setRecorderWidgetProjectId(mProjectCursor.getLong(0));
-                mListAdapter.notifyDataSetChanged();
         }
         return true;
     }
@@ -193,7 +171,6 @@ public class ProjectManager extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         mNewProjectItem = menu.add(this.getString(R.string.new_project)).setIcon(android.R.drawable.ic_menu_add);
         mInstructionsItem = menu.add(R.string.help).setIcon(android.R.drawable.ic_menu_help);
-        mDownloadWidgetItem = menu.add(this.getString(R.string.download_widget)).setIcon(R.drawable.recorder_widget_icon);
         super.onCreateOptionsMenu(menu);
         return true;
     }
@@ -205,21 +182,6 @@ public class ProjectManager extends ListActivity {
         }
         if (item == mInstructionsItem) {
             Request.notification(this, this.getString(R.string.instructions), this.getString(R.string.project_manager_instructions));
-            return true;
-        }
-        if (item == mDownloadWidgetItem) {
-            try {
-                startActivity
-                        (
-                                new Intent
-                                        (
-                                                Intent.ACTION_VIEW,
-                                                Uri.parse("market://search?q=pname:org.urbanstew.RehearsalAssistant.RecordWidget")
-                                        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        );
-            } catch (ActivityNotFoundException e) {
-                Toast.makeText(this, R.string.error_market, Toast.LENGTH_LONG).show();
-            }
             return true;
         }
         return false;
