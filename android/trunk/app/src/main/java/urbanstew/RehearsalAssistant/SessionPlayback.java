@@ -441,7 +441,7 @@ class SessionPlayback {
             // Complete the ZIP file
             archive.close();
         } catch (IOException e) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.error_zip) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.error_zip) + " " + e.getMessage(), Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -509,7 +509,7 @@ class SessionPlayback {
         try {
             mActivity.startActivity(emailSession);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(mActivity, mActivity.getString(R.string.error_send) + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, mActivity.getString(R.string.error_send) + " " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -647,7 +647,7 @@ class SessionPlayback {
                                                                         )
                                                         );
                                             } catch (ActivityNotFoundException e) {
-                                                Toast.makeText(mActivity, R.string.ringdroid_dl_error, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mActivity, R.string.ringdroid_dl_error, Toast.LENGTH_LONG).show();
                                             }
                                         }
                                     }
@@ -726,7 +726,7 @@ class SessionPlayback {
         } catch (java.io.IOException e) {
             if (e.getMessage() != null)
                 Toast.makeText(mActivity, e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_LONG).show();
 
         }
 
