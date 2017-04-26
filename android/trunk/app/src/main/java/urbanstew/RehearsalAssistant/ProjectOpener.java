@@ -26,11 +26,8 @@ public class ProjectOpener extends Activity {
         Uri data = getIntent().getData();
 
         long project_id;
-        if (getIntent().getAction().equals("urbanstew.RehearsalAssistant.simple_mode")) {
-            project_id = new AppDataAccess(this).getRecorderWidgetProjectId();
-            data = ContentUris.withAppendedId(Projects.CONTENT_URI, project_id);
-        } else
-            project_id = Long.valueOf(data.getPathSegments().get(1));
+
+        project_id = Long.valueOf(data.getPathSegments().get(1));
 
         // Find out what kind of project this is
         String[] projectsProjection =

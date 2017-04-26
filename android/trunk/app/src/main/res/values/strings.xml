@@ -11,7 +11,6 @@
   <string name="create_session">Create Session</string>
   <string name="delete">delete</string>
   <string name="doc_new_session">Document New Session</string>
-  <string name="download_widget">Download Widget</string>
   <string name="e_mail">e-mail/send</string>
   <string name="edit_label">edit label/rename file</string>
   <string name="email_detail">E-mail details</string>
@@ -22,7 +21,6 @@
   <string name="email_to_setting">Default Recipient(s)</string>
   <string name="email_to_setting_summary">Default recipient(s) when sending recordings via e-mail. Separate with commas.</string>
   <string name="end_time">end time:</string>
-  <string name="error_market">Could not open the Market to download the Sound Recorder Widget.</string>
   <string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string>
   <string name="error_send">Unable to send message:</string>
   <string name="error_zip">Problem creating ZIP archive:</string>
@@ -106,7 +104,6 @@
   <string name="uncompressed_recording2">0.9.0\n\n&#x2022; More robust background recording / Sound Recorder Widget recording\n&#x2022; On Android 2.0 and higher, there is a notification whenever recording is taking place\n&#x2022; A new setting to keep the screen bright during recording\n\n0.8.5\n\n&#x2022; Bug fixes related to long recording\n&#x2022; E-mail settings include default recipients and subject\n&#x2022; Assigning a text label to a recording will rename the file on the SD card to match the label\n\n0.8.4\n\nPartial translations to German, Hungarian, and Slovak - if you want to help us translate to another language, please send us an e-mail (comments@urbanstew.org).\n\n0.8.3\n\nOpening/closing the keyboard or otherwise switching screen orientation no longer interrupts playback or recording (but keep in mind that it can still cause recording artifacts).\n\n0.8.2\n\nThis version introduces experimental support for uncompressed recording (higher quality but much higher file size).  You can switch to uncompressed recording in the Settings menu. It will affect new recordings made in any project.\n\nPlease let us know your feedback, and THANK YOU for all the feedback so far!"</string>
   <string name="uncompressed_recording_sample_rate">WAV Sample Rate</string>
   <string name="uncompressed_recording_sample_rate_sum">Preferred WAV Sample Rate.</string>
-  <string name="use_for_sound_widget">use for Sound Recorder Widget recordings</string>
   <string name="warning">Warning</string>
   <string name="warning_erase_current_recordings">&quot;This will erase all recordings in the session.\n\nARE YOU SURE YOU WANT TO DO THIS?&quot;</string>
   <string name="warning_erase_previous_recordings">This will erase all recordings made the previous time session was recorded.\n\nARE YOU SURE YOU WANT TO DO THIS?</string>
