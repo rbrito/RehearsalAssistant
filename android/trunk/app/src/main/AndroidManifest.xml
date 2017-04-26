@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="urbanstew.RehearsalAssistant"
-    android:versionCode="26"
-    android:versionName="0.9">
+    android:versionCode="9001"
+    android:versionName="0.9.0.1">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
