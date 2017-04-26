@@ -1,7 +1,0 @@
-<resources>
-
-     <declare-styleable name="VolumeEnvelopeView">
-        <attr name="color" format="color" />
-    </declare-styleable>
-    
-</resources>
