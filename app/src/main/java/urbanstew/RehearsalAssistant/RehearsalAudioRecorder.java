@@ -118,8 +118,10 @@ public class RehearsalAudioRecorder {
             } else { // RECORDING_COMPRESSED
                 mRecorder = new MediaRecorder();
                 mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                mRecorder.setAudioSamplingRate(16000); // FIXME: Get rid of this hardcoded, magic number
+                mRecorder.setAudioEncodingBitRate(32000); // FIXME: Idem
             }
             cAmplitude = 0;
             fPath = null;
