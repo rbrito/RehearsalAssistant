@@ -219,7 +219,7 @@ class SessionPlayback {
                                             ContextMenuInfo menuInfo) {
                 menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getString(R.string.play));
                 menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getString(R.string.edit_label));
-                menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.e_mail));
+                menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.share));
                 menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getString(R.string.delete));
                 menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, mActivity.getString(R.string.open_ringdroid));
             }
