@@ -58,7 +58,7 @@ public class ProjectBase extends RehearsalActivity {
         }
 
         projectCursor.moveToFirst();
-        setTitle("Rehearsal Assistant - " + projectCursor.getString(1));
+        setTitle(projectCursor.getString(1));
         projectCursor.close();
 
         // Display license if this is the first time running this version.
