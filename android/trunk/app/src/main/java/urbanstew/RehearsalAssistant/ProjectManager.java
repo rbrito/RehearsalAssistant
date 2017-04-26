@@ -30,6 +30,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 public class ProjectManager extends ListActivity {
     private static final int MENU_ITEM_RENAME = Menu.FIRST;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
+    public static final String TAG = "RehearsalAssistant";
     private AlertDialog mNewProjectDialog;
     private SimpleCursorAdapter mListAdapter;
     private Cursor mProjectCursor;
@@ -69,6 +70,7 @@ public class ProjectManager extends ListActivity {
                     ((TextView) view).setText(ProjectManager.this.getString(R.string.project_type) + " " + ProjectManager.this.getString(cursor.getLong(2) == Projects.TYPE_SESSION ? R.string.session : R.string.memo));
                     return true;
                 }
+                Log.d(TAG, "view.getID() returned an unsupported value (relative to the old, non-free widget)");
                 return true;
             }
         });
@@ -135,7 +137,7 @@ public class ProjectManager extends ListActivity {
         try {
             info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         } catch (ClassCastException e) {
-            Log.e("Rehearsal Assistant", "bad menuInfo", e);
+            Log.e(TAG, "bad menuInfo", e);
             return false;
         }
 
