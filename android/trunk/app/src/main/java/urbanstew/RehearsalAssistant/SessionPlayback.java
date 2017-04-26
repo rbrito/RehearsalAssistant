@@ -433,7 +433,7 @@ class SessionPlayback {
 
             for (mAnnotationsCursor.moveToFirst(); !mAnnotationsCursor.isAfterLast(); mAnnotationsCursor.moveToNext()) {
                 FileInputStream in = new FileInputStream(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME));
-                archive.putNextEntry(new ZipEntry("audio" + (mAnnotationsCursor.getPosition() + 1) + ".3gpp"));
+                archive.putNextEntry(new ZipEntry("audio" + (mAnnotationsCursor.getPosition() + 1) + ".m4a"));
 
                 int length;
                 while ((length = in.read(buffer)) > 0)
@@ -499,7 +499,7 @@ class SessionPlayback {
         } else {
             emailSession.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME)));
             // TODO: this can sometimes be audio/wav
-            emailSession.setType("audio/3gpp");
+            emailSession.setType("audio/mp4");
 
             if (mEmailDetail)
                 messageText += annotationTextInfo(mActivity.getString(R.string.recording));
