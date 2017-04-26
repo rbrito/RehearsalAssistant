@@ -51,7 +51,7 @@
   <string name="ok">OK</string>
   <string name="open_ringdroid">open with Ringdroid</string>
   <string name="pause">Pause</string>
-  <string name="play">play</string>
+  <string name="play">Play</string>
   <string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
   <string name="playback_panel_disappears">Auto-close playback panel</string>
   <string name="playback_panel_disappears_sum">Automatically close the playback panel after playback has finished</string>
