@@ -274,7 +274,6 @@ public class RecordService extends Service {
         }
         mState = State.RECORDING;
         mWakeLock.acquire();
-        updateViews();
     }
 
     /**
