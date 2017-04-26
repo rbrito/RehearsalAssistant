@@ -123,8 +123,12 @@ public class RehearsalRecord extends RehearsalActivity {
 
         mRecordButton = ((Button) findViewById(R.id.button));
         mSessionId = Long.parseLong(getIntent().getData().getPathSegments().get(1));
-        bindService(new Intent(IRecordService.class.getName()),
-                mServiceConnection, Context.BIND_AUTO_CREATE);
+
+        // Make Intent explicit see:
+        // http://stackoverflow.com/a/42341947
+        Intent i = new Intent(IRecordService.class.getName());
+        i.setPackage("urbanstew.RehearsalAssistant"); // FIXME: use the proper package
+        bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         setTitle(String.format("%s - %s", this.getString(R.string.app_name), this.getString(R.string.recording_session))); // FIXME: move formatted string to resources
     }
