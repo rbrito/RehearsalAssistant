@@ -8,9 +8,9 @@
   <string name="confirm_individual_deletion_sum">Request confirmation for deletion of individual recordings.</string>
   <string name="create_and_start_session">Create and Start Session</string>
   <string name="create_session">Create Session</string>
-  <string name="delete">delete</string>
+  <string name="delete">Delete</string>
   <string name="doc_new_session">Document New Session</string>
-  <string name="edit_label">edit label/rename file</string>
+  <string name="edit_label">Edit label/rename file</string>
   <string name="email_detail">E-mail details</string>
   <string name="email_detail_sum">Include recording details (timestamps etc.) when e-mailing recordings</string>
   <string name="email_settings">E-mail</string>
@@ -18,11 +18,11 @@
   <string name="email_subject_setting_summary">Default subject when sending recordings via e-mail.</string>
   <string name="email_to_setting">Default Recipient(s)</string>
   <string name="email_to_setting_summary">Default recipient(s) when sending recordings via e-mail. Separate with commas.</string>
-  <string name="end_time">end time:</string>
+  <string name="end_time">End time:</string>
   <string name="error_project_does_not_exist">ERROR: Rehearsal Assistant has attempted to access a project which does not exist.</string>
   <string name="error_send">Unable to send message:</string>
   <string name="error_zip">Problem creating ZIP archive:</string>
-  <string name="filename">filename:</string>
+  <string name="filename">File name:</string>
   <string name="help">Instructions</string>
   <string name="instructions">Instructions</string>
   <string name="label">Label</string>
@@ -89,7 +89,7 @@
   <string name="simple_instructions">A Memo Project offers easy recording and playback of sound files.\n\nUse the record button to start / stop recording. Click on a recording to listen. Long-press to edit the recording\'s label, e-mail it, or delete it.\n\nUse the MENU to e-mail all of the recordings or to access the Project Manager.</string>
   <string name="simple_no_annotations_instructions">Click below to start / stop recording.\n\nUse the menu to access instructions, adjust settings, or to access the Project Manager.</string>
   <string name="start_session">Click to Start Session</string>
-  <string name="start_time">start time:</string>
+  <string name="start_time">Start time:</string>
   <string name="stop_recording">Click to Stop Recording</string>
   <string name="stop_session">Stop Session</string>
   <string name="title_of_session">Title of session</string>
