@@ -108,7 +108,7 @@ public class RehearsalData extends ContentProvider {
 
     private DatabaseHelper mOpenHelper;
 
-    static ContentValues valuesForMemoProject(Context context) {
+    private static ContentValues valuesForMemoProject(Context context) {
         ContentValues values = new ContentValues();
         values.put(Projects.TITLE, context.getString(R.string.my_memo_project));
         values.put(Projects.IDENTIFIER, "memo_project");
