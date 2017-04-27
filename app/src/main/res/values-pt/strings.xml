@@ -57,4 +57,8 @@
   <string name="share">Compartilhar…</string>
   <string name="recording_waveform">Formato de onda gravada</string>
   <string name="recording_waveform_sum">Mostra o formato da onda de áudio gravada enquanto um projeto memo é gravado.</string>
+    <string name="session_title">Título da sessão</string>
+  <string name="warning_mute">Aviso: o volume da música está mudo. Para aumentar o volume, use os botões de ajuste de volume enquanto você toca uma gravação.</string>
+  <string name="uncompressed_recording_sample_rate">Taxa de amostragem de WAV</string>
+  <string name="uncompressed_recording_sample_rate_sum">Taxa preferida de amostragem de arquivos WAV.</string>
 </resources>
