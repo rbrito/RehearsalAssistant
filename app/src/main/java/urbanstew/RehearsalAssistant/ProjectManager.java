@@ -30,7 +30,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Projects;
 public class ProjectManager extends ListActivity {
     private static final int MENU_ITEM_RENAME = Menu.FIRST;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 1;
-    public static final String TAG = "RehearsalAssistant";
+    private static final String TAG = "RehearsalAssistant";
     private AlertDialog mNewProjectDialog;
     private SimpleCursorAdapter mListAdapter;
     private Cursor mProjectCursor;
