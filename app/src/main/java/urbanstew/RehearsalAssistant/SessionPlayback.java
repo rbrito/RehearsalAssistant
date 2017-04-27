@@ -86,7 +86,7 @@ import urbanstew.RehearsalAssistant.Rehearsal.Sessions;
 class SessionPlayback {
     private static final int MENU_ITEM_PLAYBACK = Menu.FIRST;
     private static final int MENU_ITEM_LABEL = Menu.FIRST + 1;
-    private static final int MENU_ITEM_EMAIL = Menu.FIRST + 2;
+    private static final int MENU_ITEM_SHARE = Menu.FIRST + 2;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 3;
 
     static final int SESSIONS_ID = 0;
@@ -217,7 +217,7 @@ class SessionPlayback {
                                             ContextMenuInfo menuInfo) {
                 menu.add(Menu.NONE, MENU_ITEM_PLAYBACK, 0, mActivity.getString(R.string.play));
                 menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getString(R.string.edit_label));
-                menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.share));
+                menu.add(Menu.NONE, MENU_ITEM_SHARE, 2, mActivity.getString(R.string.share));
                 menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getString(R.string.delete));
             }
 
@@ -506,7 +506,7 @@ class SessionPlayback {
 
         if (mEmailTo != null)
             emailSession.putExtra(Intent.EXTRA_EMAIL, mEmailTo.split(","));
-        emailSession = Intent.createChooser(emailSession, mActivity.getString(R.string.e_mail));
+        emailSession = Intent.createChooser(emailSession, mActivity.getString(R.string.share));
 
         try {
             mActivity.startActivity(emailSession);
@@ -592,7 +592,7 @@ class SessionPlayback {
                 mAnnotationsCursor.moveToPosition(info.position);
                 displayAnnotationLabelDialog(mAnnotationsCursor.getString(ANNOTATIONS_LABEL), mAnnotationsCursor.getLong(ANNOTATIONS_ID));
                 break;
-            case MENU_ITEM_EMAIL:
+            case MENU_ITEM_SHARE:
                 mAnnotationsCursor.moveToPosition(info.position);
                 sendEmail(false);
                 break;
