@@ -10,7 +10,6 @@
   <string name="create_session">Sitzung erstellen</string>
   <string name="delete">löschen</string>
   <string name="doc_new_session">Neue Sitzung</string>
-  <string name="e_mail">e-mail / senden</string>
   <string name="edit_label">Titel bearbeiten / Datei umbenennen</string>
   <string name="email_detail">Details senden</string>
   <string name="email_detail_sum">Aufnahmedetails einfügen(Zeitmarke usw.) beim Absenden der Aufnahmen per E-Mail</string>

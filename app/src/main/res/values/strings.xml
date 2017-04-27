@@ -10,7 +10,6 @@
   <string name="create_session">Create Session</string>
   <string name="delete">delete</string>
   <string name="doc_new_session">Document New Session</string>
-  <string name="e_mail">e-mail/send</string>
   <string name="edit_label">edit label/rename file</string>
   <string name="email_detail">E-mail details</string>
   <string name="email_detail_sum">Include recording details (timestamps etc.) when e-mailing recordings</string>

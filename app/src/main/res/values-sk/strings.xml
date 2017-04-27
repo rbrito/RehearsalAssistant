@@ -10,7 +10,6 @@
   <string name="create_session">Vytvoriť Sedenie</string>
   <string name="delete">odstrániť</string>
   <string name="doc_new_session">Dokumentovať Nové Sedenie</string>
-  <string name="e_mail">e-mail / pošlať</string>
   <string name="edit_label">upraviť názov / premenovať súbor</string>
   <string name="email_detail">E-mail details</string>
   <string name="email_detail_sum">Include recording details (timestamps etc.) when e-mailing recordings</string>

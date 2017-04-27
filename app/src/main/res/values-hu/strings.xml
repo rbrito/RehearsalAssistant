@@ -10,7 +10,6 @@
   <string name="create_session">Új munkamenet létrehozása</string>
   <string name="delete">törlés</string>
   <string name="doc_new_session">Új munkamenet</string>
-  <string name="e_mail">e-mail / elküld</string>
   <string name="edit_label">cím megváltoztatása / fájl átnevezése</string>
   <string name="email_detail">Részletek küldése</string>
   <string name="email_detail_sum">Részletes adatok küldése a felvételekről e-mailben való küldéskor</string>
