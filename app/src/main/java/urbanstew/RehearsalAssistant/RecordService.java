@@ -92,7 +92,6 @@ public class RecordService extends Service {
     public void onDestroy() {
         if (mState == State.RECORDING) {
             stopRecording();
-            updateViews();
         }
         if (mWakeLock.isHeld())
             mWakeLock.release();
@@ -112,7 +111,6 @@ public class RecordService extends Service {
             long sessionId = SimpleProject.getSessionId(getContentResolver(), new AppDataAccess(this).getRecorderWidgetProjectId());
             startRecording(sessionId);
         }
-        updateViews();
     }
 
     /**
@@ -206,8 +204,6 @@ public class RecordService extends Service {
             startRecording(sessionId);
         else
             stopRecording();
-
-        updateViews();
     }
 
     /**
@@ -330,13 +326,9 @@ public class RecordService extends Service {
         c.close();
 
         mState = State.STARTED;
-        updateViews();
 
         if (mWakeLock.isHeld())
             mWakeLock.release();
-    }
-
-    private void updateViews() {
     }
 
     private long timeInRecording() {
