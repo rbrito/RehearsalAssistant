@@ -55,7 +55,7 @@
   <string name="recorded_with_rehearsal_assistant">Gravado usando Rehearsal Assistant. http://urbanstew.org/rehearsalassistant/</string>
   <string name="recorder_widget_icon">Gravar/Tocar</string>
   <string name="session_end_time">Hora de fim de gravação:</string>
-  <string name="share">Compartilhar...</string>
+  <string name="share">Compartilhar…</string>
   <string name="recording_waveform">Formato de onda gravada</string>
   <string name="recording_waveform_sum">Mostra o formato da onda de áudio gravada enquanto um projeto memo é gravado.</string>
 </resources>
