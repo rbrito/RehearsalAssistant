@@ -2,7 +2,6 @@
 <resources>
   <string name="annotation">Comentário</string>
   <string name="annotation_label_text">Entre novo rótulo para a anotação</string>
-  <string name="app_name">Rehearsal Assistant</string>
   <string name="cancel">Cancelar</string>
   <string name="create_and_start_session">Criar e iniciar sessão</string>
   <string name="create_session">Criar nova sessão</string>

@@ -2,7 +2,6 @@
 <resources>
   <string name="annotation">Poznámka</string>
   <string name="annotation_label_text">Zadajte nový titul pre poznámku</string>
-  <string name="app_name">Rehearsal Assistant</string>
   <string name="beta_warning">Tento software je BETA, čo znamená, že pravdepodobne budete stretávať poruchamy pri použití softwareu.\n\nKeď zažite poruchu alebo máte nijaký návrh, pošlete nám e-mail na comments@urbanstew.org a mi sa pokúsime o odstránenie poruchy / včlenenie vašého návrhu.\n\nĎakujeme!\n\n</string>
   <string name="cancel">Zrušiť</string>
   <string name="confirm_individual_deletion">Confirm Recording Deletion</string>

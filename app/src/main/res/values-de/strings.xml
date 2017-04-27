@@ -2,7 +2,6 @@
 <resources>
   <string name="annotation">Annotation</string>
   <string name="annotation_label_text">Geben Sie einen neuen Titel für die Annotation ein</string>
-  <string name="app_name">Rehearsal Assistant</string>
   <string name="beta_warning">Diese Software ist im BETA Status, welcher bedeutet das Sie werden wahrscheinlich auf Problemen stoßen während die Benutzung der Software.\n\nWenn Sie Probleme erfahren oder Sie einen Vorschlag haben, dann schicken sie uns bitte eine E-Mail auf die Adresse comments@urbanstew.org und wir werden versuchen das Problem zu lösen /  Ihren Vorschlag einbauen.\n\nDanke!\n\n</string>
   <string name="cancel">Abbrechen</string>
   <string name="confirm_individual_deletion">Löschen der Aufzeichnungen bestätigen</string>

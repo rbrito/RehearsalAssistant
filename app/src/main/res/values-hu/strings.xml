@@ -2,7 +2,6 @@
 <resources>
   <string name="annotation">Kommentár</string>
   <string name="annotation_label_text">Adjon egy címet a jegyzetnek</string>
-  <string name="app_name">Rehearsal Assistant</string>
   <string name="beta_warning">Ez az alkalmazás BETA állapotban van, ami azt jelenti, hogy felhasználása közben különböző problémák merülhetnek fel.\n\nHa hibát észlel, vagy bárminemű javaslata van, kérem írjon egy e-mail nekünk a comments@urbanstew.org címre és mi megpróbáljuk kijavítani a hibát / javaslatát a programba építeni.\n\nKöszönjük!\n\n</string>
   <string name="cancel">Mégse</string>
   <string name="confirm_individual_deletion">Megerősítés kérése</string>
