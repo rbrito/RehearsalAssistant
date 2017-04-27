@@ -40,7 +40,6 @@
   <string name="new_session_title">Adjon meg egy címet a munkamenetnek és kattintson az egyik \'Létrehoz\' gombra.</string>
   <string name="no_annotations">Egy jegyzet sem került felvételre a munkamenet során.</string>
   <string name="ok">OK</string>
-  <string name="open_ringdroid">megnyitás Ringdroid-al</string>
   <string name="play">lejátszás</string>
   <string name="playback_instructions">Kattintson az alábbi jegyzetekre a meghallgatásukhoz. A jegyzet címének megváltoztatásához, e-mail-ben való elküldéséhez, vagy törléséhez nyomja le hosszan. A munkamenet e-mail-ben való elküldéséhez használja a MENÜ-t.</string>
   <string name="playback_panel_disappears">Lejátszási panel automatikus bezárása</string>
@@ -60,9 +59,6 @@
   <string name="recording_waveform_sum">Vizualizáció mutatása Jegyzet projektben való felvétel közben</string>
   <string name="rehearsal_assistant_recording">Rehearsal Assistant felvétel</string>
   <string name="rehearsal_assistant_session">Rehearsal Assistant munkamenet</string>
-  <string name="ringdroid_dl_confirm">Kattintson az OK-ra a Ringdroid letöltéséhez.</string>
-  <string name="ringdroid_dl_error">Sajnálom, de nem sikerült elindítani a Market alkalmazást a Ringdroid letöltéséhez.</string>
-  <string name="ringdroid_not_installed">Ringdroid nincs telepítve</string>
   <string name="session">Munkamenet</string>
   <string name="session_continue">felvétel folytatása</string>
   <string name="session_end_time">Munkamenet befejezési ideje:</string>

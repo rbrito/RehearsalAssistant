@@ -40,7 +40,6 @@
   <string name="new_session_title">Zadajte titul pre sedenie a kliknite na jeden z \'Vytvoriť\' tlačítkov.</string>
   <string name="no_annotations">Žiadné poznámky neboli nahrávané v sedeniu.</string>
   <string name="ok">OK</string>
-  <string name="open_ringdroid">otvoriť pomocou Ringdroidu</string>
   <string name="play">prehrávať</string>
   <string name="playback_instructions">Klikni na poznámku aby si ho počúval. Tlač dlho aby si upravil meno poznámky, pošlal ho cez e-mail, alebo aby si ho odstránil. Používaj MENU aby si pošlal sedenie cez e-mail.</string>
   <string name="playback_panel_disappears">Auto-close playback panel</string>
@@ -60,9 +59,6 @@
   <string name="recording_waveform_sum">Show audio waveform outline while recording in a Memo project</string>
   <string name="rehearsal_assistant_recording">Rehearsal Assistant nahrávka</string>
   <string name="rehearsal_assistant_session">Rehearsal Assistant sedenie</string>
-  <string name="ringdroid_dl_confirm">Tlačte OK aby ste stiahli Ringdroid.</string>
-  <string name="ringdroid_dl_error">Nemohol som spustiť applikáciu Market.</string>
-  <string name="ringdroid_not_installed">Ringdroid nie je nainštalovaný</string>
   <string name="session">Sedenie</string>
   <string name="session_continue">continue recording</string>
   <string name="session_end_time">Čas ukončenia sedenia:</string>

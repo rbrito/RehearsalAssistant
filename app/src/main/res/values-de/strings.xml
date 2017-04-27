@@ -40,7 +40,6 @@
   <string name="new_session_title">Geben Sie einen neuen Titel für die Session ein und klicken Sie auf eine den \'Erstellen\' Buttons.</string>
   <string name="no_annotations">Keine Annotationen waren aufgenommen für diese Sitzung.</string>
   <string name="ok">OK</string>
-  <string name="open_ringdroid">mit Ringdroid öffnen</string>
   <string name="play">abspielen</string>
   <string name="playback_instructions">Klicken Sie auf eine Annotation um es abzuhören. Langdrücken Sie um den Name der Annotation zu bearbeiten, um es per E-Mail senden, oder um es zu löschen. Benutzen Sie das MENÜ um die Sitzung per E-Mail zu senden.</string>
   <string name="playback_panel_disappears">Wiedergabepanel abschließen</string>
@@ -60,9 +59,6 @@
   <string name="recording_waveform_sum">Audio Visualisierung anzeigen bei Aufnahme in der Memoprojekten</string>
   <string name="rehearsal_assistant_recording">Rehearsal Assistant Aufnahme</string>
   <string name="rehearsal_assistant_session">Rehearsal Assistant Sitzung</string>
-  <string name="ringdroid_dl_confirm">Klicken Sie OK um Ringdroid jetzt herunter zu laden.</string>
-  <string name="ringdroid_dl_error">Die Anwendung Market könnte nicht gestartet werden um Ringdroid herunter zu laden.</string>
-  <string name="ringdroid_not_installed">Ringdroid ist nicht installiert</string>
   <string name="session">Sitzung</string>
   <string name="session_continue">Aufzeichnung fortsetzen</string>
   <string name="session_end_time">Sitzung Endzeit:</string>

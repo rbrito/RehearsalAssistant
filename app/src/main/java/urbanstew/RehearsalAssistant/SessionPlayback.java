@@ -26,7 +26,6 @@ package urbanstew.RehearsalAssistant;
 
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -89,7 +88,6 @@ class SessionPlayback {
     private static final int MENU_ITEM_LABEL = Menu.FIRST + 1;
     private static final int MENU_ITEM_EMAIL = Menu.FIRST + 2;
     private static final int MENU_ITEM_DELETE = Menu.FIRST + 3;
-    private static final int MENU_ITEM_EDIT = Menu.FIRST + 4;
 
     static final int SESSIONS_ID = 0;
     static final int SESSIONS_TITLE = 1;
@@ -221,7 +219,6 @@ class SessionPlayback {
                 menu.add(Menu.NONE, MENU_ITEM_LABEL, 1, mActivity.getString(R.string.edit_label));
                 menu.add(Menu.NONE, MENU_ITEM_EMAIL, 2, mActivity.getString(R.string.share));
                 menu.add(Menu.NONE, MENU_ITEM_DELETE, 3, mActivity.getString(R.string.delete));
-                menu.add(Menu.NONE, MENU_ITEM_EDIT, 3, mActivity.getString(R.string.open_ringdroid));
             }
 
         };
@@ -623,41 +620,6 @@ class SessionPlayback {
                 else
                     delete.onClick(null, 0);
                 break;
-            case MENU_ITEM_EDIT:
-                try {
-                    Intent intent =
-                            new Intent
-                                    (
-                                            Intent.ACTION_EDIT,
-                                            Uri.parse(mAnnotationsCursor.getString(ANNOTATIONS_FILE_NAME))
-                                    );
-                    intent.setComponent(new ComponentName("com.ringdroid", "com.ringdroid.RingdroidEditActivity"));
-
-                    mActivity.startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Request.confirmation
-                            (
-                                    mActivity,
-                                    mActivity.getString(R.string.ringdroid_not_installed),
-                                    mActivity.getString(R.string.ringdroid_dl_confirm),
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            try {
-                                                mActivity.startActivity
-                                                        (
-                                                                new Intent
-                                                                        (
-                                                                                Intent.ACTION_VIEW,
-                                                                                Uri.parse("market://search?q=pname:com.ringdroid")
-                                                                        )
-                                                        );
-                                            } catch (ActivityNotFoundException e) {
-                                                Toast.makeText(mActivity, R.string.ringdroid_dl_error, Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    }
-                            );
-                }
         }
         return true;
     }

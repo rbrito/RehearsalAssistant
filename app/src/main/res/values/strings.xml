@@ -47,7 +47,6 @@
   <string name="next_recording">Next recording</string>
   <string name="no_annotations">No annotations were recorded for this session.</string>
   <string name="ok">OK</string>
-  <string name="open_ringdroid">open with Ringdroid</string>
   <string name="pause">Pause</string>
   <string name="play">Play</string>
   <string name="playback_instructions">Click on an annotation below to listen. Long-press to edit the annotation\'s label, e-mail it, or delete it. Use the MENU to e-mail the session.</string>
@@ -71,9 +70,6 @@
   <string name="recording_waveform_sum">Show audio waveform outline while recording in a Memo project</string>
   <string name="rehearsal_assistant_recording">Rehearsal Assistant recording</string>
   <string name="rehearsal_assistant_session">Rehearsal Assistant session</string>
-  <string name="ringdroid_dl_confirm">Click OK to download Ringdroid now.</string>
-  <string name="ringdroid_dl_error">Sorry, I could not start the Market app to download Ringdroid.</string>
-  <string name="ringdroid_not_installed">Ringdroid not installed</string>
   <string name="screen_bright_wake_lock_setting">Use Screen Bright Wake Lock</string>
   <string name="screen_bright_wake_lock_setting_summary">Prevents changes in screen brightness during recording (avoids glitches).</string>
   <string name="session">Session</string>
